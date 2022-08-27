@@ -84,7 +84,7 @@ const handleGameIdInput = (event) => {
                 <br />
                 <TextField id="filled-basic" label="Amount" value={amount} onChange={handleAmountChange} variant="filled" />
                 <br />
-                <Button variant="outlined">Primary</Button>
+                <Button variant="outlined">Start Game</Button>
             </FormControl>
             </div>
           </Box>
