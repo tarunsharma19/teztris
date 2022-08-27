@@ -1,6 +1,7 @@
 import teztrisContract, { rpcNode } from '../../common/constants'
 import { tezos ,  wallet , CheckIfWalletConnected} from '../operations/wallet'
 import { InMemorySigner, importKey } from '@taquito/signer';
+import { char2Bytes } from '@taquito/utils';
 
 export const createGame = async (
     betAmount,
@@ -264,11 +265,11 @@ export const createGame = async (
       });
 
 
-      const teztrisInstance = await tezos.contract.at(teztrisContract);
+      const teztrisInstance = await Tezos.contract.at(teztrisContract);
 
       let batch = Tezos.wallet
           .batch()
-          .withContractCall(teztrisInstance.methods.reportWinner(gameID , metadata , winner));
+          .withContractCall(teztrisInstance.methods.reportWinner(gameID , {"" : char2Bytes("ipfs://" + metadata)} , winner));
       
       const batchOperation = await batch.send();
 
