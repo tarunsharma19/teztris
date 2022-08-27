@@ -1,9 +1,15 @@
 import smartpy as sp 
 
+
 FA2 = sp.io.import_stored_contract("modifiedNFT")
+FA12 = sp.io.import_stored_contract("Ready To Deploy FA12")
+
+class coin(FA12.FA12):
+    pass
 
 class NFT(FA2.FA2):
     pass
+
 
 class ContractLibrary(sp.Contract):
     """Provides utility functions 
@@ -131,6 +137,11 @@ class TezTris(ContractLibrary):
         self.checkAdmin()
         self.data.rewardNFTAddress = sp.some(fa2)
 
+    @sp.entry_point
+    def updateAdmin(self , address):
+        self.checkAdmin()
+        self.data.admin = address
+
 
     @sp.entry_point
     def createGame(self , params):
@@ -254,10 +265,49 @@ class TezTris(ContractLibrary):
 
         sp.transfer(mintData, sp.mutez(0), contract)
 
+        self.data.tokenId +=1
+
         #Update Game Data
+        self.data.game[params.gameID].p1amt = sp.nat(0)
+        self.data.game[params.gameID].p2amt = sp.nat(0)
+
         self.data.game[params.gameID].winner = sp.some(params.winner)
         self.data.game[params.gameID].isAvail = False
         self.data.game[params.gameID].end = True
+
+    @sp.entry_point
+    def removeGame(self , params):
+        sp.verify(self.data.game.contains(params.gameID) , message = "GAME_DOESNT_EXIST")
+        sp.verify( self.data.game[params.gameID].isAvail == True  , "GAME_IN_SESSION_OR_ENDED" )
+        sp.verify( self.data.game[params.gameID].end == False  , "GAME_ALREADY_ENDED" )
+        sp.verify( self.data.game[params.gameID].p2amt == sp.nat(0)  , "P2_HAS_STAKE" )
+        sp.verify( self.data.game[params.gameID].player1 == sp.sender  , "NOT_PLAYER1" )
+
+
+        #returning stake to p1
+        amt = self.data.game[params.gameID].p1amt
+
+        sp.if self.data.game[params.gameID].betTokenType == sp.nat(0):
+            #handle tez
+            sp.send(self.data.game[params.gameID].player1 , sp.utils.nat_to_mutez(amt))
+        sp.else:
+            sp.if self.data.game[params.gameID].betTokenType == sp.nat(1):
+                #handle fa1.2
+                ContractLibrary.TransferToken(sp.self_address, self.data.game[params.gameID].player1 , amt , self.data.game[params.gameID].betToken , sp.nat(0) , False)
+
+            sp.else:
+                #handle fa2
+                ContractLibrary.TransferToken(sp.self_address, self.data.game[params.gameID].player1 , amt , self.data.game[params.gameID].betToken , self.data.game[params.gameID].betTokenId , True)
+
+        
+        del self.data.game[params.gameID]
+
+
+
+
+
+        
+
 
 @sp.add_test("Teztris")
 def test():
@@ -269,6 +319,27 @@ def test():
     alice = sp.test_account("alice")
     bob = sp.test_account("bob")
     admin = sp.test_account("admin")
+
+
+    coin = FA12.FA12(
+            admin   = admin.address,
+            config  = FA12.FA12_config(
+                support_upgradable_metadata         = True,
+                use_token_metadata_offchain_view    = True
+            ),
+            token_metadata = {
+                "decimals"    : "6",             # Mandatory by the spec
+                "name"        : "NCU Coin", # Recommended
+                "symbol"      : "NCU",            # Recommended
+                # Extra fields
+                "icon"        : 'https://raw.githubusercontent.com/Udit-Kapoor/CollegeNetwork/main/NCUCoin.jpeg'
+            },
+            contract_metadata = {
+                "" : "ipfs://QmdpUPMMX8RLuE2WJxxNqwgU9ELsg7iYPZKSuCWJvfQnVM",
+            }
+        )
+
+    scenario+= coin
 
 
     c = TezTris(admin.address)
@@ -290,22 +361,41 @@ def test():
     
     scenario += token
 
+    # TEZ SCENE
+
     scenario.h2("Registering FA2 contract for our crowdsale.")
     c.registerFA2(token.address).run(sender=admin)
 
-    
+    params = sp.record(gameID = "FirstGame" , betTokenType = sp.nat(0) , betAmount = sp.nat(1000000), betToken = sp.address("KT1AefyQpVfjupNFKBoKqrVHtHnCSZ7AKBtX") , betTokenId = sp.nat(0))
+    c.createGame(params).run(sender = alice , amount = sp.tez(1))
 
-        
-        
-            
-        
+    params2= sp.record(gameID = "FirstGame" , betTokenType = sp.nat(0) , betAmount = sp.nat(1000000), betToken = sp.address("KT1AefyQpVfjupNFKBoKqrVHtHnCSZ7AKBtX") , betTokenId = sp.nat(0))
+    c.joinGame(params).run(sender = bob , amount = sp.tez(1))
 
-        
+    c.removeGame(sp.record(gameID = "FirstGame")).run(sender=alice , valid = False)
 
-
-
+    params3 = sp.record(gameID = "FirstGame" , winner = alice.address , metadata = sp.map({"" : sp.utils.bytes_of_string("ipfs://QmSscmKnfMkYFKjrubbmrPUdkhATC4gZHktRRamCGyNN3G/2.json")}))
+    c.reportWinner(params3).run(sender = admin)
 
 
-    
-        
+    # Coin scene
+
+    coin.mint(address = alice.address , value =  1000000).run(sender=admin)
+    coin.mint(address = bob.address , value = 1000000).run(sender=admin)
+
+    coin.approve(spender = c.address , value = 1000000).run(sender = alice)
+    coin.approve(spender = c.address , value=1000000).run(sender = bob)
+
+
+    params = sp.record(gameID = "SecondGame" , betTokenType = sp.nat(1) , betAmount = sp.nat(1000000), betToken = coin.address , betTokenId = sp.nat(0))
+    c.createGame(params).run(sender = alice)
+
+    params2= sp.record(gameID = "SecondGame" , betTokenType = sp.nat(1) , betAmount = sp.nat(1000000), betToken = coin.address , betTokenId = sp.nat(0))
+    c.joinGame(params).run(sender = bob )
+
+    c.removeGame(sp.record(gameID = "SecondGame")).run(sender=alice , valid = False)
+
+    params3 = sp.record(gameID = "SecondGame" , winner = alice.address , metadata = sp.map({"" : sp.utils.bytes_of_string("ipfs://QmSscmKnfMkYFKjrubbmrPUdkhATC4gZHktRRamCGyNN3G/2.json")}))
+    c.reportWinner(params3).run(sender = admin)
+
 
