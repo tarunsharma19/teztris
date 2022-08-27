@@ -3,17 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< Updated upstream
     "@taquito/beacon-wallet": "^13.0.1",
     "@taquito/taquito": "^13.0.1",
     "@taquito/utils": "^13.0.1",
-    "nft.storage": "^7.0.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "3.0.1",
-    "styled-components": "^4.3.2"
-=======
     "@ant-design/icons": "^4.7.0",
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
@@ -42,7 +34,6 @@
     "use-sound": "^4.0.1",
     "uuid": "^8.3.2",
     "web-vitals": "^1.1.2"
->>>>>>> Stashed changes
   },
   "scripts": {
     "start": "react-scripts start",
