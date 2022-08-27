@@ -1,5 +1,10 @@
 import smartpy as sp 
 
+FA2 = sp.io.import_stored_contract("modifiedNFT")
+
+class NFT(FA2.FA2):
+    pass
+
 class ContractLibrary(sp.Contract):
     """Provides utility functions 
     """
@@ -89,10 +94,10 @@ class TezTris(ContractLibrary):
         metadata = sp.TMap(sp.TString, sp.TBytes),
         token_id = sp.TNat,
     )
-    def __init__(self , _admin , _rewardNFT):
+    def __init__(self , _admin):
         self.init(
             admin = _admin,
-            rewardNFTAddress = _rewardNFT,
+            rewardNFTAddress = sp.none,
             tokenId = sp.nat(0),
 
             game = sp.big_map(
@@ -100,14 +105,14 @@ class TezTris(ContractLibrary):
                 tvalue = sp.TRecord(
                     player1 = sp.TAddress,
                     p1amt = sp.TNat,
-                    player2 = sp.TAddress,
+                    player2 = sp.TOption(sp.TAddress),
                     p2amt = sp.TNat,
 
                     betToken = sp.TAddress,
                     betTokenType = sp.TNat,  #0 = tez #1 = fa1.2 , #2 fa2 
                     betTokenId = sp.TNat,
 
-                    winner = sp.TAddress,
+                    winner = sp.TOption(sp.TAddress),
                     
                     isAvail = sp.TBool,
                     end = sp.TBool
@@ -117,6 +122,14 @@ class TezTris(ContractLibrary):
             #add extra storage here
         
         )
+
+    def checkAdmin(self):
+        sp.verify(sp.sender == self.data.admin, message = "Not Admin")
+
+    @sp.entry_point
+    def registerFA2(self, fa2):
+        self.checkAdmin()
+        self.data.rewardNFTAddress = sp.some(fa2)
 
 
     @sp.entry_point
@@ -179,8 +192,8 @@ class TezTris(ContractLibrary):
         amt = sp.local("amt" , 0)
 
         sp.if params.betTokenType == sp.nat(0):
-            sp.verify(params.betAmount == sp.amount , "SENT_AMOUNT_MISMATCH")
-            amt.value = sp.as_nat(sp.amount)
+            sp.verify(params.betAmount == sp.utils.mutez_to_nat(sp.amount) , "SENT_AMOUNT_MISMATCH")
+            amt.value = sp.utils.mutez_to_nat(sp.amount)
             #handle tez
         sp.else:
             sp.if params.betTokenType == sp.nat(1):
@@ -195,27 +208,27 @@ class TezTris(ContractLibrary):
 
         #update game details
 
-        self.data.game[params.gameID].player2 = sp.sender
+        self.data.game[params.gameID].player2 = sp.some(sp.sender)
         self.data.game[params.gameID].p2amt = amt.value
         self.data.game[params.gameID].isAvail = False
 
     @sp.entry_point
     def reportWinner(self , params):
-        sp.set_type(params, sp.TRecord(gameID = sp.TString, winner = sp.TAdrress , metadata = sp.TBytes))
+        # sp.set_type(params, sp.TRecord(gameID = sp.TString, winner = sp.TAddress , metadata = sp.TBytes))
 
         sp.verify(self.data.admin == sp.sender , "NOT_ADMIN")
         sp.verify(self.data.game.contains(params.gameID) , message = "GAME_DOESNT_EXIST")
         sp.verify( self.data.game[params.gameID].isAvail == False  , "GAME_NOT_IN_SESSION_OR_ENDED" )
         sp.verify( self.data.game[params.gameID].end == False  , "GAME_ALREADY_ENDED" )
 
-        sp.verify((self.data.game[params.gameID].player1 == params.winner | self.data.game[params.gameID].player2 == params.winner), "WINNER_NOT_PLAYER")
+        sp.verify((self.data.game[params.gameID].player1 == params.winner) | (self.data.game[params.gameID].player2 == sp.some(params.winner)), "WINNER_NOT_PLAYER")
         #all checks pass
 
         amt = self.data.game[params.gameID].p1amt + self.data.game[params.gameID].p2amt
 
         sp.if self.data.game[params.gameID].betTokenType == sp.nat(0):
             #handle tez
-            sp.send(params.winner , amt)
+            sp.send(params.winner , sp.utils.nat_to_mutez(amt))
         sp.else:
             sp.if self.data.game[params.gameID].betTokenType == sp.nat(1):
                 #handle fa1.2
@@ -242,9 +255,45 @@ class TezTris(ContractLibrary):
         sp.transfer(mintData, sp.mutez(0), contract)
 
         #Update Game Data
-        self.data.game[params.gameID].winner = params.winner
+        self.data.game[params.gameID].winner = sp.some(params.winner)
         self.data.game[params.gameID].isAvail = False
         self.data.game[params.gameID].end = True
+
+@sp.add_test("Teztris")
+def test():
+    
+    scenario = sp.test_scenario()
+    scenario.h1("Teztris")
+    scenario.table_of_contents()
+
+    alice = sp.test_account("alice")
+    bob = sp.test_account("bob")
+    admin = sp.test_account("admin")
+
+
+    c = TezTris(admin.address)
+
+    scenario += c
+
+    token = NFT(
+        config = FA2.FA2_config(
+            non_fungible=False,
+            assume_consecutive_token_ids = True
+        ),
+        admin = admin.address,
+        crowdsale = c.address,
+        metadata = sp.big_map({
+            "": sp.utils.bytes_of_string("tezos-storage:content"),
+            "content": sp.utils.bytes_of_string("""{"name": "Teztris NFT Contract", "description": "NFT contract for the Teztris Games"}"""),
+        })
+    )
+    
+    scenario += token
+
+    scenario.h2("Registering FA2 contract for our crowdsale.")
+    c.registerFA2(token.address).run(sender=admin)
+
+    
 
         
         
