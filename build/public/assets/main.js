@@ -1,5 +1,5 @@
-// Created by Aaron Burdick 2018
 
+// Created by Aaron Burdick 2018
 Array.prototype.reverse = function () {
     return this.map((_, i) => this[this.length - (1 + i)]);
   }
