@@ -2,13 +2,16 @@
  var io;
  var gameSocket;
  var gamesInSession = [];
+ var gameData = {};
  
- const initializeGame = (sio, socket) => {
+//  obj= {amount :  , token: ,  }
+ const initializeGame = (sio, socket , obj) => {
    console.log("new socket added" + socket.id);
    io = sio;
    gameSocket = socket;
  
    gamesInSession.push(gameSocket);
+   gameData[gameId] = {amount : obj.amount , tokenAdd : obj.tokenAdd , tokenType : obj.tokenType , tokenId : obj.tokenId};
  
    gameSocket.on("disconnect", onDisconnect);
  
@@ -35,7 +38,7 @@
    }
    if (room.size < 2) {
  
-     this.emit("match found");
+     this.emit("match found" , gameData[gameId]);
  
    } else {
 
@@ -76,15 +79,13 @@
    this.join(gameId);
  }
  
- function end(scoreA ,scoreB) {
+//  as game ends kisi ki bi
+ function end(address) {
  
-   console.log("scoreA: " + scoreA);
-   console.log("scoreB: " + scoreB);
-   const gameId = scoreA.gameId;
+   console.log("address: " + address);
 
-   var score = Math.max(scoreA.score , scoreB.score);
- 
-   io.to(gameId).emit("Game end", score);
+
+   io.to(gameId).emit("Loser", address);
  }
  
 
