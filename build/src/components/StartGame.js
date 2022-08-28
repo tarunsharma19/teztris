@@ -60,15 +60,14 @@ const style = {
   p: 4,
 };
 useEffect(() => {
-  // socket.on("status", (status) => {
-  //   alert(status);
-  // });
+  socket.on("status", (status) => {
+    alert(status);
+  });
   socket.once("match found", () => {
     setFound(true);
-    //gameFound();
   });
   return () => {
-    // socket.off("status", () => {});
+    socket.off("status", () => {});
     socket.off("match found", () => {});
   };
 }, []);
@@ -137,7 +136,12 @@ console.log(uid);
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
+  useEffect(() => {
+    if (found === true) {
+      navigate('/app', {replace: true});
 
+    }
+  }, [found]);
 const [openJoinGame, setopenJoinGame] = useState(false);
 
 const handleJoinGameClose = () => {
@@ -197,13 +201,22 @@ const handleJoinGame = async () =>{
           tokenType : "tez" ,
            tokenId : 0,
     };
-
+    socket.emit("wantsToJoin", gameIdInput);
+    // let obj = {};
+    // socket.on("match found", (e) => {
+    //   obj = e;
+    // });
     console.log(gameIdInput)
     const res = await joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput);
 
     // Call web socket to start game for both players
     if (res.success === true){
-        socket.emit("wantsToJoin", gameIdInput);
+
+        
+        // socket.emit("playerJoinsGame", {
+        //   gameId: gameId,
+        //   address: account,
+        // });
         navigate('/app', {replace: true})
     }
     // navigate to start game
