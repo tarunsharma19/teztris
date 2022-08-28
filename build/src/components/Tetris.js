@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-
+import { manageFunc } from "../App"; 
 import { createStage, checkCollision } from '../gameHelpers';
 import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
 
@@ -16,8 +16,8 @@ import Display from './Display';
 import StartButton from './StartButton';
 
 const Tetris = () => {
+  const { gameOver, setGameOver} = useContext(manageFunc);
   const [dropTime, setDropTime] = useState(null);
-  const [gameOver, setGameOver] = useState(false);
 
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);

@@ -1,7 +1,8 @@
-import teztrisContract, { rpcNode } from '../../common/constants'
+import { teztrisContract,  rpcNode } from '../../common/constants'
 import { tezos ,  wallet , CheckIfWalletConnected} from '../operations/wallet'
 import { InMemorySigner, importKey } from '@taquito/signer';
 import { char2Bytes } from '@taquito/utils';
+import {OpKind , TezosToolkit} from '@taquito/taquito'
 
 export const createGame = async (
     betAmount,
@@ -15,7 +16,7 @@ export const createGame = async (
     try{
     betAmount = betAmount * (10 ** betTokenDecimal);
     
-      const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+      const WALLET_RESP = await CheckIfWalletConnected(wallet);
       if (!WALLET_RESP.success) {
         throw new Error('Wallet connection failed');
       }
@@ -79,10 +80,10 @@ export const createGame = async (
          batch = tezos.wallet.batch([
             {
               kind: OpKind.TRANSACTION,
-              ...teztrisContract.methods
+              ...teztrisInstance.methods
                 .createGame(
                     betAmount,
-                    "",
+                    "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",
                     0,
                     0,
                     gameID
@@ -122,7 +123,7 @@ export const createGame = async (
     try{
     betAmount = betAmount * (10 ** betTokenDecimal);
     
-      const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+      const WALLET_RESP = await CheckIfWalletConnected(wallet);
       if (!WALLET_RESP.success) {
         throw new Error('Wallet connection failed');
       }
@@ -186,10 +187,10 @@ export const createGame = async (
          batch = tezos.wallet.batch([
             {
               kind: OpKind.TRANSACTION,
-              ...teztrisContract.methods
+              ...teztrisInstance.methods
                 .joinGame(
                     betAmount,
-                    "",
+                    "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",
                     0,
                     0,
                     gameID

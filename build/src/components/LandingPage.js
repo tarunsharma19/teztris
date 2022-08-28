@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Rocket from "../img/NFT.png";
 import KnightBg from "../img/NFT.png";
-import pinkNft from "../img/NFT.png";
-import blueNft from "../img/NFT.png";
-import greenNft from "../img/NFT.png";
+import pinkNft from "../img/NFT2.png";
+import blueNft from "../img/NFT1.png";
+import greenNft from "../img/NFT3.png";
 import redNft from "../img/NFT.png";
 
 import Polygon from "../img/NFT.png";
@@ -14,13 +14,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 
-import Business from "../img/NFT.png";
-import Winner from "../img/NFT.png";
-import Gaming from "../img/NFT.png";
-import Circles2 from "../img/NFT.png";
+import Business from "../img/stake.webp";
+import Winner from "../img/earn.webp";
+import Gaming from "../img/play.webp";
 import Joint from "../img/Joint1.png";
-import Emoji from "../img/NFT.png";
-import Gif from "../img/NFT.png";
 import { Link } from "react-router-dom";
 import emojiBlast from "../img/emojiBlast.png";
 import styled, { keyframes } from "styled-components";

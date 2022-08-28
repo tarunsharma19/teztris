@@ -33,21 +33,20 @@ export const ipfsWrapper = async (wallet, imageCID ) =>  {
               data.rights =  "All right reserved.";
               data.shouldPreferSymbol = true;
 
-        let metadata = await client.store(
-            data
+        let metadata = await client.store({}
         );
 
         console.log(metadata);
 
         return{
-            sucess : true,
+            success : true,
             metadata
         };
 
     } catch (error) {
         console.log(error);
         return{
-            sucess:false,
+            success:false,
         };
         
     }

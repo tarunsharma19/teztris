@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState , useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
 import bgImage from '../img/landingBg.jpg';
@@ -15,16 +15,32 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { createGame ,joinGame, reportWinner} from '../api/operations/teztris';
+import {v4 as uuidv4} from 'uuid';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import {useNavigate} from 'react-router-dom';
+import { ipfsWrapper } from '../api/ipfs';
+import { manageFunc } from '../App';
+import { FetchWalletAPI } from '../api/operations/wallet';
+import Loader from '../img/loader.gif'
+
+const socket = require("../api/socket").socket;
 
 export default function Landing() {
 const [gameIdInput, setGameIdInput] = useState("");
 const [open, setOpen] = React.useState(false);
-const [token, setToken] = React.useState('');
+const [token, setToken] = React.useState(0);
 const [amount, setAmount] = React.useState(0);
 const handleOpen = () => setOpen(true);
 const handleClose = () => setOpen(false);
+const navigate = useNavigate();
 
-console.log(token,amount);
+const {gameOver} = useContext(manageFunc);
+
 const handleTokenChange = (event) => {
     setToken(event.target.value);
 };
@@ -43,11 +59,217 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+useEffect(() => {
+  // socket.on("status", (status) => {
+  //   alert(status);
+  // });
+  socket.once("match found", () => {
+    setFound(true);
+    //gameFound();
+  });
+  return () => {
+    // socket.off("status", () => {});
+    socket.off("match found", () => {});
+  };
+}, []);
 const handleGameIdInput = (event) => {
     setGameIdInput(event.target.value);
   };
+
+  const ctez = {
+    betToken : "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",
+    betTokenId: 0,
+    betTokenType : "FA1.2",
+    betTokenDecimal : 6,
+}
+ const usdt = {
+    betToken : "KT1Uw1oio434UoWFuZTNKFgt5wTM9tfuf7m7",
+    betTokenId: 3,
+    betTokenType : "FA2",
+    betTokenDecimal : 6,
+}
+
+ const tez = {
+    betToken : "",
+    betTokenId: 0,
+    betTokenType : "tez",
+    betTokenDecimal : 6,
+}
+const [found, setFound] = useState(false);
+const [openDialog, setOpenDialog] = useState(false);
+const [uid, setuid] = useState(null);
+const sendConfig = async (token)=>{
+    handleClose()
+    let tuid = uuidv4()
+    setuid(tuid);
+    console.log(token,uid,tuid);
+    let create;
+    if (token ===1){
+
+         create = await createGame(Number(amount),tez.betToken,tez.betTokenId,tez.betTokenType,tez.betTokenDecimal,tuid);
+        
+    }
+    else if (token ===2){
+         create = await createGame(Number(amount),usdt.betToken,usdt.betTokenId,usdt.betTokenType,usdt.betTokenDecimal,tuid);
+
+    }
+    else if (token ===3){
+         create = await createGame(Number(amount),ctez.betToken,ctez.betTokenId,ctez.betTokenType,ctez.betTokenDecimal,tuid);
+
+    }
+    else{
+        setuid(null);
+        console.log(typeof(token),token,token.value);
+    }
+
+    console.log(create);
+    if (create.success === true){
+        console.log("inside success")
+        // OPEN POP UP / LAODING Screen
+        setOpenDialog(true);
+
+        // Start listening from server for game session
+        socket.emit("createNewGame", tuid);
+    }
+
+}
+console.log(uid);
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
+const [openJoinGame, setopenJoinGame] = useState(false);
+
+const handleJoinGameClose = () => {
+    setopenJoinGame(false);
+  };
+
+
+
+const handleJoinGameOpen = () => {
+    setopenJoinGame(true);
+}
+let wallet = null;
+const handleWinner = async () => {
+    // We detect loser from server
+
+    const fetch = await FetchWalletAPI();
+    if(fetch.success===true){
+         wallet = fetch.wallet;
+    }
+    // compare both addy and see which is loser 
+    // end both games
+    // show winner = winner and loser = lsoser
+
+    // call on chain function 
+
+    //ipfsWrapper from ipfsWrapper.js to get metadata cid from nft.storage
+        const pinWinner = await ipfsWrapper("wallet","ipfs://bafkreifbftypddbxiovbonhgni7gvdf73dykqdjouijtuldmnncy6z6ly4");
+
+        if (pinWinner.success===true){
+            const mintWinner = await reportWinner("gameid","wallet",pinWinner.metadata);
+            // const mintWinner = await reportWinner("gameid",wallet,pinWinner.metadata);
+
+
+            if (mintWinner.success === true){
+                console.log("minted successfully");
+            }
+        }
+    // reportWinner( gameID,
+    //     winner,
+    //     metadata)   from teztris.js with reqd params
+
+
+}
+
+
+const handleJoinGame = async () =>{
+//    call web socket with game id
+// get data
+
+    // call MY OPERATION WITH DATA
+
+    // DUMMY
+
+    const obj = {
+        amount : 1 ,
+         tokenAdd : "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb" ,
+          tokenType : "tez" ,
+           tokenId : 0,
+    };
+
+    console.log(gameIdInput)
+    const res = await joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput);
+
+    // Call web socket to start game for both players
+    if (res.success === true){
+        socket.emit("wantsToJoin", gameIdInput);
+        navigate('/app', {replace: true})
+    }
+    // navigate to start game
+
+
+     
+
+}
+
     return (
       <>
+      <Dialog
+        open={openDialog}
+        onClose={handleDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Your U-ID"}s
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description" style={{textAlign:"center"}}>
+            Your Unique ID is generated, please invite your friend.<br/><br/>
+            <img src={Loader}style={{margin:"-20px 0"}} alt="loading..." />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions style={{justifyContent:"center"}}>
+          {
+              uid?<>
+              <p style={{textAlign:"center"}}>
+               {uid}
+               </p>
+               
+              </>:<></>
+            }
+          
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openJoinGame}
+        onClose={handleJoinGameClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Join Game"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description" style={{textAlign:"center"}}>
+            Your Game ID is..<br/><br/>
+            <img src={Loader} style={{margin:"-20px 0"}} alt="loading..." />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions style={{justifyContent:"center"}}>
+          {
+              gameIdInput?<>
+              <p style={{textAlign:"center"}}>
+               {gameIdInput}
+               <br /><br />
+               <Button variant="outlined" onClick={()=>handleJoinGame()}>Start Game</Button>
+               </p>
+              </>:<></>
+            }
+          
+        </DialogActions>
+      </Dialog>
       <WrapperHome>
         <Logo>
           <img src={tezLogo}></img>
@@ -77,14 +299,14 @@ const handleGameIdInput = (event) => {
                 <MenuItem value="">
                     <em>None</em>
                 </MenuItem>
-                <MenuItem value={0}>XTZ</MenuItem>
-                <MenuItem value={1}>USDT</MenuItem>
-                <MenuItem value={2}>Ctez</MenuItem>
+                <MenuItem value={1}>XTZ</MenuItem>
+                <MenuItem value={2}>USDT</MenuItem>
+                <MenuItem value={3}>Ctez</MenuItem>
                 </Select>
                 <br />
                 <TextField id="filled-basic" label="Amount" value={amount} onChange={handleAmountChange} variant="filled" />
                 <br />
-                <Button variant="outlined">Start Game</Button>
+                <Button variant="outlined" onClick={()=>sendConfig(token)}>Start Game</Button>
             </FormControl>
             </div>
           </Box>
@@ -114,7 +336,8 @@ const handleGameIdInput = (event) => {
                     onChange={handleGameIdInput}
                   />
                   <br />
-          <button>Join a game</button>
+          <button onClick={handleJoinGameOpen}>Join a game</button>
+          {/* <button onClick={handleWinner}>Join a game</button> */}
         </div>
 
         </ContentWrapper>
