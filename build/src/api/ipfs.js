@@ -1,4 +1,5 @@
 import { NFTStorage, File } from 'nft.storage'
+import {fs} from 'fs';
 const client = new NFTStorage({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDUwZjMzQjRCNjkyQWYyN2U4Nzg2NUU2YzVjQTgwOTk3MGQ1NWFCRkQiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2MTYyODgyMDE1NiwibmFtZSI6InRlenRyaXMifQ.cngXS0iRdCZO3mWRsbQg2w8ESe68iQNtIfiNjDsrg8k' })
 
 export const ipfsWrapper = async (wallet, imageCID ) =>  {
@@ -33,25 +34,40 @@ export const ipfsWrapper = async (wallet, imageCID ) =>  {
               data.rights =  "All right reserved.";
               data.shouldPreferSymbol = true;
 
-        let metadata = await client.store({}
-        );
 
-        console.log(metadata);
+              const final = JSON.stringify(data);
 
-        return{
-            success : true,
-            metadata
-        };
 
-    } catch (error) {
-        console.log(error);
-        return{
-            success:false,
-        };
+
+              var config = {
+                method: 'post',
+                url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
+                headers: { 
+                  'Content-Type': 'application/json', 
+                  pinata_api_key: 'c98008ccad0a8398468f',
+                  pinata_secret_api_key: 'b925e8a94f1aa1dbb8bd85a376ac527847daa4d3bd3a37aaa2e84e83c905d19e',
+                },
+                data : final
+              };
+                  
+                  const res = await axios(config);
+                  
+                  return{
+                    sucess : true,
+                    Ipfs : res.data.IpfsHash,
+                };
         
-    }
+            } catch (error) {
+                console.log(error);
+                return{
+                    sucess:false,
+                    Ipfs : "",
+                };
+                
+            }
+        
+        }
 
-}
 
 export const uploadImageToIPFS = async (image) =>  {
 
