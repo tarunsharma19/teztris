@@ -94,6 +94,7 @@ const handleGameIdInput = (event) => {
     betTokenType : "tez",
     betTokenDecimal : 6,
 }
+const delay = ms => new Promise(res => setTimeout(res, ms));
 const [found, setFound] = useState(false);
 const [openDialog, setOpenDialog] = useState(false);
 const [uid, setuid] = useState(null);
@@ -103,17 +104,21 @@ const sendConfig = async (token)=>{
     setuid(tuid);
     console.log(token,uid,tuid);
     let create;
+    let obj={};
     if (token ===1){
 
          create = await createGame(Number(amount),tez.betToken,tez.betTokenId,tez.betTokenType,tez.betTokenDecimal,tuid);
+         obj = {amount : amount , tokenAdd : tez.betToken , tokenType : tez.betTokenType , tokenId : tez.betTokenId};
         
     }
     else if (token ===2){
          create = await createGame(Number(amount),usdt.betToken,usdt.betTokenId,usdt.betTokenType,usdt.betTokenDecimal,tuid);
+         obj = {amount : amount , tokenAdd : usdt.betToken , tokenType : usdt.betTokenType , tokenId : usdt.betTokenId};
 
     }
     else if (token ===3){
          create = await createGame(Number(amount),ctez.betToken,ctez.betTokenId,ctez.betTokenType,ctez.betTokenDecimal,tuid);
+         obj = {amount : amount , tokenAdd : ctez.betToken , tokenType : ctez.betTokenType , tokenId : ctez.betTokenId};
 
     }
     else{
@@ -126,9 +131,12 @@ const sendConfig = async (token)=>{
         console.log("inside success")
         // OPEN POP UP / LAODING Screen
         setOpenDialog(true);
-
+        // await delay(80000);
+        // navigate('/app',{replace:true});
         // Start listening from server for game session
-        socket.emit("createNewGame", tuid);
+
+
+        socket.emit("createNewGame", tuid , obj);
     }
 
 }
@@ -195,17 +203,21 @@ const handleJoinGame = async () =>{
 
     // DUMMY
 
-    const obj = {
-        amount : 1 ,
-         tokenAdd : "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb" ,
-          tokenType : "tez" ,
-           tokenId : 0,
-    };
+    // let obj = {
+    //     amount : 1 ,
+    //      tokenAdd : "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb" ,
+    //       tokenType : "tez" ,
+    //        tokenId : 0,
+    // };
     socket.emit("wantsToJoin", gameIdInput);
-    // let obj = {};
-    // socket.on("match found", (e) => {
-    //   obj = e;
-    // });
+
+    // ASK aniket how to wait for data and then proceed 
+    // USE EFFECT 
+    let obj;
+    socket.on("match found", (e) => {
+      console.log(e);
+      obj = e;
+    });
     console.log(gameIdInput)
     const res = await joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput);
 
@@ -213,10 +225,13 @@ const handleJoinGame = async () =>{
     if (res.success === true){
 
         
-        // socket.emit("playerJoinsGame", {
-        //   gameId: gameId,
-        //   address: account,
-        // });
+        socket.emit("playerJoinsGame", {
+          gameId: gameId,
+          address: account,
+        });
+
+        // socket.on("start game" , );
+
         navigate('/app', {replace: true})
     }
     // navigate to start game

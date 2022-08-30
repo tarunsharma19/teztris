@@ -5,13 +5,12 @@
  var gameData = {};
  
 //  obj= {amount :  , token: ,  }
- const initializeGame = (sio, socket , obj) => {
+ const initializeGame = (sio, socket ) => {
    console.log("new socket added" + socket.id);
    io = sio;
    gameSocket = socket;
  
    gamesInSession.push(gameSocket);
-   gameData[gameId] = {amount : obj.amount , tokenAdd : obj.tokenAdd , tokenType : obj.tokenType , tokenId : obj.tokenId};
  
    gameSocket.on("disconnect", onDisconnect);
  
@@ -73,10 +72,12 @@
  
  
  
- function createNewGame(gameId) {
+ function createNewGame(gameId , obj) {
 
    console.log("createNewGame " + gameId);
+   gameData[gameId] = {amount : obj.amount , tokenAdd : obj.tokenAdd , tokenType : obj.tokenType , tokenId : obj.tokenId};
    this.join(gameId);
+   console.log(gameData);
  }
  
 //  as game ends kisi ki bi
@@ -85,7 +86,7 @@
    console.log("address: " + address);
 
 
-   io.to(gameId).emit("Loser", address);
+   io.to(gameId).emit("game over", address);
  }
  
 
