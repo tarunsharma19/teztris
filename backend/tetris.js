@@ -1,10 +1,18 @@
+// import { InMemorySigner} from '@taquito/signer';
+// import { char2Bytes } from '@taquito/utils';
+// import {TezosToolkit} from '@taquito/taquito'
+
+const TezosToolkit = require("@taquito/taquito");
+const char2Bytes = require("@taquito/utils");
+const InMemorySigner = require("@taquito/signer");
+
 
  var io;
  var gameSocket;
  var gamesInSession = [];
  var gameData = {};
- 
-//  obj= {amount :  , token: ,  }
+ var scores = {};
+
  const initializeGame = (sio, socket ) => {
    console.log("new socket added" + socket.id);
    io = sio;
@@ -81,12 +89,39 @@
  }
  
 //  as game ends kisi ki bi
- function end(address) {
+ function end(gameId , address , score) {
+
+  let res;
  
-   console.log("address: " + address);
+   if(scores[gameId] === undefined){
+    // kisi ka nai khatam hua 
+    scores[gameId] = {player1 : address , score1 : score};
+   }
+   else{
+    //  ek ka already khatam hogya
+    if(scores[gameId].score1 > score){
+      res = reportWinner(gameId , scores[gameId].player1 , "" );
+      if(res.success)
+      io.to(gameId).emit("game over", scores[gameId].player1);
+      else
+      io.to(gameId).emit("issue");
+      
+    }
+    else{
+      res = reportWinner(gameId , address , "");
+      if(res.success)
+      io.to(gameId).emit("game over", address);
+      else
+      io.to(gameId).emit("issue");
+    }
+
+    if(res.success){
+    delete scores[gameId];
+    delete gameData[gameId];}
 
 
-   io.to(gameId).emit("game over", address);
+   }
+
  }
  
 
@@ -100,5 +135,41 @@
    console.log("sending data " + data);
    io.to(data.gameId).emit("send data", data);
  }
+
+
+const reportWinner = async (
+  gameID,
+  winner,
+  metadata
+) => {
+
+  try{
+  const Tezos = new TezosToolkit.TezosToolkit(rpcNode);
+  Tezos.setProvider({
+      signer: new InMemorySigner.InMemorySigner('edskRyL3DyJr8HsJiVi9WSKtHfKPrbsSV7AMAoNYLV4ehMbWxRHYXCa6QmAfYAvL4x5BTBuYyLVBh1mJ9gC99dYbkMQXK4oup3'),
+    });
+
+    const teztrisInstance = await Tezos.contract.at("KT1KY1nnwawbqyXz2g2b9tS7qCaiEidnkZWb");
+
+    let batch = Tezos.wallet
+        .batch()
+        .withContractCall(teztrisInstance.methods.reportWinner(gameID , {"" : char2Bytes.char2Bytes("ipfs://" + metadata)} , winner));
+    
+    const batchOperation = await batch.send();
+
+
+    await batchOperation.confirmation().then(() => batchOperation.opHash);
+    return {
+      success: true,
+      operationId: batchOperation.hash,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      error,
+    };
+  }
+};
  
  exports.initializeGame = initializeGame;

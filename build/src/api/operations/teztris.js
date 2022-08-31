@@ -1,8 +1,6 @@
-import { teztrisContract,  rpcNode } from '../../common/constants'
+import { teztrisContract} from '../../common/constants'
 import { tezos ,  wallet , CheckIfWalletConnected} from '../operations/wallet'
-import { InMemorySigner, importKey } from '@taquito/signer';
-import { char2Bytes } from '@taquito/utils';
-import {OpKind , TezosToolkit} from '@taquito/taquito'
+import {OpKind } from '@taquito/taquito'
 
 export const createGame = async (
     betAmount,
@@ -252,39 +250,3 @@ export const createGame = async (
     }
   };
 
-  export const reportWinner = async (
-    gameID,
-    winner,
-    metadata
-  ) => {
-
-    try{
-    
-    const Tezos = new TezosToolkit(rpcNode);
-    Tezos.setProvider({
-        signer: new InMemorySigner('edskRyL3DyJr8HsJiVi9WSKtHfKPrbsSV7AMAoNYLV4ehMbWxRHYXCa6QmAfYAvL4x5BTBuYyLVBh1mJ9gC99dYbkMQXK4oup3'),
-      });
-
-
-      const teztrisInstance = await Tezos.contract.at(teztrisContract);
-
-      let batch = Tezos.wallet
-          .batch()
-          .withContractCall(teztrisInstance.methods.reportWinner(gameID , {"" : char2Bytes("ipfs://" + metadata)} , winner));
-      
-      const batchOperation = await batch.send();
-
-  
-      await batchOperation.confirmation().then(() => batchOperation.opHash);
-      return {
-        success: true,
-        operationId: batchOperation.hash,
-      };
-    } catch (error) {
-      console.log(error);
-      return {
-        success: false,
-        error,
-      };
-    }
-  };

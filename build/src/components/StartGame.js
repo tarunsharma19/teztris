@@ -15,7 +15,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { createGame ,joinGame, reportWinner} from '../api/operations/teztris';
+import { createGame ,joinGame} from '../api/operations/teztris';
 import {v4 as uuidv4} from 'uuid';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -178,14 +178,11 @@ const handleWinner = async () => {
     //ipfsWrapper from ipfsWrapper.js to get metadata cid from nft.storage
         const pinWinner = await ipfsWrapper("wallet","ipfs://bafkreifbftypddbxiovbonhgni7gvdf73dykqdjouijtuldmnncy6z6ly4");
 
-        if (pinWinner.success===true){
-            const mintWinner = await reportWinner("gameid","wallet",pinWinner.metadata);
+        if (pinWinner.sucess===true){
+            // const mintWinner = await reportWinner("gameid","wallet",pinWinner.metadata);
             // const mintWinner = await reportWinner("gameid",wallet,pinWinner.metadata);
 
 
-            if (mintWinner.success === true){
-                console.log("minted successfully");
-            }
         }
     // reportWinner( gameID,
     //     winner,
