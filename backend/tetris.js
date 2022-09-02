@@ -85,7 +85,7 @@ const InMemorySigner = require("@taquito/signer");
    console.log("createNewGame " + gameId);
    gameData[gameId] = {amount : obj.amount , tokenAdd : obj.tokenAdd , tokenType : obj.tokenType , tokenId : obj.tokenId};
    this.join(gameId);
-   console.log(gameData);
+   console.log("game data",gameData);
  }
  
 //  as game ends kisi ki bi

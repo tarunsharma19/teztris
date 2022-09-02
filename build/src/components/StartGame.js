@@ -1,4 +1,4 @@
-import React, { useContext, useState , useEffect} from 'react'
+import React, { useContext, useState , useEffect, useCallback} from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
 import bgImage from '../img/landingBg.jpg';
@@ -31,7 +31,7 @@ import Loader from '../img/loader.gif'
 const socket = require("../api/socket").socket;
 
 export default function Landing() {
-const [gameIdInput, setGameIdInput] = useState("");
+const [gameIdInput, setGameIdInput] = useState('');
 const [open, setOpen] = React.useState(false);
 const [token, setToken] = React.useState(0);
 const [amount, setAmount] = React.useState(0);
@@ -140,14 +140,13 @@ const sendConfig = async (token)=>{
     }
 
 }
-console.log(uid);
+  console.log(uid);
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
   useEffect(() => {
     if (found === true) {
       navigate('/app', {replace: true});
-
     }
   }, [found]);
 const [openJoinGame, setopenJoinGame] = useState(false);
@@ -191,8 +190,28 @@ const handleWinner = async () => {
 
 }
 
+const [obj,setObj] = useState({});
 
-const handleJoinGame = async () =>{
+useEffect(()=>{
+  if (emitFlag){
+    console.log("finding match")
+    socket.once("match found", (e) => {
+      console.log("inside game id",e);
+      setObj(e);
+  });
+  }
+});
+
+const [emitFlag, setEmitflag] = useState(false);
+
+
+const handleJoinGame = async () => {
+  socket.emit("wantsToJoin", gameIdInput);
+  console.log("emit done",gameIdInput );
+  setEmitflag(true);
+
+}
+const gameJoiner = async () =>{
 //    call web socket with game id
 // get data
 
@@ -206,16 +225,19 @@ const handleJoinGame = async () =>{
     //       tokenType : "tez" ,
     //        tokenId : 0,
     // };
-    socket.emit("wantsToJoin", gameIdInput);
-
+    
+    
+    
     // ASK aniket how to wait for data and then proceed 
     // USE EFFECT 
-    let obj;
-    socket.on("match found", (e) => {
-      console.log(e);
-      obj = e;
-    });
-    console.log(gameIdInput)
+    // let obj;
+    // socket.on("match found", (e) => {
+    //   console.log(e);
+    //   obj = e;
+    // });
+    console.log(gameIdInput);
+    console.log(obj);
+
     const res = await joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput);
 
     // Call web socket to start game for both players
