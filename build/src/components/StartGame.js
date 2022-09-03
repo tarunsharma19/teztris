@@ -144,11 +144,11 @@ const sendConfig = async (token)=>{
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
-  useEffect(() => {
-    if (found === true) {
-      navigate('/app', {replace: true});
-    }
-  }, [found]);
+  // useEffect(() => {
+  //   if (found === true) {
+  //     navigate('/app', {replace: true});
+  //   }
+  // }, [found]);
 const [openJoinGame, setopenJoinGame] = useState(false);
 
 const handleJoinGameClose = () => {
@@ -197,10 +197,39 @@ useEffect(()=>{
     console.log("finding match")
     socket.once("match found", (e) => {
       console.log("inside game id",e);
-      setObj(e);
+      if (e!={}){
+        setObj(e);
+      }
   });
   }
 });
+
+console.log(obj, "obj outside")
+
+const [game,setGame]= useState({});
+
+console.log('game', game);
+
+useEffect(()=>{
+  if(obj.amount){
+    joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput).then((game)=> setGame(game));
+  }
+},[obj])
+
+useEffect(()=>{
+  if(game.success){
+    socket.emit("playerJoinsGame", {
+      gameId: gameIdInput,
+    });
+    
+  }
+},[game])
+
+useEffect(()=>{
+  socket.once("start game",() => {
+    navigate('/app', {replace: true});
+  });
+})
 
 const [emitFlag, setEmitflag] = useState(false);
 
@@ -209,7 +238,6 @@ const handleJoinGame = async () => {
   socket.emit("wantsToJoin", gameIdInput);
   console.log("emit done",gameIdInput );
   setEmitflag(true);
-
 }
 const gameJoiner = async () =>{
 //    call web socket with game id
@@ -235,9 +263,7 @@ const gameJoiner = async () =>{
     //   console.log(e);
     //   obj = e;
     // });
-    console.log(gameIdInput);
-    console.log(obj);
-
+    console.log(obj,"obj before res")
     const res = await joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput);
 
     // Call web socket to start game for both players

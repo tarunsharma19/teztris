@@ -205,7 +205,7 @@ export const createGame = async (
       await batchOperation.confirmation().then(() => batchOperation.opHash);
       return {
         success: true,
-        operationId: batchOperation.hash,
+        operationId: batchOperation.opHash,
       };
     } catch (error) {
       console.log(error);

@@ -70,7 +70,7 @@ const InMemorySigner = require("@taquito/signer");
  
      console.log(room.size);
  
-     io.sockets.in(idData.gameId).emit("start game", idData.address);
+     io.sockets.in(idData.gameId).emit("start game");
  
    } else {
      this.emit("status1", "There are already 2 people playing in this room.");
