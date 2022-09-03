@@ -1,5 +1,5 @@
 import { teztrisContract} from '../../common/constants'
-import { tezos ,  wallet , CheckIfWalletConnected} from '../operations/wallet'
+import { tezos ,  wallet , CheckIfWalletConnected , FetchWalletAPI} from '../operations/wallet'
 import {OpKind } from '@taquito/taquito'
 
 export const createGame = async (
@@ -8,7 +8,7 @@ export const createGame = async (
     betTokenId,
     betTokenType,
     betTokenDecimal,
-    gameID
+    gameID,
   ) => {
 
     try{
@@ -18,15 +18,19 @@ export const createGame = async (
       if (!WALLET_RESP.success) {
         throw new Error('Wallet connection failed');
       }
+
+      const account = await FetchWalletAPI();
      
       const teztrisInstance = await tezos.contract.at(teztrisContract);
+
+      const betTokenInstance = await tezos.contract.at(betToken);
 
       let batch = null;
       // Approve call for FA1.2 type token
       if (betTokenType === 'FA1.2') {
         batch = tezos.wallet
           .batch()
-          .withContractCall(betToken.methods.approve(teztrisContract, betAmount))
+          .withContractCall(betTokenInstance.methods.approve(teztrisContract, betAmount))
           .withContractCall(
             teztrisInstance.methods.createGame(
               betAmount,
@@ -42,10 +46,10 @@ export const createGame = async (
         batch = tezos.wallet
           .batch()
           .withContractCall(
-            tokenInInstance.methods.update_operators([
+            betTokenInstance.methods.update_operators([
               {
                 add_operator: {
-                  owner: caller,
+                  owner: account.wallet,
                   operator: teztrisContract,
                   token_id: betTokenId,
                 },
@@ -62,10 +66,10 @@ export const createGame = async (
               ),
           )
           .withContractCall(
-            tokenInInstance.methods.update_operators([
+            betTokenInstance.methods.update_operators([
               {
                 remove_operator: {
-                  owner: caller,
+                  owner: account.wallet,
                   operator: teztrisContract,
                   token_id: betTokenId,
                 },
@@ -115,7 +119,7 @@ export const createGame = async (
     betTokenId,
     betTokenType,
     betTokenDecimal,
-    gameID
+    gameID,
   ) => {
 
     try{
@@ -125,15 +129,19 @@ export const createGame = async (
       if (!WALLET_RESP.success) {
         throw new Error('Wallet connection failed');
       }
+
+      const account = await FetchWalletAPI();
      
       const teztrisInstance = await tezos.contract.at(teztrisContract);
+
+      const betTokenInstance = await tezos.contract.at(betToken);
 
       let batch = null;
       // Approve call for FA1.2 type token
       if (betTokenType === 'FA1.2') {
         batch = tezos.wallet
           .batch()
-          .withContractCall(betToken.methods.approve(teztrisContract, betAmount))
+          .withContractCall(betTokenInstance.methods.approve(teztrisContract, betAmount))
           .withContractCall(
             teztrisInstance.methods.joinGame(
               betAmount,
@@ -149,10 +157,10 @@ export const createGame = async (
         batch = tezos.wallet
           .batch()
           .withContractCall(
-            tokenInInstance.methods.update_operators([
+            betTokenInstance.methods.update_operators([
               {
                 add_operator: {
-                  owner: caller,
+                  owner: account.wallet,
                   operator: teztrisContract,
                   token_id: betTokenId,
                 },
@@ -169,10 +177,10 @@ export const createGame = async (
               ),
           )
           .withContractCall(
-            tokenInInstance.methods.update_operators([
+            betTokenInstance.methods.update_operators([
               {
                 remove_operator: {
-                  owner: caller,
+                  owner: account.wallet,
                   operator: teztrisContract,
                   token_id: betTokenId,
                 },

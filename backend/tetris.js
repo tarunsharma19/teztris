@@ -81,9 +81,9 @@ const InMemorySigner = require("@taquito/signer");
  
  
  function createNewGame(gameId , obj) {
-
+  // Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput
    console.log("createNewGame " + gameId);
-   gameData[gameId] = {amount : obj.amount , tokenAdd : obj.tokenAdd , tokenType : obj.tokenType , tokenId : obj.tokenId};
+   gameData[gameId] = obj;
    this.join(gameId);
    console.log("game data",gameData);
  }
@@ -116,9 +116,8 @@ const InMemorySigner = require("@taquito/signer");
       io.to(gameId).emit("issue");
     }
 
-    if(res.success){
     delete scores[gameId];
-    delete gameData[gameId];}
+    delete gameData[gameId];
     console.log(scores,gameData);
 
    }
