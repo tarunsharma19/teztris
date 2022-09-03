@@ -102,6 +102,7 @@ const sendConfig = async (token)=>{
     let tuid = uuidv4()
     setuid(tuid);
     console.log(token,uid,tuid);
+    setGameIdInput(tuid);
     let create;
     let obj={};
     if (token ===1){

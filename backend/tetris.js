@@ -90,16 +90,17 @@ const InMemorySigner = require("@taquito/signer");
  
 //  as game ends kisi ki bi
  function end(gameId , address , score) {
-
+  console.log(gameId , address , score);
   let res;
  
    if(scores[gameId] === undefined){
     // kisi ka nai khatam hua 
     scores[gameId] = {player1 : address , score1 : score};
+    console.log(scores);
    }
    else{
     //  ek ka already khatam hogya
-    if(scores[gameId].score1 > score){
+    if(scores[gameId].score1 >= score){
       res = reportWinner(gameId , scores[gameId].player1 , "" );
       if(res.success)
       io.to(gameId).emit("game over", scores[gameId].player1);
@@ -118,7 +119,7 @@ const InMemorySigner = require("@taquito/signer");
     if(res.success){
     delete scores[gameId];
     delete gameData[gameId];}
-
+    console.log(scores,gameData);
 
    }
 
@@ -144,7 +145,7 @@ const reportWinner = async (
 ) => {
 
   try{
-  const Tezos = new TezosToolkit.TezosToolkit(rpcNode);
+  const Tezos = new TezosToolkit.TezosToolkit("https://ghostnet.smartpy.io/");
   Tezos.setProvider({
       signer: new InMemorySigner.InMemorySigner('edskRyL3DyJr8HsJiVi9WSKtHfKPrbsSV7AMAoNYLV4ehMbWxRHYXCa6QmAfYAvL4x5BTBuYyLVBh1mJ9gC99dYbkMQXK4oup3'),
     });
