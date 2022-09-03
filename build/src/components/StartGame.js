@@ -31,7 +31,6 @@ import Loader from '../img/loader.gif'
 const socket = require("../api/socket").socket;
 
 export default function Landing() {
-const [gameIdInput, setGameIdInput] = useState('');
 const [open, setOpen] = React.useState(false);
 const [token, setToken] = React.useState(0);
 const [amount, setAmount] = React.useState(0);
@@ -39,7 +38,7 @@ const handleOpen = () => setOpen(true);
 const handleClose = () => setOpen(false);
 const navigate = useNavigate();
 
-const {gameOver} = useContext(manageFunc);
+const {gameOver,gameIdInput, setGameIdInput} = useContext(manageFunc);
 
 const handleTokenChange = (event) => {
     setToken(event.target.value);

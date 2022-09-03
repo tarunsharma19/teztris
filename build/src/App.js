@@ -10,9 +10,11 @@ function App() {
 
   
   const [gameOver, setGameOver] = useState(false);
+  const [gameIdInput, setGameIdInput] = useState('');
+
   return(
   <BrowserRouter>
-  <manageFunc.Provider value={{gameOver, setGameOver}}>
+  <manageFunc.Provider value={{gameOver, setGameOver,gameIdInput, setGameIdInput}}>
     <Routes>
       <Route path="/app" element={<Tetris />}/>
       <Route path="/start" element={<StartGame />}/>

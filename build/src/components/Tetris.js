@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { manageFunc } from "../App"; 
 import { createStage, checkCollision } from '../gameHelpers';
@@ -14,9 +14,13 @@ import { useGameStatus } from '../hooks/useGameStatus';
 import Stage from './Stage';
 import Display from './Display';
 import StartButton from './StartButton';
+import { FetchWalletAPI } from '../api/operations/wallet';
+
+const socket = require("../api/socket").socket;
+
 
 const Tetris = () => {
-  const { gameOver, setGameOver} = useContext(manageFunc);
+  const { gameOver, setGameOver, gameIdInput} = useContext(manageFunc);
   const [dropTime, setDropTime] = useState(null);
 
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
@@ -25,7 +29,24 @@ const Tetris = () => {
     rowsCleared
   );
 
+  const [address, setAddress] = useState('');
+  const getAddress = async() =>{
+    const wal = await FetchWalletAPI();
+    console.log("fetched wallet",wal);
+    setAddress(wal.wallet);
+  }
+  
+  useEffect(()=>{
+    getAddress();
+  },[setGameOver]);
 
+  useEffect(()=>{
+    if(gameOver){
+      socket.emit("end", gameIdInput , address, score);
+      console.log("emit done");
+    }
+  },[gameOver]);
+// console.log(gameOver)
   const movePlayer = dir => {
     if (!checkCollision(player, stage, { x: dir, y: 0 })) {
       updatePlayerPos({ x: dir, y: 0 });
@@ -112,7 +133,10 @@ const Tetris = () => {
         <Stage stage={stage} />
         <aside>
           {gameOver ? (
+            <>
             <Display gameOver={gameOver} text="Game Over" />
+            <Display text={`Score: ${score}`}  />
+            </>
           ) : (
             <ScoreCard>
               <Display text={`Score: ${score}`}  />
