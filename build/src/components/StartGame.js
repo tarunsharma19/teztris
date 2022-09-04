@@ -88,7 +88,7 @@ const handleGameIdInput = (event) => {
 }
 
  const tez = {
-    betToken : "",
+    betToken : "KT1Uw1oio434UoWFuZTNKFgt5wTM9tfuf7m7",
     betTokenId: 0,
     betTokenType : "tez",
     betTokenDecimal : 6,
