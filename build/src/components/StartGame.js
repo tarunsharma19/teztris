@@ -26,7 +26,8 @@ import {useNavigate} from 'react-router-dom';
 import { ipfsWrapper } from '../api/ipfs';
 import { manageFunc } from '../App';
 import { FetchWalletAPI } from '../api/operations/wallet';
-import Loader from '../img/loader.gif'
+import Loadergif from '../img/loading.gif'
+import Loader from './Loader'
 
 const socket = require("../api/socket").socket;
 
@@ -52,11 +53,25 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
-  color: "#000",
-  bgcolor: 'background.paper',
+  color: "#fff !important",
+  bgcolor: '#001e3c',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  borderRadius: '25px',
+};
+const styleDialog = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  color: "#fff !important",
+  bgcolor: '#001e3c',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: '25px',
 };
 useEffect(() => {
   socket.on("status", (status) => {
@@ -97,8 +112,16 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 const [found, setFound] = useState(false);
 const [openDialog, setOpenDialog] = useState(false);
 const [uid, setuid] = useState(null);
+const [maskedLoader,setMaskedLoader] = useState(false);
+console.log(maskedLoader,openDialog)
+
 const sendConfig = async (token)=>{
     handleClose()
+    setMaskedLoader(true);
+    setOpenDialog(true);
+    console.log(maskedLoader,openDialog)
+
+    
     let tuid = uuidv4()
     setuid(tuid);
     console.log(token,uid,tuid);
@@ -129,8 +152,8 @@ const sendConfig = async (token)=>{
     console.log(create);
     if (create.success === true){
         console.log("inside success")
+        setMaskedLoader(false)
         // OPEN POP UP / LAODING Screen
-        setOpenDialog(true);
         // await delay(80000);
         // navigate('/app',{replace:true});
         // Start listening from server for game session
@@ -159,6 +182,8 @@ const handleJoinGameClose = () => {
 
 const handleJoinGameOpen = () => {
     setopenJoinGame(true);
+    handleJoinGame();
+
 }
 let wallet = null;
 const handleWinner = async () => {
@@ -210,11 +235,15 @@ const [game,setGame]= useState({});
 
 console.log('game', game);
 
-useEffect(()=>{
-  if(obj.amount){
-    joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput).then((game)=> setGame(game));
-  }
-},[obj])
+// useEffect(()=>{
+//   if(obj.amount){
+//     joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput).then((game)=> setGame(game));
+//   }
+// },[obj])
+
+const startGame = async() => {
+  joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput).then((game)=> setGame(game));
+};
 
 useEffect(()=>{
   if(game.success){
@@ -288,19 +317,20 @@ const gameJoiner = async () =>{
 
     return (
       <>
-      <Dialog
+      {/* waiting for player modal */}
+      {/* <Dialog
         open={openDialog}
         onClose={handleDialogClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Your U-ID"}s
+          {"Your U-ID"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description" style={{textAlign:"center"}}>
             Your Unique ID is generated, please invite your friend.<br/><br/>
-            <img src={Loader}style={{margin:"-20px 0"}} alt="loading..." />
+            <Loader />
           </DialogContentText>
         </DialogContent>
         <DialogActions style={{justifyContent:"center"}}>
@@ -314,39 +344,80 @@ const gameJoiner = async () =>{
             }
           
         </DialogActions>
-      </Dialog>
-      <Dialog
-        open={openJoinGame}
-        onClose={handleJoinGameClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+      </Dialog> */}
+      {/*  */}
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openDialog}
+        onClose={handleDialogClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Join Game"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description" style={{textAlign:"center"}}>
-            Your Game ID is..<br/><br/>
-            <img src={Loader} style={{margin:"-20px 0"}} alt="loading..." />
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions style={{justifyContent:"center"}}>
-          {
-              gameIdInput?<>
-              <p style={{textAlign:"center"}}>
+        <Fade in={openDialog}>  
+          <Box sx={style}>
+            <h2>Your Game ID</h2>
+            <ModalWrapper>
+            {
+            maskedLoader?<>
+              <br />
+                <p style={{textAlign:"center", fontSize:"1rem"}}>
+                your game id is being generated.
+                </p>
+              <Loader />
+              
+              </>:
+              gameIdInput?
+              <>
                {gameIdInput}
                <br /><br />
-               <Button variant="outlined" onClick={()=>handleJoinGame()}>Start Game</Button>
-               </p>
-              </>:<></>
+               <p style={{textAlign:"center", fontSize:"0.8rem"}}> Waiting for other player to join</p>
+               <Loader />
+              </>:<>
+              </>
             }
-          
-        </DialogActions>
-      </Dialog>
-      <WrapperHome>
-        <Logo>
-          <img src={tezLogo}></img>
-        </Logo>
+            </ModalWrapper>
+          </Box>
+        </Fade>
+      </Modal>
+      {/* join game modal */}
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openJoinGame}
+        onClose={handleJoinGameClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openJoinGame}>  
+          <Box sx={style}>
+            <h2>Joining Game</h2>
+            <ModalWrapper>
+            {
+            obj.amount?<>
+            <br />
+              <p style={{textAlign:"center", fontSize:"1.5rem"}}>
+               Game bet Amount : {obj.amount} {obj.betTokenType}
+               <br /><br />
+               <p style={{textAlign:"center", fontSize:"0.8rem"}}> This tx is irreversible, you'll lose if you quit game.</p>
+               <Button variant="outlined" onClick={()=>startGame()}>Start Game</Button>
+               </p>
+              </>:<>
+              <br />
+              <Loader />
+              </>
+            }
+            </ModalWrapper>
+          </Box>
+        </Fade>
+      </Modal>
+      {/* create game modal */}
         <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -358,11 +429,12 @@ const gameJoiner = async () =>{
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={open}>  
           <Box sx={style}>
-            <div>
+            <h2>Set Betting Amount</h2>
+            <ModalWrapper>
             <FormControl variant="filled" fullWidth  sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-filled-label">Token</InputLabel>
+                <InputLabel id="demo-simple-select-filled-label" style={{color:"#b0b1b2"}}>Token</InputLabel>
                 <Select
                 labelId="demo-simple-select-filled-label"
                 id="demo-simple-select-filled"
@@ -377,14 +449,18 @@ const gameJoiner = async () =>{
                 <MenuItem value={3}>Ctez</MenuItem>
                 </Select>
                 <br />
-                <TextField id="filled-basic" label="Amount" value={amount} onChange={handleAmountChange} variant="filled" />
+                <TextField id="filled-basic" label="Amount"  style={{color:"#b0b1b2"}} value={amount} onChange={handleAmountChange} variant="filled" />
                 <br />
                 <Button variant="outlined" onClick={()=>sendConfig(token)}>Start Game</Button>
             </FormControl>
-            </div>
+            </ModalWrapper>
           </Box>
         </Fade>
       </Modal>
+      <WrapperHome>
+        <Logo>
+          <img src={tezLogo}></img>
+        </Logo>
         <ContentWrapper>
           <h1>Let's start Playing!!</h1>
           <img src={tezTris} alt=''></img>
@@ -427,6 +503,35 @@ const gameJoiner = async () =>{
    margin: 40px 60px 0 0 ;
   `;
   
+
+  const ModalWrapper = styled.div `
+  svg{
+    color:#ffffff;
+  }
+  label{
+    color: #b0b1b2;
+
+  }
+  #filled-basic{
+    color: #ffffff;
+  }
+  #demo-simple-select-filled{
+    color:#ffffff;
+  }
+  .css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:hover:not(.Mui-disabled):before {
+    border-bottom: 1px solid white;
+  }
+  .css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:not(.Mui-disabled):before {
+    border-bottom: 1px solid #b0b0b0;
+  }
+  .css-67qocj-MuiInputBase-root-MuiFilledInput-root-MuiSelect-root:hover:not(.Mui-disabled):before {
+    border-bottom: 1px solid white;
+  }
+  .css-67qocj-MuiInputBase-root-MuiFilledInput-root-MuiSelect-root:not(.Mui-disabled):before {
+    border-bottom: 1px solid #b0b0b0;
+  }
+
+  `;
   const ContentWrapper = styled.div `
   text-align: right;
   color:#fff;
