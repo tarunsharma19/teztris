@@ -240,8 +240,10 @@ console.log('game', game);
 //     joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput).then((game)=> setGame(game));
 //   }
 // },[obj])
+const [startFlag, setStartFlag]= useState(false);
 
 const startGame = async() => {
+  setStartFlag(true);
   joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput).then((game)=> setGame(game));
 };
 
@@ -318,34 +320,6 @@ const gameJoiner = async () =>{
     return (
       <>
       {/* waiting for player modal */}
-      {/* <Dialog
-        open={openDialog}
-        onClose={handleDialogClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Your U-ID"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description" style={{textAlign:"center"}}>
-            Your Unique ID is generated, please invite your friend.<br/><br/>
-            <Loader />
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions style={{justifyContent:"center"}}>
-          {
-              uid?<>
-              <p style={{textAlign:"center"}}>
-               {uid}
-               </p>
-               
-              </>:<></>
-            }
-          
-        </DialogActions>
-      </Dialog> */}
-      {/*  */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -400,7 +374,14 @@ const gameJoiner = async () =>{
             <h2>Joining Game</h2>
             <ModalWrapper>
             {
-            obj.amount?<>
+              startFlag?<>
+              <br />
+              <p style={{textAlign:"center", fontSize:"1.5rem"}}>
+               <p style={{textAlign:"center", fontSize:"0.8rem"}}> Joining game please wait.</p>
+               <Loader />
+               </p>
+              </>:
+              obj.amount?<>
             <br />
               <p style={{textAlign:"center", fontSize:"1.5rem"}}>
                Game bet Amount : {obj.amount} {obj.betTokenType}

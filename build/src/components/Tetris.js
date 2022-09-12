@@ -15,6 +15,14 @@ import Stage from './Stage';
 import Display from './Display';
 import StartButton from './StartButton';
 import { FetchWalletAPI } from '../api/operations/wallet';
+import Modal from '@mui/material/Modal';
+import Backdrop from '@mui/material/Backdrop';
+import Fade from '@mui/material/Fade';
+import Box from '@mui/material/Box';
+import Loader from './Loader'
+
+
+
 
 const socket = require("../api/socket").socket;
 
@@ -35,7 +43,35 @@ const Tetris = () => {
     console.log("fetched wallet",wal);
     setAddress(wal.wallet);
   }
-  
+
+  const ModalWrapper = styled.div `
+  svg{
+    color:#ffffff;
+  }
+  label{
+    color: #b0b1b2;
+
+  }
+  #filled-basic{
+    color: #ffffff;
+  }
+  #demo-simple-select-filled{
+    color:#ffffff;
+  }
+  .css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:hover:not(.Mui-disabled):before {
+    border-bottom: 1px solid white;
+  }
+  .css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:not(.Mui-disabled):before {
+    border-bottom: 1px solid #b0b0b0;
+  }
+  .css-67qocj-MuiInputBase-root-MuiFilledInput-root-MuiSelect-root:hover:not(.Mui-disabled):before {
+    border-bottom: 1px solid white;
+  }
+  .css-67qocj-MuiInputBase-root-MuiFilledInput-root-MuiSelect-root:not(.Mui-disabled):before {
+    border-bottom: 1px solid #b0b0b0;
+  }
+
+  `;
   useEffect(()=>{
     getAddress();
   },[setGameOver]);
@@ -46,6 +82,43 @@ const Tetris = () => {
       console.log("emit done");
     }
   },[gameOver]);
+
+  const [winnerId,setWinnerId]= useState("");
+  const [gotWinner, setGotWinner] = useState(false);
+
+
+  useEffect(() => {
+    socket.once("game over", (obj) => {
+      setWinnerId(obj);
+      setGotWinner(true);
+      console.log("game over",obj);
+    });
+    socket.on("issue", (status) => {
+      alert(status);
+    });
+  });
+
+  const [resultString,setResultString] = useState("");
+  const winnerCheck = () =>{
+    if(address==winnerId){
+      setResultString("you're winner! You'll recieve your reward in wallet.");
+    }
+    else{
+      setResultString("you didn't win, better luck next time!");
+    }
+  }
+
+  useEffect(() => {
+    winnerCheck();
+  }, [winnerId])
+
+
+const [openDialog, setOpenDialog] = useState(false);
+
+const handleDialogClose = () => {
+  setOpenDialog(false);
+};
+
 // console.log(gameOver)
   const movePlayer = dir => {
     if (!checkCollision(player, stage, { x: dir, y: 0 })) {
@@ -87,6 +160,7 @@ const Tetris = () => {
       // Game over!
       if (player.pos.y < 1) {
         console.log('GAME OVER!!!');
+        setOpenDialog(true);
         setGameOver(true);
         setDropTime(null);
       }
@@ -122,6 +196,20 @@ const Tetris = () => {
     }
   };
 
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    color: "#fff !important",
+    bgcolor: '#001e3c',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    borderRadius: '25px',
+  };
+
   return (
     <StyledTetrisWrapper
       role="button"
@@ -129,6 +217,45 @@ const Tetris = () => {
       onKeyDown={e => move(e)}
       onKeyUp={keyUp}
     >
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openDialog}
+        onClose={handleDialogClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openDialog}>  
+          <Box sx={style}>
+            <h2>Waiting for results</h2>
+            <ModalWrapper>
+            {
+            gotWinner?<>
+              <br />
+                <p style={{textAlign:"center", fontSize:"1rem"}}>
+                  <br />
+
+                {resultString}
+                </p>
+              
+              </>:
+              <>
+                <p style={{textAlign:"center", fontSize:"1rem"}}>
+                <br />
+
+                <br />
+
+                <Loader />
+                </p>
+              </>
+            }
+            </ModalWrapper>
+          </Box>
+        </Fade>
+      </Modal>
       <StyledTetris>
         <Stage stage={stage} />
         <aside>
