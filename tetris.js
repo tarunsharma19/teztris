@@ -89,7 +89,7 @@ const InMemorySigner = require("@taquito/signer");
  }
  
 //  as game ends kisi ki bi
- function end(gameId , address , score) {
+ async function end(gameId , address , score) {
   console.log(gameId , address , score);
   let res;
  
@@ -101,7 +101,8 @@ const InMemorySigner = require("@taquito/signer");
    else{
     //  ek ka already khatam hogya
     if(scores[gameId].score1 >= score){
-      res = reportWinner(gameId , scores[gameId].player1 , "" );
+      res = await reportWinner(gameId , scores[gameId].player1 , "" );
+      console.log(res);
       if(res.success)
       io.to(gameId).emit("game over", scores[gameId].player1);
       else
@@ -109,7 +110,8 @@ const InMemorySigner = require("@taquito/signer");
       
     }
     else{
-      res = reportWinner(gameId , address , "");
+      res = await reportWinner(gameId , address , "");
+      console.log(res);
       if(res.success)
       io.to(gameId).emit("game over", address);
       else
@@ -157,8 +159,10 @@ const reportWinner = async (
     
     const batchOperation = await batch.send();
 
+    console.log("final call");
 
     await batchOperation.confirmation().then(() => batchOperation.opHash);
+    console.log("return hona chie");
     return {
       success: true,
       operationId: batchOperation.hash,
