@@ -14,7 +14,9 @@
         "@taquito/taquito": "^13.0.1",
         "@taquito/utils": "^13.0.1",
         "express": "^4.17.1",
+        "node-fetch": "^2.6.7",
         "nodemon": "^2.0.15",
+        "pdf-lib": "^1.17.1",
         "socket.io": "^4.4.0"
     },
     "engines": {

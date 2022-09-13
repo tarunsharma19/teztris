@@ -100,7 +100,7 @@ const InMemorySigner = require("@taquito/signer");
    }
    else{
     //  ek ka already khatam hogya
-    if(scores[gameId].score1 >= score){
+    if(scores[gameId].score1 > score){
       res = await reportWinner(gameId , scores[gameId].player1 , "" );
       console.log(res);
       if(res.success)
