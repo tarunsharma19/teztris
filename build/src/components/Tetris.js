@@ -23,7 +23,8 @@ import Loader from './Loader'
 import Lottie from 'react-lottie';
 import winnerLottie from '../img/winner.json';
 import looserLottie from '../img/looser.json';
-
+import {Button} from '@mui/material';
+import {useNavigate} from 'react-router-dom';
 
 
 
@@ -39,6 +40,7 @@ const Tetris = () => {
   const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
     rowsCleared
   );
+  const navigate = useNavigate();
 
   const [address, setAddress] = useState('');
   const getAddress = async() =>{
@@ -55,6 +57,7 @@ const Tetris = () => {
       preserveAspectRatio: "xMidYMid slice"
     }
   };
+  
   
   const looserOptions = {
     loop: true,
@@ -107,6 +110,7 @@ const Tetris = () => {
   const [winnerId,setWinnerId]= useState("");
   const [gotWinner, setGotWinner] = useState(false);
 
+  
 
   useEffect(() => {
     socket.once("game over", (obj) => {
@@ -128,6 +132,16 @@ const Tetris = () => {
       setResultString(false);
     }
   }
+  const playAgain = () => {
+    navigate('/start', {replace: true});
+
+  }
+
+  window.onload = function () {
+
+    navigate('/start', {replace: true});
+
+  };
 
   useEffect(() => {
     winnerCheck();
@@ -156,15 +170,19 @@ const handleDialogClose = () => {
     }
   };
 
+  const [startFlag,setStartFlag] = useState(true);
   const startGame = () => {
     // Reset everything
-    setStage(createStage());
-    setDropTime(1000);
-    resetPlayer();
-    setScore(0);
-    setLevel(0);
-    setRows(0);
-    setGameOver(false);
+    if(startFlag){
+      setStartFlag(false);
+      setStage(createStage());
+      setDropTime(1000);
+      resetPlayer();
+      setScore(0);
+      setLevel(0);
+      setRows(0);
+      setGameOver(false);
+    }
   };
 
   const drop = () => {
@@ -211,11 +229,22 @@ const handleDialogClose = () => {
         movePlayer(1);
       } else if (keyCode === 40) {
         dropPlayer();
+        if (!gameOver) {
+          // Activate the interval again when user releases down arrow.
+            setDropTime(1000 / (level + 1));
+        }
       } else if (keyCode === 38) {
         playerRotate(stage, 1);
       }
     }
   };
+  const temp =()=>{
+    dropPlayer();
+        if (!gameOver) {
+          // Activate the interval again when user releases down arrow.
+            setDropTime(1000 / (level + 1));
+        }
+  }
 
   const style = {
     position: 'absolute',
@@ -263,7 +292,6 @@ const handleDialogClose = () => {
             gotWinner?<>
               <br />
                 <p style={{textAlign:"center", fontSize:"1rem"}}>
-                  <br />
                   {
                     resultString?<div>
                       <p style={{textAlign:"center",fontSize:"1.2rem"}}>Congrats you won !! </p>
@@ -275,7 +303,12 @@ const handleDialogClose = () => {
                     />
                     <br /> 
                     <p style={{textAlign:"center",fontSize:"0.9rem"}}>You will recieve the winning amount soon.</p>
-                    </div>:<div>
+                    <br />
+                     <Button variant="outlined" onClick={()=>playAgain()}>Play Again</Button>
+
+                    </div>
+                    
+                    :<div>
                     <p style={{fontSize:"1.2rem"}}>Oops, you lost !! </p>
                       <br />
                     <Lottie
@@ -284,6 +317,8 @@ const handleDialogClose = () => {
                     width={300}
                     />
                     <p>Better luck next time..</p>
+                    <br />
+                     <Button variant="outlined" onClick={()=>playAgain()}>Play Again</Button>
 
                     </div>
                   }
@@ -320,7 +355,8 @@ const handleDialogClose = () => {
               <Display text={`Level: ${level}`}  />
             </ScoreCard>
           )}
-          <StartButton callback={startGame} />
+          <StyledStartButton onClick={()=>startGame()}>Start Game</StyledStartButton>
+
          {/* <Controller /> */}
          
         </aside>
@@ -351,7 +387,7 @@ const handleDialogClose = () => {
           <LeftRight onClick={() => movePlayer(1)} />
         </DpadMidRow>
         <DpadRow>
-          <UpDown />
+          <UpDown onClick={() => temp()} />
         </DpadRow>
       </div>
           </div>
@@ -383,6 +419,23 @@ const LeftRight = styled.button`
     cursor: pointer;
   }
 `;
+const StyledStartButton = styled.button`
+  box-sizing: border-box;
+
+  margin: 0 0 20px 0;
+  padding: 20px;
+  min-height: 30px;
+  width: 100%;
+  border-radius: 20px;
+  border: none;
+  color: white;
+  background: #333;
+  font-family: Pixel, Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+`;
+
 
 const UpDown = styled.button`
   width: ${dpadSize}px;
