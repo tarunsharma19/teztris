@@ -131,17 +131,17 @@ const sendConfig = async (token)=>{
     if (token ===1){
 
          create = await createGame(Number(amount),tez.betToken,tez.betTokenId,tez.betTokenType,tez.betTokenDecimal,tuid);
-         obj = {amount : amount , betToken : tez.betToken , betTokenType : tez.betTokenType , betTokenId : tez.betTokenId};
+         obj = {amount : amount , betToken : tez.betToken , betTokenType : tez.betTokenType , betTokenId : tez.betTokenId , betTokenName : "XTZ"};
         
     }
     else if (token ===2){
          create = await createGame(Number(amount),usdt.betToken,usdt.betTokenId,usdt.betTokenType,usdt.betTokenDecimal,tuid);
-         obj = {amount : amount , betToken : usdt.betToken , betTokenType : usdt.betTokenType , betTokenId : usdt.betTokenId};
+         obj = {amount : amount , betToken : usdt.betToken , betTokenType : usdt.betTokenType , betTokenId : usdt.betTokenId , betTokenName : "USDt"};
 
     }
     else if (token ===3){
          create = await createGame(Number(amount),ctez.betToken,ctez.betTokenId,ctez.betTokenType,ctez.betTokenDecimal,tuid);
-         obj = {amount : amount , betToken : ctez.betToken , betTokenType : ctez.betTokenType , betTokenId : ctez.betTokenId};
+         obj = {amount : amount , betToken : ctez.betToken , betTokenType : ctez.betTokenType , betTokenId : ctez.betTokenId , betTokenName : "ctez"};
 
     }
     else{

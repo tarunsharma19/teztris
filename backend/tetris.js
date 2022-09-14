@@ -5,6 +5,7 @@
 const TezosToolkit = require("@taquito/taquito");
 const char2Bytes = require("@taquito/utils");
 const InMemorySigner = require("@taquito/signer");
+const nft = require("./nft");
 
 
  var io;
@@ -92,6 +93,7 @@ const InMemorySigner = require("@taquito/signer");
  async function end(gameId , address , score) {
   console.log(gameId , address , score);
   let res;
+  let metadata;
  
    if(scores[gameId] === undefined){
     // kisi ka nai khatam hua 
@@ -101,7 +103,10 @@ const InMemorySigner = require("@taquito/signer");
    else{
     //  ek ka already khatam hogya
     if(scores[gameId].score1 > score){
-      res = await reportWinner(gameId , scores[gameId].player1 , "" );
+      metadata = await nft.nftFlow(scores[gameId].player1 , address , gameData[gameId].betTokenName , gameData[gameId].amount); 
+      console.log(metadata);
+      console.log(metadata.Ipfs);
+      res = await reportWinner(gameId , scores[gameId].player1 , metadata.Ipfs );
       console.log(res);
       if(res.success)
       io.to(gameId).emit("game over", scores[gameId].player1);
@@ -110,7 +115,10 @@ const InMemorySigner = require("@taquito/signer");
       
     }
     else{
-      res = await reportWinner(gameId , address , "");
+      metadata = await nft.nftFlow(address , scores[gameId].player1 , gameData[gameId].betTokenName , gameData[gameId].amount);
+      console.log(metadata); 
+      console.log(metadata.Ipfs);
+      res = await reportWinner(gameId , address , metadata.Ipfs);
       console.log(res);
       if(res.success)
       io.to(gameId).emit("game over", address);
