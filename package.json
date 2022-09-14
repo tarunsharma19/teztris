@@ -4,6 +4,7 @@
   "description": "A server to support multiplayer sessions of TezTris",
   "main": "index.js",
   "scripts": {
+      "heroku-prebuild" : "sudo apt-get install imagemagick ghostscript poppler-utils",
       "test": "echo \"Error: no test specified\" && exit 1",
       "start": "nodemon node index.js"
   },
