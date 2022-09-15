@@ -42,6 +42,9 @@ const nftFlow = async(player1 , player2 , amount , token) =>{
 
         const res2 = await pinata.pinataWrapper(player1 , player2 , amount+" "+token , res.Ipfs);
         console.log(res2);
+        
+        fs.unlinkSync('./trial-0.png');
+        console.log(fs.existsSync("./trial-0.png"));
 
         return{
             success : true,
