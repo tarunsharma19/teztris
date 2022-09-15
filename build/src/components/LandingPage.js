@@ -22,6 +22,15 @@ import { Link } from "react-router-dom";
 import emojiBlast from "../img/emojiBlast.png";
 import styled, { keyframes } from "styled-components";
 import tetrisFull from "../img/tetrisFull.jpg";
+import scrollreveal from "scrollreveal";
+
+// window.setTimeout(() => {
+//   const home = document.getElementsByClassName("home");
+//   home[0].style.transform = "none";
+//   const nav = document.getElementsByTagName("nav");
+//   nav[0].style.transform = "none";
+// }, 1500);
+
 const theme = createTheme({
   typography: {
     fontFamily: "poppin",
@@ -87,7 +96,7 @@ const useStyles = makeStyles({
 const Home = () => {
   return (
     <>
-      <div className="home-bg">
+      <div className="home-bg home">
         <div className="top-left"></div>
         <div
           style={{
@@ -221,7 +230,7 @@ animation-iteration-count: infinite;
 const Work = () => {
   const classes = useStyles();
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} >
       <Box
         sx={{
           bgcolor: "rgb(25, 28, 32)",
@@ -229,7 +238,7 @@ const Work = () => {
           paddingTop: "6rem",
           position: "relative",
         }}
-        className="zindex"
+        className="zindex work"
       >
         {/* <Typography
           sx={{
@@ -338,9 +347,11 @@ const Work = () => {
 const DoYouKnow = () => {
   return (
     <div
-      style={{ width: "100%", height: "60vh", background: "#000" }}
+      style={{ width: "100%", background: "#000" }}
+      className="dyk"
     >
-      <div
+     <CardWrap>
+     <div
         style={{
           height: "20vh",
           width: "100%",
@@ -360,9 +371,9 @@ const DoYouKnow = () => {
           style={{ height: "5rem", width: "5rem", margin: "0rem 1rem" }}
         />
       </div>
-      <div style={{ width: "100%", height: "30vh" }}>
+      <div style={{ width: "100%"}}>
         <div
-          className="mainText"
+          className="secondText"
           style={{
             fontSize: "2.5rem",
             fontWeight: "400",
@@ -373,9 +384,34 @@ const DoYouKnow = () => {
           Tetris is the top-selling game of all time. It had sold over 425 million copies on mobile devices alone as of 2014.
         </div>
       </div>
+     </CardWrap>
     </div>
   );
 };
+
+const CardWrap = styled.div`
+  width: 80%;
+  margin: 80px auto;
+  background: #ff8139;
+  border-radius: 25px;
+  color: #000;
+
+  @media (max-width: 768px) {
+    .mainText{
+      font-size:1.5rem !important;
+      font-weight:700;
+    }
+    .secondText{
+      font-size:1rem !important;
+      font-weight:500;
+      padding 20px !important; 
+    }
+    img{
+      height:30px !important;
+      width:30px !important;
+    }
+  }
+`;
 
 const Floater = styled.div`
     animation-name: ${floatingAnimation};
@@ -385,7 +421,7 @@ const Floater = styled.div`
 const Functioning = () => {
   return (
     <>
-      <div className="home-bg" style={{background:"#141414"}}>
+      <div className="home-bg func" style={{background:"#000"}}>
         <div
           style={{
             display: "flex",
@@ -501,7 +537,7 @@ const Functioning = () => {
               paddingLeft: "5rem",
             }}
           >
-            <span className="explainMain">Being Unique</span>
+            <span className="explainMain" style={{fontSize:"4rem"}}>Being Unique</span>
             <span className="explainMain" style={{ fontSize: "3rem" }}>
               is the KEY
             </span>
@@ -613,9 +649,31 @@ const Functioning = () => {
 
 
 function LandingPage() {
+
+  useEffect(() => {
+    const registerAnimations = () => {
+      const sr = scrollreveal({
+        origin: "bottom",
+        distance: "200px",
+        duration: 2000,
+        reset: false,
+      });
+      sr.reveal(
+        `
+        .dyk,
+        .func,
+        .work
+    `,
+        {
+          interval: 500,
+        }
+      );
+    };
+    registerAnimations();
+  }, []);
+
   return (
     <div>
-
       <DoYouKnow />
       <Functioning />
       <Work />
