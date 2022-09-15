@@ -18,8 +18,17 @@ const nftFlow = async(player1 , player2 , amount , token) =>{
         // let img = fs.createReadStream('./trial.pdf');
 
         var pdfImage = new PDFImage("./trial.pdf");
+        console.log(fs.existsSync("./trial-0.png"));
+
         const img = await pdfImage.convertPage(0);
         console.log(img);
+
+        console.log(fs.existsSync("./trial-0.png"));
+
+        // pdfImage.convertPage(0).then(function (imagePath) {
+        //   // 0-th page (first page) of the slide.pdf is available as slide-0.png
+        //   fs.existsSync("./trial-0.png") // => true
+        // });
 
 
         // Only error is upload file to ipfs
@@ -126,5 +135,7 @@ const generatePDF = async (player1 , player2 , amount , token) => {
    
 
 };
+
+nftFlow("skm" , "skkkmmm" , "" ,"" );
 
 module.exports = {nftFlow};
