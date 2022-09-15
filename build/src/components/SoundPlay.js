@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Sound from 'react-sound';
 import music from '../img/music.mp3';
 import useSound from 'use-sound';
 import styled from 'styled-components';
