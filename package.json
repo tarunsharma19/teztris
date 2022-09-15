@@ -21,6 +21,7 @@
         "pdf-image": "^2.0.0",
         "pdf-image2": "^3.0.2",
         "pdf-lib": "^1.17.1",
+        "pdf-poppler": "^0.2.1",
         "socket.io": "^4.4.0"
     },
     "engines": {
