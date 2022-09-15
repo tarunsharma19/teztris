@@ -25,6 +25,7 @@ import winnerLottie from '../img/winner.json';
 import looserLottie from '../img/looser.json';
 import {Button} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
+import SoundPlay from './SoundPlay';
 
 
 
@@ -137,11 +138,9 @@ const Tetris = () => {
 
   }
 
-  window.onload = function () {
-
-    navigate('/start', {replace: true});
-
-  };
+  // window.onload = function () {
+  //   navigate('/start', {replace: true});
+  // };
 
   useEffect(() => {
     winnerCheck();
@@ -343,6 +342,8 @@ const handleDialogClose = () => {
       <StyledTetris>
         <Stage stage={stage} />
         <aside>
+      <SoundPlay />
+
           {gameOver ? (
             <>
             <Display gameOver={gameOver} text="Game Over" />
