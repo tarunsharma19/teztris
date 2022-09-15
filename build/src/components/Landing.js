@@ -69,4 +69,11 @@ const WrapperHome = styled.div`
   background: url(${bgImage}) #000;
   background-size: cover;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    background-position-x: -650px;
+    h1{
+      font-size:38px;
+    }
+  }
 `;
