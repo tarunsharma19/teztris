@@ -13,6 +13,7 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [gameIdInput, setGameIdInput] = useState('');
 
+  
   return(
   <BrowserRouter>
   <manageFunc.Provider value={{gameOver, setGameOver,gameIdInput, setGameIdInput}}>
