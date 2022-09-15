@@ -37,22 +37,17 @@ const nftFlow = async(player1 , player2 , amount , token) =>{
         //   fs.existsSync("./trial-0.png") // => true
         // });
 
+        const res = await pinata.sendFileToIPFS();
+        console.log(res);
 
-        // Only error is upload file to ipfs
-
-        // const res = await pinata.sendFileToIPFS();
-        // console.log(res);
-
-        // const res2 = await pinata.pinataWrapper(player1 , player2 , amount+" "+token , res.Ipfs);
-        // console.log(res2);
+        const res2 = await pinata.pinataWrapper(player1 , player2 , amount+" "+token , res.Ipfs);
+        console.log(res2);
 
         return{
             success : true,
-            Ipfs : ""
+            Ipfs : res2.Ipfs
         };
 
-
-        
     } catch (error) {
         console.log(error);
     }
@@ -144,7 +139,5 @@ const generatePDF = async (player1 , player2 , amount , token) => {
 
 };
 
-// remove after testing
-nftFlow("skm" , "skkkmmm" , "" ,"" );
 
 module.exports = {nftFlow};
