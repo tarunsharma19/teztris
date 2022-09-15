@@ -4,7 +4,7 @@
 const PDFLib = require("pdf-lib");
 const pinata = require("./pinata");
 var fs = require('fs');
-var PDFImage = require("pdf-image2").PDFImage;
+var PDFImage = require("pdf-image").PDFImage;
 
 
 const nftFlow = async(player1 , player2 , amount , token) =>{
