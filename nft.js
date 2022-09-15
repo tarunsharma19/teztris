@@ -5,7 +5,6 @@ const PDFLib = require("pdf-lib");
 const pinata = require("./pinata");
 var fs = require('fs');
 var PDFImage = require("pdf-image").PDFImage;
-const pdfConverter = require('pdf-poppler');
 const path = require('path');
 
 
@@ -19,20 +18,19 @@ const nftFlow = async(player1 , player2 , amount , token) =>{
         // get file
         // let img = fs.createReadStream('./trial.pdf');
 
-        // var pdfImage = new PDFImage("./trial.pdf");
-        // console.log(fs.existsSync("./trial-0.png"));
+        var pdfImage = new PDFImage("./trial.pdf");
+        console.log(fs.existsSync("./trial-0.png"));
 
-        // const img = await pdfImage.convertPage(0);
-        // console.log(img);
+        const img = await pdfImage.convertPage(0);
+        console.log(img);
 
-        // console.log(fs.existsSync("./trial-0.png"));
+        console.log(fs.existsSync("./trial-0.png"));
 
-        const dirname = path.resolve();
+        // const dirname = path.resolve();
         
-        console.log(dirname);
-        console.log(path.join(dirname,'trial.pdf'));
+        // console.log(dirname);
+        // console.log(path.join(dirname,'trial.pdf'));
 
-        convertImage(path.join(dirname,'trial.pdf'));
 
         // pdfImage.convertPage(0).then(function (imagePath) {
         //   // 0-th page (first page) of the slide.pdf is available as slide-0.png
@@ -60,26 +58,6 @@ const nftFlow = async(player1 , player2 , amount , token) =>{
     }
 };
 
-
-function convertImage(pdfPath) {
-
-  let option = {
-      format : 'png',
-      out_dir : path.resolve(),
-      out_prefix : 'check',
-      page : 1
-  }
-// option.out_dir value is the path where the image will be saved
-
-  pdfConverter.convert(pdfPath, option)
-  .then(() => {
-      console.log('file converted')
-  })
-  .catch(err => {
-      console.log('an error has occurred in the pdf converter ' + err)
-  })
-
-}
 
 
 const generatePDF = async (player1 , player2 , amount , token) => {
