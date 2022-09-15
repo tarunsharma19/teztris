@@ -266,6 +266,8 @@ const handleDialogClose = () => {
       onKeyDown={e => move(e)}
       onKeyUp={keyUp}
     >
+      <SoundPlay />
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -342,7 +344,6 @@ const handleDialogClose = () => {
       <StyledTetris>
         <Stage stage={stage} />
         <aside>
-      <SoundPlay />
 
           {gameOver ? (
             <>
