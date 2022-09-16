@@ -10,7 +10,7 @@ import io from "socket.io-client";
 
 // const URL = "http://teztris.centralindia.cloudapp.azure.com:8080";
 
-const URL = "https://minfy.live";
+const URL = "https://backend.teztris.xyz/";
 
 // const URL = "localhost:8080";
 
