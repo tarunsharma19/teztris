@@ -21,7 +21,7 @@ import Joint from "../img/Joint1.png";
 import { Link } from "react-router-dom";
 import emojiBlast from "../img/emojiBlast.png";
 import styled, { keyframes } from "styled-components";
-import tetrisFull from "../img/tetrisFull.jpg";
+import tetrisFull from "../img/tetrisFull.webp";
 import scrollreveal from "scrollreveal";
 
 // window.setTimeout(() => {

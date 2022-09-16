@@ -26,7 +26,6 @@ import {useNavigate} from 'react-router-dom';
 import { ipfsWrapper } from '../api/ipfs';
 import { manageFunc } from '../App';
 import { FetchWalletAPI } from '../api/operations/wallet';
-import Loadergif from '../img/loading.gif'
 import Loader from './Loader'
 
 const socket = require("../api/socket").socket;
@@ -413,7 +412,7 @@ const handleJoinGame = async () => {
                         maxWidth: "80%",
                         color: "#fff",
                       fontSize: "1.2rem",
-                      margin: "10px",
+                      margin: "10px 0",
                       background: "rgba(26, 28, 32, 0.75)",
                       height: "2.5rem",
                       borderRadius: "0.5rem",
@@ -500,11 +499,17 @@ const handleJoinGame = async () => {
     background-color: #0D61FF;
     color:#fff;
     border-radius:20px;
+
   }
+
   button:hover {
     cursor:pointer;
   }
-  
+@media (max-width: 768px) {
+    button {
+      font-size: 26px;
+    }
+  }  
   `;
   
   const WrapperHome = styled.div`
