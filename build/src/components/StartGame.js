@@ -73,6 +73,7 @@ const styleDialog = {
   p: 4,
   borderRadius: '25px',
 };
+const [found, setFound] = useState(false);
 useEffect(() => {
   socket.on("status", (status) => {
     alert(status);
