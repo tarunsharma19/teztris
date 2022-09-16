@@ -1,5 +1,3 @@
-![logo](logo.png)
-
 # TezTris
 The first video game to make it into space, is now on Tezos.
 
