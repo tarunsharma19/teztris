@@ -66,7 +66,20 @@ button {
 button:hover {
   cursor:pointer;
 }
-
+@media (max-width: 768px) {
+  button {
+    font-size: 26px;
+  }
+  div{
+    margin: 40px 20px 0 0;
+  }
+  h1 {
+    margin: 24px 10px 0 0 ;
+  }
+  img {
+    margin: 20px 10px 0 0 ;
+  }
+}  
 `;
 
 const WrapperHome = styled.div`

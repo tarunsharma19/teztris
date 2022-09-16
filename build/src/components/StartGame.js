@@ -481,15 +481,15 @@ const handleJoinGame = async () => {
   flex-direction: column;
   align-items: flex-end;
   div{
-    margin: 40px 10px 0 0;
+    margin: 40px 60px 0 0;
   }
   h1 {
     font-size:52px;
-    margin: 24px 20px 0 0 ;
+    margin: 24px 50px 0 0 ;
   }
   img {
     width: 260px;
-    margin: 20px 10px 0 0 ;
+    margin: 20px 50px 0 0 ;
   }
   button {
     width: 240px;
@@ -508,6 +508,15 @@ const handleJoinGame = async () => {
 @media (max-width: 768px) {
     button {
       font-size: 26px;
+    }
+    div{
+      margin: 40px 20px 0 0;
+    }
+    h1 {
+      margin: 24px 10px 0 0 ;
+    }
+    img {
+      margin: 20px 10px 0 0 ;
     }
   }  
   `;
