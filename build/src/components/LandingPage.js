@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Rocket from "../img/NFT.png";
-import KnightBg from "../img/NFT.png";
-import pinkNft from "../img/NFT2.png";
-import blueNft from "../img/NFT1.png";
-import greenNft from "../img/NFT3.png";
-import redNft from "../img/NFT.png";
+import Rocket from "../img/NFT.webp";
+import KnightBg from "../img/NFT.webp";
+import pinkNft from "../img/NFT2.webp";
+import blueNft from "../img/NFT1.webp";
+import greenNft from "../img/NFT3.webp";
+import redNft from "../img/NFT.webp";
 
-import Polygon from "../img/NFT.png";
+import Polygon from "../img/NFT.webp";
 import Box from "@mui/material/Box";
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";

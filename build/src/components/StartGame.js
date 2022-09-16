@@ -1,7 +1,7 @@
 import React, { useContext, useState , useEffect, useCallback} from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
-import bgImage from '../img/landingBg.jpg';
+import bgImage from '../img/landingBg.webp';
 import tezLogo from '../img/tezlogo.png'
 import tezTris from '../img/tezTris.png'
 import { Input, TextField } from '@mui/material';
