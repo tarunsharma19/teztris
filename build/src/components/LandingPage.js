@@ -261,7 +261,7 @@ const Work = () => {
         >
           <div
             className="mainText"
-            style={{ fontSize: "5rem", margin: "-3rem 0 2rem 0", zIndex: "1" }}
+            style={{ fontSize: "5rem",fontWeight:"700", margin: "-3rem 0 2rem 0", zIndex: "1" ,padding:"0 0 0 2rem"}}
           >
             How It Works?
           </div>
@@ -274,6 +274,7 @@ const Work = () => {
           style={{
             position: "absolute",
             top: "0",
+            objectFit: "cover",
             // left: "1rem",
             height: "100%",
             width: "100%",
@@ -281,6 +282,7 @@ const Work = () => {
           }}
         />
 
+        <GridWrap>
         <Grid container justifyContent="center" alignItems="center" spacing="0">
           <Grid item xs={2} className={classes.card}>
             <div className="work-div">
@@ -339,23 +341,47 @@ const Work = () => {
             </div>
           </Grid>
         </Grid>
+        </GridWrap>
       </Box>
     </ThemeProvider>
   );
 };
 
+const GridWrap = styled.div`
+
+width: 100%;
+overflow-x: scroll;
+
+.MuiGrid-container {
+  width: fit-content;
+  flex-wrap : nowrap;
+ 
+}
+.MuiGrid-item {
+  margin: 0 0 0 20px;
+}
+
+@media (max-width: 768px) {
+
+  .MuiGrid-container {
+    margin-left: -120px;
+    overflow-y: hidden;
+  }
+
+}
+`;
+
 const DoYouKnow = () => {
   return (
     <div
-      style={{ width: "100%", background: "#000" }}
+      style={{ width: "100%", background: "#000" , marginBottom:"2rem"}}
       className="dyk"
     >
      <CardWrap>
      <div
         style={{
-          height: "20vh",
-          width: "100%",
-
+          
+          padding: "1.8rem 1.8rem 1.8rem 1rem",
           display: "flex",
           flexDirection: "row",
           justifyContent: "center",
@@ -398,11 +424,11 @@ const CardWrap = styled.div`
 
   @media (max-width: 768px) {
     .mainText{
-      font-size:1.5rem !important;
+      font-size:1.8rem !important;
       font-weight:700;
     }
     .secondText{
-      font-size:1rem !important;
+      font-size:1.5rem !important;
       font-weight:500;
       padding 20px !important; 
     }
@@ -422,23 +448,9 @@ const Functioning = () => {
   return (
     <>
       <div className="home-bg func" style={{background:"#000"}}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-around center",
-            alignItems: "center",
-          }}
+        <FuncWrap
         >
-          <div
-            style={{
-              height: "100vh",
-              width: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              paddingBottom: "25rem",
-            }}
+          <div className="wrap"
           ><Floater>
             <img
               alt="pink NFT"
@@ -484,17 +496,14 @@ const Functioning = () => {
             </Floater>
           </div>
           <div
+          className="content"
             style={{
               height: "80vh",
-              width: "50%",
-
               float: "right",
               display: "flex",
               flexDirection: "column",
               alignItems: "start",
               justifyContent: "center",
-              paddingLeft: "5rem",
-              paddingRight: "5rem",
             }}
           >
             <span className="explainMain" style={{ fontSize: "5rem" }}>
@@ -513,32 +522,22 @@ const Functioning = () => {
               <b style={{ fontWeight: "700" }}>nature of the Blockchain.</b>
             </span>
           </div>
-        </div>
+        </FuncWrap>
       </div>
-      <div className="home-bg2">
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-around center",
-            alignItems: "center",
-          }}
+        <UniqueWrap className="home-bg2"
         >
-          <div
+          <div className="content"
             style={{
               height: "80vh",
-              width: "50%",
-
               float: "right",
               display: "flex",
               flexDirection: "column",
               alignItems: "start",
               justifyContent: "center",
-              paddingLeft: "5rem",
             }}
           >
-            <span className="explainMain" style={{fontSize:"4rem"}}>Being Unique</span>
-            <span className="explainMain" style={{ fontSize: "3rem" }}>
+            <span className="explainMain" style={{fontSize:"4rem" , fontWeight:"700"}}>Being Unique</span>
+            <span className="explainMain" style={{ fontSize: "3rem", fontWeight:"700" }}>
               is the KEY
             </span>
             <br />
@@ -561,16 +560,14 @@ const Functioning = () => {
               </li>
             </ul>
           </div>
-          <div
+          <div className="content"
             style={{
               height: "100vh",
-              width: "50%",
 
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              paddingLeft: "8rem",
             }}
           >
             <FloaterUpDown>
@@ -641,22 +638,76 @@ const Functioning = () => {
             />
             </FloaterDownUp>
           </div>
-        </div>
-      </div>
+        </UniqueWrap>
     </>
   );
 };
+const FuncWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around center;
+  align-items: stretch;
 
+  .wrap {      
+    height:100vh;
+    width: 50%;
+    display: flex;
+    alignI-items: center;
+    justify-content: center;
+    padding-bottom: 25rem;
+  }
 
+  .content {
+    box-sizing: border-box;
+    width: 50%;
+    padding: 0 5rem;
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    .wrap{
+      width:100%;
+      height:100%;
+      margin-bottom:5rem;
+    }
+    .content {
+      width: 100%;
+      padding: 0 2rem;
+    }
+  }
+
+`;
+const UniqueWrap = styled.div `
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around center;
+  align-items: center;
+
+  .content {
+    box-sizing: border-box;
+    width: 50%;
+    padding: 0 0 0 5rem;
+  }
+
+  @media (max-width: 768px) {
+
+    flex-direction: column-reverse;
+
+    .content {
+      width: 100%;
+      padding: 0 2rem;
+    }
+  }
+
+`;
 function LandingPage() {
 
   useEffect(() => {
     const registerAnimations = () => {
       const sr = scrollreveal({
-        origin: "bottom",
-        distance: "200px",
+        origin: "top",
+        distance: "80px",
         duration: 2000,
-        reset: false,
+        reset: true,
       });
       sr.reveal(
         `
