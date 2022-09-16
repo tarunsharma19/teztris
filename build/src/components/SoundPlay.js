@@ -25,6 +25,8 @@ const SoundPlay = () => {
       }
 
       const Wrapper = styled.div`
+      position: absolute;
+      bottom: 0;
       background: #ffffff40;
       width: 25px;
       display: flex;

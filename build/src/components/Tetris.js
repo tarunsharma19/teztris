@@ -138,9 +138,9 @@ const Tetris = () => {
 
   }
 
-  // window.onload = function () {
-  //   navigate('/start', {replace: true});
-  // };
+  window.onload = function () {
+    navigate('/start', {replace: true});
+  };
 
   useEffect(() => {
     winnerCheck();
