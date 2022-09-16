@@ -31,6 +31,12 @@ export default function Landing() {
 const Logo = styled.div `
  text-align:right;
  margin: 40px 60px 0 0 ;
+
+ @media (max-width: 768px) {
+   img{
+    width:40%;
+   }
+}
 `;
 
 const ContentWrapper = styled.div `

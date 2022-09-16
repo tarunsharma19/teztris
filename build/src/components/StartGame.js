@@ -53,6 +53,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
+  maxWidth: "80%",
   color: "#fff !important",
   bgcolor: '#001e3c',
   border: '2px solid #000',
@@ -108,8 +109,8 @@ const handleGameIdInput = (event) => {
     betTokenType : "tez",
     betTokenDecimal : 6,
 }
-const delay = ms => new Promise(res => setTimeout(res, ms));
-const [found, setFound] = useState(false);
+
+
 const [openDialog, setOpenDialog] = useState(false);
 const [uid, setuid] = useState(null);
 const [maskedLoader,setMaskedLoader] = useState(false);
@@ -270,52 +271,7 @@ const handleJoinGame = async () => {
   console.log("emit done",gameIdInput );
   setEmitflag(true);
 }
-const gameJoiner = async () =>{
-//    call web socket with game id
-// get data
 
-    // call MY OPERATION WITH DATA
-
-    // DUMMY
-
-    // let obj = {
-    //     amount : 1 ,
-    //      tokenAdd : "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb" ,
-    //       tokenType : "tez" ,
-    //        tokenId : 0,
-    // };
-    
-    
-    
-    // ASK aniket how to wait for data and then proceed 
-    // USE EFFECT 
-    // let obj;
-    // socket.on("match found", (e) => {
-    //   console.log(e);
-    //   obj = e;
-    // });
-    console.log(obj,"obj before res")
-    const res = await joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput);
-
-    // Call web socket to start game for both players
-    if (res.success === true){
-
-        
-        socket.emit("playerJoinsGame", {
-          gameId: gameId,
-          address: account,
-        });
-
-        // socket.on("start game" , );
-
-        navigate('/app', {replace: true})
-    }
-    // navigate to start game
-
-
-     
-
-}
 
     return (
       <>
@@ -454,6 +410,7 @@ const gameJoiner = async () =>{
                     type="text"
                     style={{
                         width: "400px",
+                        maxWidth: "80%",
                         color: "#fff",
                       fontSize: "1.2rem",
                       margin: "10px",
@@ -481,7 +438,12 @@ const gameJoiner = async () =>{
   
   const Logo = styled.div `
    text-align:right;
-   margin: 40px 60px 0 0 ;
+   margin: 40px 20px 0 0 ;
+
+   @media (max-width: 768px) {
+    img{
+     width:40%;
+    }
   `;
   
 
@@ -520,15 +482,15 @@ const gameJoiner = async () =>{
   flex-direction: column;
   align-items: flex-end;
   div{
-    margin: 40px 50px 0 0;
+    margin: 40px 10px 0 0;
   }
   h1 {
     font-size:52px;
-    margin: 24px 60px 0 0 ;
+    margin: 24px 20px 0 0 ;
   }
   img {
     width: 260px;
-    margin: 20px 50px 0 0 ;
+    margin: 20px 10px 0 0 ;
   }
   button {
     width: 240px;
@@ -551,5 +513,12 @@ const gameJoiner = async () =>{
     background: url(${bgImage}) #000;
     background-size: cover;
     overflow: hidden;
+
+    @media (max-width: 768px) {
+      background-position-x: -650px;
+      h1{
+        font-size:38px;
+      }
+    }
   `;
   
