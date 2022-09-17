@@ -137,6 +137,7 @@ const nft = require("./nft");
 
 
  function onDisconnect() {
+   console.log(`person disconnect ${gameSocket}`); 
    var i = gamesInSession.indexOf(gameSocket);
    gamesInSession.splice(i, 1);
  }
