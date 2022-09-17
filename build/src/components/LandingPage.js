@@ -240,17 +240,6 @@ const Work = () => {
         }}
         className="zindex work"
       >
-        {/* <Typography
-          sx={{
-            color: "primary.main",
-            fontSize: "5rem",
-            textAlign: "center",
-            fontWeight: "700",
-            marginBottom: "8rem",
-          }}
-        >
-          How it works?
-        </Typography> */}
         <div
           style={{
             display: "flex",
@@ -275,73 +264,13 @@ const Work = () => {
             position: "absolute",
             top: "0",
             objectFit: "cover",
-            // left: "1rem",
             height: "100%",
             width: "100%",
             zIndex: "0",
           }}
         />
 
-        <GridWrap>
-        <Grid container justifyContent="center" alignItems="center" spacing="0">
-          <Grid item xs={2} className={classes.card}>
-            <div className="work-div">
-              <Container className={classes.card}>
-                <img alt="business" src={Business} className={classes.image} />
-                <div style={{ fontSize: "1.25rem" }}>
-                  Stake your crypto coins
-                </div>
-                <Typography className={classes.para}>
-                  Before matchmaking, user has to stake crypto coins and wait
-                  for the rival to accept the challenge.
-                </Typography>
-              </Container>
-            </div>
-          </Grid>
-          <Grid item xs={1} className={classes.join}>
-            <img alt="Joint" src={Joint} className={classes.join}></img>
-          </Grid>
-
-          <Grid item xs={2} className={classes.card}>
-            <div className="work-div">
-              <Container className={classes.card} style={{}}>
-                <img alt="Gaming" src={Gaming} className={classes.image} />
-
-                <Container style={{ fontSize: "1.25rem" }}>
-                  Play tetris 
-                </Container>
-                <Typography className={classes.para}>
-                  After staking coins for the match, user will be directed to a
-                  Tetris table where user will play his best to beat the opponent.
-                </Typography>
-              </Container>
-            </div>
-          </Grid>
-          <Grid item xs={1}>
-            <img
-              alt="Joint"
-              src={Joint}
-              className={classes.join}
-              style={{ right: 16 }}
-            ></img>
-          </Grid>
-          <Grid item xs={2} className={classes.card}>
-            <div className="work-div">
-              <Container className={classes.card}>
-                <img alt="Winner" src={Winner} className={classes.image} />
-                <Container style={{ fontSize: "1.25rem" }}>
-                  Winner takes it all
-                </Container>
-                <Typography className={classes.para}>
-                  After the match is over, the winner will win the opponent’s
-                  stake coins and both can mint any position/whole game as an
-                  NFT.
-                </Typography>
-              </Container>
-            </div>
-          </Grid>
-        </Grid>
-        </GridWrap>
+        
       </Box>
     </ThemeProvider>
   );
@@ -350,7 +279,8 @@ const Work = () => {
 const GridWrap = styled.div`
 
 width: 100%;
-overflow-x: scroll;
+overflow-x: auto;
+overflow-y: hidden;
 
 .MuiGrid-container {
   width: fit-content;
@@ -370,6 +300,31 @@ overflow-x: scroll;
 
 }
 `;
+
+const CardWrap = styled.div`
+  width: 80%;
+  margin: 80px auto;
+  background: #ff8139;
+  border-radius: 25px;
+  color: #000;
+
+  @media (max-width: 768px) {
+    .mainText{
+      font-size:1.8rem !important;
+      font-weight:700;
+    }
+    .secondText{
+      font-size:1.5rem !important;
+      font-weight:500;
+      padding 20px !important; 
+    }
+    img{
+      height:30px !important;
+      width:30px !important;
+    }
+  }
+`;
+
 
 const DoYouKnow = () => {
   return (
@@ -415,29 +370,88 @@ const DoYouKnow = () => {
   );
 };
 
-const CardWrap = styled.div`
-  width: 80%;
-  margin: 80px auto;
-  background: #ff8139;
-  border-radius: 25px;
-  color: #000;
+const DoYouKnoww = () => {
+  const classes = useStyles();
 
-  @media (max-width: 768px) {
-    .mainText{
-      font-size:1.8rem !important;
-      font-weight:700;
-    }
-    .secondText{
-      font-size:1.5rem !important;
-      font-weight:500;
-      padding 20px !important; 
-    }
-    img{
-      height:30px !important;
-      width:30px !important;
-    }
-  }
-`;
+  return (
+    <div
+      style={{ width: "100%", background: "#000" , marginBottom:"2rem"}}
+      className="dyk"
+    >
+      <div
+            className="mainText"
+            style={{ textAlign:"center",fontSize: "5rem",fontWeight:"700", margin: "-3rem 0 2rem 0", zIndex: "1" ,padding:"0 0 0 2rem"}}
+          >
+            <br />
+            How It Works?
+          </div>
+     <div
+      >
+    <GridWrap>
+        <Grid container justifyContent="center" alignItems="center" spacing="0">
+          <Grid item xs={2} className={classes.card}>
+            <div className="work-div">
+              <Container className={classes.card}>
+                <img alt="business" src={Business} className={classes.image} />
+                <div style={{ fontSize: "1.25rem" }}>
+                  Stake your crypto coins
+                </div>
+                <Typography className={classes.para} style={{lineHeight:"1.1rem"}}>
+                  Before matchmaking, user has to stake crypto coins and wait
+                  for the rival to accept the challenge.
+                </Typography>
+              </Container>
+            </div>
+          </Grid>
+          <Grid item xs={1} className={classes.join}>
+            <img alt="Joint" src={Joint} className={classes.join}></img>
+          </Grid>
+
+          <Grid item xs={2} className={classes.card}>
+            <div className="work-div">
+              <Container className={classes.card} style={{}}>
+                <img alt="Gaming" src={Gaming} className={classes.image} />
+
+                <Container style={{ fontSize: "1.25rem" }}>
+                  Play tetris till you win 
+                </Container>
+                <Typography className={classes.para } style={{lineHeight:"1.1rem"}}>
+                  After staking coins for the match, user will be directed to a
+                  Tetris table where user will play his best to beat the opponent.
+                </Typography>
+              </Container>
+            </div>
+          </Grid>
+          <Grid item xs={1}>
+            <img
+              alt="Joint"
+              src={Joint}
+              className={classes.join}
+              style={{ right: 16 }}
+            ></img>
+          </Grid>
+          <Grid item xs={2} className={classes.card}>
+            <div className="work-div">
+              <Container className={classes.card}>
+                <img alt="Winner" src={Winner} className={classes.image} />
+                <Container style={{ fontSize: "1.25rem" }}>
+                  Winner takes it all
+                </Container>
+                <Typography className={classes.para} style={{lineHeight:"1.1rem"}}>
+                  After the match is over, the winner will win the opponent’s
+                  stake coins and both can mint any position/whole game as an
+                  NFT.
+                </Typography>
+              </Container>
+            </div>
+          </Grid>
+        </Grid>
+        </GridWrap>
+      </div>
+
+    </div>
+  );
+};
 
 const Floater = styled.div`
     animation-name: ${floatingAnimation};
@@ -726,6 +740,7 @@ function LandingPage() {
   return (
     <div>
       <DoYouKnow />
+      <DoYouKnoww />
       <Functioning />
       <Work />
     </div>
