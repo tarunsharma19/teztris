@@ -13,6 +13,10 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
+import tezTris from '../img/tezTris.png'
+
+import tezos from '../img/tezos.svg';
+
 
 import Business from "../img/stake.webp";
 import Winner from "../img/earn.webp";
@@ -240,41 +244,98 @@ const Work = () => {
         }}
         className="zindex work"
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div
-            className="mainText"
-            style={{ fontSize: "5rem",fontWeight:"700", margin: "-3rem 0 2rem 0", zIndex: "1" ,padding:"0 0 0 2rem"}}
-          >
-            How It Works?
-          </div>
-        </div>
-
+        
         <img
           alt="circles"
           className="zindex-img"
           src={tetrisFull}
           style={{
+            zIndex: "-1 ",
             position: "absolute",
             top: "0",
             objectFit: "cover",
             height: "100%",
             width: "100%",
-            zIndex: "0",
           }}
         />
-
+        <CardWrap>
+     <div
+        style={{
+          zIndex: "2",
+          padding: "1.8rem 1.8rem 1.8rem 1rem",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <span className="mainText" style={{ fontSize: "3rem" }}>
+          Do You Know?
+        </span>
+        <img
+          alt="Mindblowing"
+          src={emojiBlast}
+          style={{ height: "3rem", width: "3rem", margin: "0rem 1rem" }}
+        />
+      </div>
+      <div style={{ width: "100%"}}>
+        <div
+          className="secondText"
+          style={{
+            fontSize: "1.5rem",
+            fontWeight: "400",
+            padding: "2rem 10rem",
+            textAlign: "center",
+          }}
+        >
+          Tetris is the top-selling game of all time. It had sold over 425 million copies on mobile devices alone as of 2014.
+        </div>
+      </div>
+     </CardWrap>
+ 
+        <Footer>
+          <img className="logo" src={tezTris}>
+          </img>
+          <img className="tezos" src={tezos}>
+          </img>
+          <p>
+            Made for Tezos by DevsOnly
+          </p>
+        </Footer>
         
       </Box>
     </ThemeProvider>
   );
 };
+
+const Footer = styled.div`
+background: #00000075;
+width: 100%;
+min-height: 20vh;
+display:flex;
+position: Absolute;
+bottom: 0;
+justify-content: space-between;
+flex-wrap: nowrap;
+flex-direction: row;
+align-items: center;
+.logo{
+  width:20%;
+  margin: 0 0 0 60px;
+}
+p{
+  margin: 0 60px 0 0;
+
+}
+@media (max-width: 768px) {
+flex-direction: column;
+.logo{
+  width:45%;
+  margin:20px 0;
+}
+
+}
+`;
 
 const GridWrap = styled.div`
 
@@ -302,13 +363,16 @@ overflow-y: hidden;
 `;
 
 const CardWrap = styled.div`
-  width: 80%;
+  z-index: 2;
+  width: 60%;
   margin: 80px auto;
   background: #ff8139;
   border-radius: 25px;
   color: #000;
 
   @media (max-width: 768px) {
+  width: 80%;
+
     .mainText{
       font-size:1.8rem !important;
       font-weight:700;
@@ -370,19 +434,18 @@ const DoYouKnow = () => {
   );
 };
 
-const DoYouKnoww = () => {
+const HowItWorks = () => {
   const classes = useStyles();
 
   return (
     <div
-      style={{ width: "100%", background: "#000" , marginBottom:"2rem"}}
+      style={{ width: "100%", background: "#000" , marginBottom:"6rem"}}
       className="dyk"
     >
       <div
             className="mainText"
-            style={{ textAlign:"center",fontSize: "5rem",fontWeight:"700", margin: "-3rem 0 2rem 0", zIndex: "1" ,padding:"0 0 0 2rem"}}
+            style={{ textAlign:"center",fontSize: "5rem",fontWeight:"700", margin: "1.5rem 0", zIndex: "1" ,padding:"0 0 0 2rem"}}
           >
-            <br />
             How It Works?
           </div>
      <div
@@ -663,7 +726,6 @@ const FuncWrap = styled.div`
   align-items: stretch;
 
   .wrap {      
-    height:100vh;
     width: 50%;
     display: flex;
     alignI-items: center;
@@ -739,8 +801,8 @@ function LandingPage() {
 
   return (
     <div>
-      <DoYouKnow />
-      <DoYouKnoww />
+      {/* <DoYouKnow /> */}
+      <HowItWorks />
       <Functioning />
       <Work />
     </div>
