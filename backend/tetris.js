@@ -13,6 +13,7 @@ const nft = require("./nft");
  var gamesInSession = [];
  var gameData = {};
  var scores = {};
+ var sockets = {};
 
  const initializeGame = (sio, socket ) => {
    console.log("new socket added" + socket.id);
@@ -21,7 +22,7 @@ const nft = require("./nft");
  
    gamesInSession.push(gameSocket);
  
-   gameSocket.on("disconnect", onDisconnect);
+  //  gameSocket.on("disconnect", onDisconnect);
  
    gameSocket.on("end", end);
  
@@ -70,6 +71,26 @@ const nft = require("./nft");
      sock.join(idData.gameId);
  
      console.log(room.size);
+
+     let opp = undefined;
+
+     Object.keys(sockets).forEach(function (key) {
+      if(sockets[key].gameID === idData.gameId){
+        opp = sockets[key];
+     }
+      });
+
+    //  for(var x of sockets){
+    //    if(x.gameID === idData.gameId){
+    //       opp = x;
+    //    }
+    //  }
+
+     sockets[gameSocket.id] = {gameID : idData.gameId , me : gameSocket.id  ,  opponent : opp.me};
+
+     sockets[opp.me].opponent=gameSocket.id;
+
+     console.log(sockets);
  
      io.sockets.in(idData.gameId).emit("start game");
  
@@ -85,8 +106,10 @@ const nft = require("./nft");
   // Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput
    console.log("createNewGame " + gameId);
    gameData[gameId] = obj;
+   sockets[gameSocket.id] = {gameID : gameId , me : gameSocket.id ,   opponent : undefined};
    this.join(gameId);
    console.log("game data",gameData);
+   console.log(sockets);
  }
  
 //  as game ends kisi ki bi
@@ -99,6 +122,7 @@ const nft = require("./nft");
     // kisi ka nai khatam hua 
     scores[gameId] = {player1 : address , score1 : score};
     console.log(scores);
+    io.to(gameId).emit("p1 ended", score);
    }
    else{
     //  ek ka already khatam hogya
@@ -136,7 +160,41 @@ const nft = require("./nft");
  
 
 
- function onDisconnect() {
+ function onDisconnect(gameSocket) {
+   console.log(`person disconnect ${gameSocket.id}`); 
+
+  //  console.log(io.id);
+   console.log(gameSocket);
+
+  //  get socket se game room ka data ANIKET
+    if(sockets[gameSocket.id] === undefined){
+      // do nothing let them leave
+    }
+    else {
+
+      let me = sockets[gameSocket.id];
+
+      if(me.opponent === undefined){
+        // yani opponent nahi mila aur mai bi chla gya
+      }
+      else{
+        // call end of the one user
+        // room = io.sockets.adapter.rooms.get(me.gameId)
+
+        end(me.gameID , "User Disconnected" , 0);
+      }
+    
+    }
+
+
+    // console.log(room);
+
+    console.log(sockets);
+
+    delete sockets[gameSocket.id];
+
+    console.log(sockets);
+
    var i = gamesInSession.indexOf(gameSocket);
    gamesInSession.splice(i, 1);
  }
@@ -183,5 +241,6 @@ const reportWinner = async (
     };
   }
 };
- 
- exports.initializeGame = initializeGame;
+
+
+ module.exports = {initializeGame , onDisconnect};
