@@ -33,6 +33,8 @@ const socket = require("../api/socket").socket;
 
 
 const Tetris = () => {
+
+  const [pScore, setpScore] = useState(Number.MAX_SAFE_INTEGER)
   const { gameOver, setGameOver, gameIdInput} = useContext(manageFunc);
   const [dropTime, setDropTime] = useState(null);
 
@@ -102,9 +104,24 @@ const Tetris = () => {
   },[setGameOver]);
 
   useEffect(()=>{
+    socket.on("p1 ended", (s) => {
+    console.log("P1 ended score",s);
+    setpScore(parseInt(s));
+    });
+  },[])
+
+  useEffect(()=>{
+    if (score >= pScore){
+      setOpenDialog(true);
+        setGameOver(true);
+        setDropTime(null);
+    }
+  },[score]);
+
+  useEffect(()=>{
     if(gameOver){
       socket.emit("end", gameIdInput , address, score);
-      console.log("emit done");
+      console.log("gameover emit done");
     }
   },[gameOver]);
 

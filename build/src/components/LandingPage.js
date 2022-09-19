@@ -569,7 +569,6 @@ const Functioning = () => {
                 height: "320px",
                 position: "relative",
                 right: "5rem",
-
                 top: "22rem",
               }}
             />
@@ -586,10 +585,10 @@ const Functioning = () => {
               justifyContent: "center",
             }}
           >
-            <span className="explainMain" style={{ fontSize: "5rem" }}>
+            <span className="explainMain" style={{ fontSize: "5rem" , fontWeight: "700" }}>
               Play Smart
             </span>
-            <span className="explainMain" style={{ fontSize: "3rem" }}>
+            <span className="explainMain" style={{ fontSize: "3rem" , fontWeight: "700"  }}>
               Make money smartly
             </span>
             <br />
@@ -628,15 +627,15 @@ const Functioning = () => {
             </span>
             <ul>
               <li className="explainDet">
-                • The details of the your opponent.
+                The details of the your opponent.
               </li>
-              <li className="explainDet">• The position that you chose.</li>
-              <li className="explainDet">• No. of staked tokens.</li>
+              <li className="explainDet">The position that you chose.</li>
+              <li className="explainDet">No. of staked tokens.</li>
               <li className="explainDet">
-                • A description box to describe the significance of your NFT.
+                A description box to describe the significance of your NFT.
               </li>
               <li className="explainDet">
-                • You can even choose the color for your NFT.
+                You can even choose the color for your NFT.
               </li>
             </ul>
           </div>
