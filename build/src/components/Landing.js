@@ -33,6 +33,8 @@ const Logo = styled.div `
  margin: 40px 60px 0 0 ;
 
  @media (max-width: 768px) {
+ margin: 40px 10px 0 0 ;
+
    img{
     width:40%;
    }
@@ -78,6 +80,10 @@ button:hover {
   }
   img {
     margin: 20px 10px 0 0 ;
+  }
+  button {
+    margin: 40px 10px 0 0 ;
+
   }
 }  
 `;

@@ -1,5 +1,4 @@
 import React, { useContext, useState , useEffect, useCallback} from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components';
 import bgImage from '../img/landingBg.webp';
 import tezLogo from '../img/tezlogo.png'
@@ -10,22 +9,14 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { createGame ,joinGame} from '../api/operations/teztris';
 import {v4 as uuidv4} from 'uuid';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import {useNavigate} from 'react-router-dom';
-import { ipfsWrapper } from '../api/ipfs';
 import { manageFunc } from '../App';
-import { FetchWalletAPI } from '../api/operations/wallet';
 import Loader from './Loader'
 
 const socket = require("../api/socket").socket;
@@ -154,10 +145,6 @@ const sendConfig = async (token)=>{
     if (create.success === true){
         console.log("inside success")
         setMaskedLoader(false)
-        // OPEN POP UP / LAODING Screen
-        // await delay(80000);
-        // navigate('/app',{replace:true});
-        // Start listening from server for game session
 
 
         socket.emit("createNewGame", tuid , obj);
@@ -168,11 +155,7 @@ const sendConfig = async (token)=>{
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
-  // useEffect(() => {
-  //   if (found === true) {
-  //     navigate('/app', {replace: true});
-  //   }
-  // }, [found]);
+
 const [openJoinGame, setopenJoinGame] = useState(false);
 
 const handleJoinGameClose = () => {
@@ -187,34 +170,7 @@ const handleJoinGameOpen = () => {
 
 }
 let wallet = null;
-const handleWinner = async () => {
-    // We detect loser from server
 
-    const fetch = await FetchWalletAPI();
-    if(fetch.success===true){
-         wallet = fetch.wallet;
-    }
-    // compare both addy and see which is loser 
-    // end both games
-    // show winner = winner and loser = lsoser
-
-    // call on chain function 
-
-    //ipfsWrapper from ipfsWrapper.js to get metadata cid from nft.storage
-        const pinWinner = await ipfsWrapper("wallet","ipfs://bafkreifbftypddbxiovbonhgni7gvdf73dykqdjouijtuldmnncy6z6ly4");
-
-        if (pinWinner.sucess===true){
-            // const mintWinner = await reportWinner("gameid","wallet",pinWinner.metadata);
-            // const mintWinner = await reportWinner("gameid",wallet,pinWinner.metadata);
-
-
-        }
-    // reportWinner( gameID,
-    //     winner,
-    //     metadata)   from teztris.js with reqd params
-
-
-}
 
 const [obj,setObj] = useState({});
 
@@ -340,7 +296,7 @@ const handleJoinGame = async () => {
               obj.amount?<>
             <br />
               <p style={{textAlign:"center", fontSize:"1.5rem"}}>
-               Game bet Amount : {obj.amount} {obj.betTokenType}
+               Game bet Amount : {obj.amount} {obj.betTokenName}
                <br /><br />
                <p style={{textAlign:"center", fontSize:"0.8rem"}}> This tx is irreversible, you'll lose if you quit game.</p>
                <Button variant="outlined" onClick={()=>startGame()}>Start Game</Button>
@@ -438,9 +394,11 @@ const handleJoinGame = async () => {
   
   const Logo = styled.div `
    text-align:right;
-   margin: 40px 20px 0 0 ;
+   margin: 40px 60px 0 0 ;
 
    @media (max-width: 768px) {
+   margin: 40px 10px 0 0 ;
+
     img{
      width:40%;
     }
@@ -511,7 +469,7 @@ const handleJoinGame = async () => {
       font-size: 26px;
     }
     div{
-      margin: 40px 20px 0 0;
+      margin: 40px 10px 0 0;
     }
     h1 {
       margin: 24px 10px 0 0 ;

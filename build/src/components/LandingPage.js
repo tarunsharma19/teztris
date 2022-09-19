@@ -333,6 +333,9 @@ flex-direction: column;
   width:45%;
   margin:20px 0;
 }
+p{
+  margin:20px 0;
+}
 
 }
 `;
@@ -439,7 +442,7 @@ const HowItWorks = () => {
 
   return (
     <div
-      style={{ width: "100%", background: "#000" , marginBottom:"6rem"}}
+      style={{ width: "100%", background: "#000" , marginBottom:"10rem"}}
       className="dyk"
     >
       <div

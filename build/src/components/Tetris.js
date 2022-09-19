@@ -303,7 +303,7 @@ const handleDialogClose = () => {
                     width={300}
                     />
                     <br /> 
-                    <p style={{textAlign:"center",fontSize:"0.9rem"}}>You will recieve the winning amount soon.</p>
+                    <p style={{textAlign:"center",fontSize:"0.9rem"}}>You will recieve the winning amount  and a Reward NFT soon.</p>
                     <br />
                      <Button variant="outlined" onClick={()=>playAgain()}>Play Again</Button>
 
