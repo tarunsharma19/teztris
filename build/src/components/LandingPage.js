@@ -13,7 +13,8 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
-import tezTris from '../img/tezTris.png'
+import tezTris from '../img/tezTris.png';
+import background from '../img/background.png';
 
 import tezos from '../img/tezos.svg';
 
@@ -27,13 +28,7 @@ import emojiBlast from "../img/emojiBlast.png";
 import styled, { keyframes } from "styled-components";
 import tetrisFull from "../img/tetrisFull.webp";
 import scrollreveal from "scrollreveal";
-
-// window.setTimeout(() => {
-//   const home = document.getElementsByClassName("home");
-//   home[0].style.transform = "none";
-//   const nav = document.getElementsByTagName("nav");
-//   nav[0].style.transform = "none";
-// }, 1500);
+import {ParallaxProvider , Parallax } from 'react-scroll-parallax';
 
 const theme = createTheme({
   typography: {
@@ -237,15 +232,15 @@ const Work = () => {
     <ThemeProvider theme={theme} >
       <Box
         sx={{
-          bgcolor: "rgb(25, 28, 32)",
+          
           height: 800,
           paddingTop: "6rem",
           position: "relative",
         }}
-        className="zindex work"
+        className="zindex"
       >
         
-        <img
+        {/* <img
           alt="circles"
           className="zindex-img"
           src={tetrisFull}
@@ -257,7 +252,7 @@ const Work = () => {
             height: "100%",
             width: "100%",
           }}
-        />
+        /> */}
         <CardWrap>
      <div
         style={{
@@ -346,6 +341,9 @@ width: 100%;
 overflow-x: auto;
 overflow-y: hidden;
 
+&::-webkit-scrollbar{
+ display: none;
+}
 .MuiGrid-container {
   width: fit-content;
   flex-wrap : nowrap;
@@ -442,12 +440,12 @@ const HowItWorks = () => {
 
   return (
     <div
-      style={{ width: "100%", background: "#000" , marginBottom:"10rem"}}
+      style={{ width: "100%", marginBottom:"10rem"}}
       className="dyk"
     >
       <div
             className="mainText"
-            style={{ textAlign:"center",fontSize: "5rem",fontWeight:"700", margin: "1.5rem 0", zIndex: "1" ,padding:"0 0 0 2rem"}}
+            style={{ textAlign:"center",fontSize: "5rem",fontWeight:"700", margin: "0 0 2rem 0", zIndex: "1" ,padding:"2rem 0 0 2rem"}}
           >
             How It Works?
           </div>
@@ -527,7 +525,7 @@ const Floater = styled.div`
 const Functioning = () => {
   return (
     <>
-      <div className="home-bg func" style={{background:"#000"}}>
+      <div className="home-bg func" >
         <FuncWrap
         >
           <div className="wrap"
@@ -803,10 +801,16 @@ function LandingPage() {
 
   return (
     <div>
-      {/* <DoYouKnow /> */}
+      <ParallaxProvider>
+      <Parallax style={{ background: `url(${background})` , objectFit:"cover" }}>
+
       <HowItWorks />
       <Functioning />
       <Work />
+
+      </Parallax>
+      </ParallaxProvider>
+      
     </div>
   );
 }
