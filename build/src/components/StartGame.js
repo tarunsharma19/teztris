@@ -13,7 +13,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { createGame ,joinGame} from '../api/operations/teztris';
+import { createGame ,joinGame, removeGame} from '../api/operations/teztris';
 import {v4 as uuidv4} from 'uuid';
 import {useNavigate} from 'react-router-dom';
 import { manageFunc } from '../App';
@@ -228,6 +228,17 @@ const handleJoinGame = async () => {
   setEmitflag(true);
 }
 
+const cancelGame = async () => {
+  setGameIdInput("Cancelling Game! wait..");
+  const remove = await removeGame(gameIdInput);
+  if (remove.success === true){
+    socket.emit("removeGame", gameIdInput);
+    setOpenDialog(false);
+    setGameIdInput("");
+    console.log("cancel game emit done");
+  }
+}
+
 
     return (
       <>
@@ -262,6 +273,8 @@ const handleJoinGame = async () => {
                <br /><br />
                <p style={{textAlign:"center", fontSize:"0.8rem"}}> Waiting for other player to join</p>
                <Loader />
+               <br />
+               <Button variant="outlined" onClick={()=>cancelGame()}>Cancel Game</Button>
               </>:<>
               </>
             }
@@ -406,6 +419,7 @@ const handleJoinGame = async () => {
   
 
   const ModalWrapper = styled.div `
+  text-align: center;
   svg{
     color:#ffffff;
   }

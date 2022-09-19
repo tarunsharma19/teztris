@@ -230,7 +230,7 @@ export const createGame = async (
 
     try{
     
-      const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+      const WALLET_RESP = await CheckIfWalletConnected(wallet);
       if (!WALLET_RESP.success) {
         throw new Error('Wallet connection failed');
       }
