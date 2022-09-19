@@ -234,7 +234,6 @@ const Work = () => {
         sx={{
           
           height: 800,
-          paddingTop: "6rem",
           position: "relative",
         }}
         className="zindex"
@@ -264,7 +263,7 @@ const Work = () => {
           alignItems: "center",
         }}
       >
-        <span className="mainText" style={{ fontSize: "3rem" }}>
+        <span className="mainText" style={{ fontSize: "3rem" , fontWeight: "700" }}>
           Do You Know?
         </span>
         <img
@@ -423,7 +422,7 @@ const DoYouKnow = () => {
           style={{
             fontSize: "2.5rem",
             fontWeight: "400",
-            padding: "2rem 10rem",
+            padding: "1rem 10rem",
             textAlign: "center",
           }}
         >
