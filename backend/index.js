@@ -152,7 +152,7 @@ io.sockets.on("connection", (socket) => {
          // yani opponent nahi mila aur mai bi chla gya
         //  ya opponent chod dia phle hi
        }
-       else if(gameData[me.gameID]){
+       else if(gameData[me.gameID] && (scores[me.gameID] === undefined)){
           // they leave the forfeit 
           // make opponent undefined
         sockets[me.opponent].opponent=undefined;
@@ -312,4 +312,3 @@ function Queue()
   return this.stac.length;
 }
 }
-
