@@ -128,12 +128,20 @@ io.sockets.on("connection", (socket) => {
 
   socket.on("disconnect" , onDisconnect);
 
+  socket.on("removeGame" , removeGame);
+
   // socket.on("disconnect", () => {
   //   console.log("someone disconnected");
   //   console.log(socket.id);
   //   // tetris.onDisconnect(socket);
   //   // tetris.initializeGame(io, socket);
   // });
+
+  function removeGame(gameId) {
+    console.log(`removing game : ${gameId}`);
+
+    delete gameData[gameId];
+  }
 
   function onDisconnect() {
     console.log(`person disconnect ${socket.id}`); 

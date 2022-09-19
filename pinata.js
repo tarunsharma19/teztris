@@ -14,8 +14,8 @@ const jsonToPinata = async (json) =>  {
             url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
             headers: { 
               'Content-Type': 'application/json', 
-              pinata_api_key: 'c98008ccad0a8398468f',
-              pinata_secret_api_key: 'b925e8a94f1aa1dbb8bd85a376ac527847daa4d3bd3a37aaa2e84e83c905d19e',
+              pinata_api_key: 'b3498a79e38ad9976889',
+              pinata_secret_api_key: '9a2f2023676072c70f96288aed2ada6ef8a676331362e308e02882521286e09f',
             },
             data : data
           };
@@ -53,8 +53,8 @@ const sendFileToIPFS = async () => {
                 url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
                 data: formData,
                 headers: {
-                    pinata_api_key: 'c98008ccad0a8398468f',
-                    pinata_secret_api_key: 'b925e8a94f1aa1dbb8bd85a376ac527847daa4d3bd3a37aaa2e84e83c905d19e',
+                    pinata_api_key: 'b3498a79e38ad9976889',
+                    pinata_secret_api_key: '9a2f2023676072c70f96288aed2ada6ef8a676331362e308e02882521286e09f',
                     "Content-Type": "multipart/form-data"
                 },
             });
