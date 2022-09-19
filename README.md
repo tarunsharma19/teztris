@@ -8,7 +8,7 @@ The first video game to make it into space, is now on Tezos.
 Application is in Ghostnet right now ! To get the Ctez and USDT.e that we use drop us an email at ```contact@teztris.xyz``` or create an issue.
 
 
-## Demo : TBD
+## Demo : https://youtu.be/QKdMILSf3mo
 
 
 
