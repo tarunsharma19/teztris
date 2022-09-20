@@ -90,8 +90,6 @@ async function end(gameId , address , score) {
  }
 
 const handleQueue = ()=>{
-  console.log("checking queue");
-
   if(Q.size() > 0){
         console.log("some object is found in queue" , Q.size());
         // run this function every second when queue is not empty
