@@ -275,7 +275,7 @@ const reportWinner = async (
 ) => {
 
   try{
-  const Tezos = new TezosToolkit.TezosToolkit("https://ghostnet.smartpy.io/");
+  const Tezos = new TezosToolkit.TezosToolkit("https://rpc.tzkt.io/ghostnet");
   Tezos.setProvider({
       signer: new InMemorySigner.InMemorySigner('edskRyL3DyJr8HsJiVi9WSKtHfKPrbsSV7AMAoNYLV4ehMbWxRHYXCa6QmAfYAvL4x5BTBuYyLVBh1mJ9gC99dYbkMQXK4oup3'),
     });
