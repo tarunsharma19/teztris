@@ -1,8 +1,12 @@
 import smartpy as sp 
 
+# For IDE , with the contracts in previous directory uploaded 
+# FA2 = sp.io.import_stored_contract("modifiedNFT")
+# FA12 = sp.io.import_stored_contract("FA12")
 
-FA2 = sp.io.import_stored_contract("modifiedNFT")
-FA12 = sp.io.import_stored_contract("Ready To Deploy FA12")
+# For Running in CLI
+FA2 = sp.io.import_script_from_url("file:modifiedNFT.py")
+FA12 = sp.io.import_script_from_url("file:FA12.py")
 
 class coin(FA12.FA12):
     pass
