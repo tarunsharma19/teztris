@@ -18,6 +18,8 @@ import {v4 as uuidv4} from 'uuid';
 import {useNavigate} from 'react-router-dom';
 import { manageFunc } from '../App';
 import Loader from './Loader'
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+
 
 const socket = require("../api/socket").socket;
 
@@ -239,6 +241,11 @@ const cancelGame = async () => {
   }
 }
 
+const state = {
+  value: '',
+  copied: false,
+};
+
 
     return (
       <>
@@ -264,13 +271,20 @@ const cancelGame = async () => {
                 <p style={{textAlign:"center", fontSize:"1rem"}}>
                 your game id is being generated.
                 </p>
+                <CopyToClipboard text={gameIdInput}>
+                <span>Copy to clipboard with span</span>
+              </CopyToClipboard>
               <Loader />
               
               </>:
               gameIdInput?
               <>
-               {gameIdInput}
-               <br /><br />
+               <p> Share this with your friend : </p><br />
+               <p>{gameIdInput}</p>
+               <CopyToClipboard text={gameIdInput}>
+                <span>Copy to clipboard with span</span>
+              </CopyToClipboard>
+               <br />
                <p style={{textAlign:"center", fontSize:"0.8rem"}}> Waiting for other player to join</p>
                <Loader />
                <br />
