@@ -19,6 +19,10 @@ import {useNavigate} from 'react-router-dom';
 import { manageFunc } from '../App';
 import Loader from './Loader'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import copyIcon from '../img/copy.png'
+// import { ToastContainer, toast } from 'react-toastify';
+
+// import 'react-toastify/dist/ReactToastify.css';
 
 
 const socket = require("../api/socket").socket;
@@ -241,11 +245,6 @@ const cancelGame = async () => {
   }
 }
 
-const state = {
-  value: '',
-  copied: false,
-};
-
 
     return (
       <>
@@ -271,19 +270,34 @@ const state = {
                 <p style={{textAlign:"center", fontSize:"1rem"}}>
                 your game id is being generated.
                 </p>
-                <CopyToClipboard text={gameIdInput}>
-                <span>Copy to clipboard with span</span>
+                <p className='gameIdText'>
+                
+               <CopyToClipboard text={gameIdInput}>
+                <>
+                {gameIdInput}
+                <span>
+                <img style={{width:"18px"}} src={"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAABtElEQVRoge2ZMW4TQRSG/wdIoYHKxIpwiOEA3IJcICnIFcIBwg0QHIAkyg3Shx6BTJ0+RWwnSFaquEkRo4+CdTJG8u7sjNe7iPmaXc28ee//Z3ammJUSicT/C9AFDoEhMCGOSZbnAOguQ/wmMI4UPY8x8MZHhwWKfynpVNKTkPGejCW9NrN+XtCDwOTvVa14SXqa1ckldAWGkjohY0syMLONvACvFQBawLHTtBYly5/nRQGPigKAtqSepFdO88MIUWUorOOzAh80K75RFO4B4EpSS5LMzLI2KtZ1x7Tm3P6iBK7YJhoIPUYbQzJQN8lA3SQDdZMM1E0yUDfJQN0kA3WTDNRNqIFfC1URUcfHwF0SYHpL8DNUUUkuigJ8DIyc93b2/BIkpzzxdYBvzqXr26ytW+HF7pRr4EWRPp8VOHHe30mSmZ1L2tKfC9gqGEvaNrNBdCZgHbhxZmbX6dsA9oE+i/k/0Ac++8x8WROfnEK3rol/AuAx8OOvGfsO7AAd7k+n5gKsAr3IzySP42IV8SZWgI/M7olFcAa0KjfgGFkH9oCvwCXhG3gEHAHPliY+kUg0i9/PcBkk1bxVFwAAAABJRU5ErkJggg=="} ></img>
+                </span>
+                </>
               </CopyToClipboard>
+               </p>
+    
               <Loader />
               
               </>:
               gameIdInput?
               <>
-               <p> Share this with your friend : </p><br />
-               <p>{gameIdInput}</p>
+               <p> Share this with your friend : </p>
+               <p className='gameIdText'>
                <CopyToClipboard text={gameIdInput}>
-                <span>Copy to clipboard with span</span>
+                <>
+                {gameIdInput}
+                <span>
+                <img style={{width:"18px"}} src={"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAABtElEQVRoge2ZMW4TQRSG/wdIoYHKxIpwiOEA3IJcICnIFcIBwg0QHIAkyg3Shx6BTJ0+RWwnSFaquEkRo4+CdTJG8u7sjNe7iPmaXc28ee//Z3ammJUSicT/C9AFDoEhMCGOSZbnAOguQ/wmMI4UPY8x8MZHhwWKfynpVNKTkPGejCW9NrN+XtCDwOTvVa14SXqa1ckldAWGkjohY0syMLONvACvFQBawLHTtBYly5/nRQGPigKAtqSepFdO88MIUWUorOOzAh80K75RFO4B4EpSS5LMzLI2KtZ1x7Tm3P6iBK7YJhoIPUYbQzJQN8lA3SQDdZMM1E0yUDfJQN0kA3WTDNRNqIFfC1URUcfHwF0SYHpL8DNUUUkuigJ8DIyc93b2/BIkpzzxdYBvzqXr26ytW+HF7pRr4EWRPp8VOHHe30mSmZ1L2tKfC9gqGEvaNrNBdCZgHbhxZmbX6dsA9oE+i/k/0Ac++8x8WROfnEK3rol/AuAx8OOvGfsO7AAd7k+n5gKsAr3IzySP42IV8SZWgI/M7olFcAa0KjfgGFkH9oCvwCXhG3gEHAHPliY+kUg0i9/PcBkk1bxVFwAAAABJRU5ErkJggg=="} ></img>
+                </span>
+                </>
               </CopyToClipboard>
+               </p>
                <br />
                <p style={{textAlign:"center", fontSize:"0.8rem"}}> Waiting for other player to join</p>
                <Loader />
@@ -446,6 +460,9 @@ const state = {
   }
   #demo-simple-select-filled{
     color:#ffffff;
+  }
+  .gameIdText:hover{
+    cursor: Pointer;
   }
   .css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:hover:not(.Mui-disabled):before {
     border-bottom: 1px solid white;
