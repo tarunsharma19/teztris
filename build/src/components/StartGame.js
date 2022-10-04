@@ -28,223 +28,227 @@ import copyIcon from '../img/copy.png'
 const socket = require("../api/socket").socket;
 
 export default function Landing() {
-const [open, setOpen] = React.useState(false);
-const [token, setToken] = React.useState(0);
-const [amount, setAmount] = React.useState(0);
-const handleOpen = () => setOpen(true);
-const handleClose = () => setOpen(false);
-const navigate = useNavigate();
-
-const {gameOver,gameIdInput, setGameIdInput} = useContext(manageFunc);
-
-const handleTokenChange = (event) => {
+  const [open, setOpen] = React.useState(false);
+  const [token, setToken] = React.useState(0);
+  const [amount, setAmount] = React.useState(0);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
+  
+  const {gameIdInput, setGameIdInput } = useContext(manageFunc);
+  
+  const handleTokenChange = (event) => {
     setToken(event.target.value);
-};
-const handleAmountChange = (event) => {
-    setAmount(event.target.value);
-};
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  maxWidth: "80%",
-  color: "#fff !important",
-  bgcolor: '#001e3c',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-  borderRadius: '25px',
-};
-const styleDialog = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  color: "#fff !important",
-  bgcolor: '#001e3c',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-  borderRadius: '25px',
-};
-const [found, setFound] = useState(false);
-useEffect(() => {
-  socket.on("status", (status) => {
-    alert(status);
-  });
-  socket.once("match found", () => {
-    setFound(true);
-  });
-  return () => {
-    socket.off("status", () => {});
-    socket.off("match found", () => {});
   };
-}, []);
-const handleGameIdInput = (event) => {
+  const handleAmountChange = (event) => {
+    setAmount(event.target.value);
+  };
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    maxWidth: "80%",
+    color: "#fff !important",
+    bgcolor: "#001e3c",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "25px",
+  };
+
+  useEffect(() => {
+    socket.on("status", (status) => {
+      alert(status);
+    });
+  }, []);
+  const handleGameIdInput = (event) => {
     setGameIdInput(event.target.value);
   };
-
+  
   const ctez = {
-    betToken : "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",
+    betToken: "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",
     betTokenId: 0,
-    betTokenType : "FA1.2",
-    betTokenDecimal : 6,
-}
- const usdt = {
-    betToken : "KT1Uw1oio434UoWFuZTNKFgt5wTM9tfuf7m7",
+    betTokenType: "FA1.2",
+    betTokenDecimal: 6,
+  };
+  const usdt = {
+    betToken: "KT1Uw1oio434UoWFuZTNKFgt5wTM9tfuf7m7",
     betTokenId: 3,
-    betTokenType : "FA2",
-    betTokenDecimal : 6,
-}
-
- const tez = {
-    betToken : "KT1Uw1oio434UoWFuZTNKFgt5wTM9tfuf7m7",
+    betTokenType: "FA2",
+    betTokenDecimal: 6,
+  };
+  
+  const tez = {
+    betToken: "KT1Uw1oio434UoWFuZTNKFgt5wTM9tfuf7m7",
     betTokenId: 0,
-    betTokenType : "tez",
-    betTokenDecimal : 6,
-}
-
-
-const [openDialog, setOpenDialog] = useState(false);
-const [uid, setuid] = useState(null);
-const [maskedLoader,setMaskedLoader] = useState(false);
-console.log(maskedLoader,openDialog)
-
-const sendConfig = async (token)=>{
-    handleClose()
+    betTokenType: "tez",
+    betTokenDecimal: 6,
+  };
+  
+  const [openDialog, setOpenDialog] = useState(false);
+  const [uid, setuid] = useState(null);
+  const [maskedLoader, setMaskedLoader] = useState(false);
+  console.log(maskedLoader, openDialog);
+  
+  const sendConfig = async (token) => {
+    handleClose();
     setMaskedLoader(true);
     setOpenDialog(true);
-    console.log(maskedLoader,openDialog)
-
-    
-    let tuid = uuidv4()
+    console.log(maskedLoader, openDialog);
+  
+    let tuid = uuidv4();
     setuid(tuid);
-    console.log(token,uid,tuid);
+    console.log(token, uid, tuid);
     setGameIdInput(tuid);
     let create;
-    let obj={};
-    if (token ===1){
-
-         create = await createGame(Number(amount),tez.betToken,tez.betTokenId,tez.betTokenType,tez.betTokenDecimal,tuid);
-         obj = {amount : amount , betToken : tez.betToken , betTokenType : tez.betTokenType , betTokenId : tez.betTokenId , betTokenName : "XTZ"};
-        
+    let obj = {};
+    if (token === 1) {
+      create = await createGame(
+        Number(amount),
+        tez.betToken,
+        tez.betTokenId,
+        tez.betTokenType,
+        tez.betTokenDecimal,
+        tuid
+      );
+      obj = {
+        amount: amount,
+        betToken: tez.betToken,
+        betTokenType: tez.betTokenType,
+        betTokenId: tez.betTokenId,
+        betTokenName: "XTZ",
+      };
+    } else if (token === 2) {
+      create = await createGame(
+        Number(amount),
+        usdt.betToken,
+        usdt.betTokenId,
+        usdt.betTokenType,
+        usdt.betTokenDecimal,
+        tuid
+      );
+      obj = {
+        amount: amount,
+        betToken: usdt.betToken,
+        betTokenType: usdt.betTokenType,
+        betTokenId: usdt.betTokenId,
+        betTokenName: "USDt",
+      };
+    } else if (token === 3) {
+      create = await createGame(
+        Number(amount),
+        ctez.betToken,
+        ctez.betTokenId,
+        ctez.betTokenType,
+        ctez.betTokenDecimal,
+        tuid
+      );
+      obj = {
+        amount: amount,
+        betToken: ctez.betToken,
+        betTokenType: ctez.betTokenType,
+        betTokenId: ctez.betTokenId,
+        betTokenName: "ctez",
+      };
+    } else {
+      setuid(null);
+      console.log(typeof token, token, token.value);
     }
-    else if (token ===2){
-         create = await createGame(Number(amount),usdt.betToken,usdt.betTokenId,usdt.betTokenType,usdt.betTokenDecimal,tuid);
-         obj = {amount : amount , betToken : usdt.betToken , betTokenType : usdt.betTokenType , betTokenId : usdt.betTokenId , betTokenName : "USDt"};
-
-    }
-    else if (token ===3){
-         create = await createGame(Number(amount),ctez.betToken,ctez.betTokenId,ctez.betTokenType,ctez.betTokenDecimal,tuid);
-         obj = {amount : amount , betToken : ctez.betToken , betTokenType : ctez.betTokenType , betTokenId : ctez.betTokenId , betTokenName : "ctez"};
-
-    }
-    else{
-        setuid(null);
-        console.log(typeof(token),token,token.value);
-    }
-
+  
     console.log(create);
-    if (create.success === true){
-        console.log("inside success")
-        setMaskedLoader(false)
-
-
-        socket.emit("createNewGame", tuid , obj);
+    if (create.success === true) {
+      console.log("inside success");
+      setMaskedLoader(false);
+  
+      socket.emit("createNewGame", tuid, obj);
     }
-
-}
+  };
   console.log(uid);
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
-
-const [openJoinGame, setopenJoinGame] = useState(false);
-
-const handleJoinGameClose = () => {
+  
+  const [openJoinGame, setopenJoinGame] = useState(false);
+  
+  const handleJoinGameClose = () => {
     setopenJoinGame(false);
   };
-
-
-
-const handleJoinGameOpen = () => {
+  
+  const handleJoinGameOpen = () => {
     setopenJoinGame(true);
     handleJoinGame();
-
-}
-let wallet = null;
-
-
-const [obj,setObj] = useState({});
-
-useEffect(()=>{
-  if (emitFlag){
-    console.log("finding match")
-    socket.once("match found", (e) => {
-      console.log("inside game id",e);
-      if (e!={}){
-        setObj(e);
-      }
+  };
+  let wallet = null;
+  
+  const [obj, setObj] = useState({});
+  
+  useEffect(() => {
+    if (emitFlag) {
+      console.log("finding match");
+      socket.once("match found", (e) => {
+        console.log("inside game id", e);
+        if (e != {}) {
+          setObj(e);
+        }
+      });
+    }
   });
-  }
-});
-
-console.log(obj, "obj outside")
-
-const [game,setGame]= useState({});
-
-console.log('game', game);
-
-// useEffect(()=>{
-//   if(obj.amount){
-//     joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput).then((game)=> setGame(game));
-//   }
-// },[obj])
-const [startFlag, setStartFlag]= useState(false);
-
-const startGame = async() => {
-  setStartFlag(true);
-  joinGame(Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput).then((game)=> setGame(game));
-};
-
-useEffect(()=>{
-  if(game.success){
-    socket.emit("playerJoinsGame", {
-      gameId: gameIdInput,
+  
+  console.log(obj, "obj outside");
+  
+  const [game, setGame] = useState({});
+  
+  console.log("game", game);
+  
+  const [startFlag, setStartFlag] = useState(false);
+  
+  const startGame = async () => {
+    setStartFlag(true);
+    joinGame(
+      Number(obj.amount),
+      obj.betToken,
+      obj.betTokenId,
+      obj.betTokenType,
+      6,
+      gameIdInput
+    ).then((game) => setGame(game));
+  };
+  
+  useEffect(() => {
+    if (game.success) {
+      socket.emit("playerJoinsGame", {
+        gameId: gameIdInput,
+      });
+    }
+  }, [game]);
+  
+  useEffect(() => {
+    socket.once("start game", () => {
+      navigate("/app", { replace: true });
     });
-    
-  }
-},[game])
-
-useEffect(()=>{
-  socket.once("start game",() => {
-    navigate('/app', {replace: true});
   });
-})
-
-const [emitFlag, setEmitflag] = useState(false);
-
-
-const handleJoinGame = async () => {
-  socket.emit("wantsToJoin", gameIdInput);
-  console.log("emit done",gameIdInput );
-  setEmitflag(true);
-}
-
-const cancelGame = async () => {
-  setGameIdInput("Cancelling Game! wait..");
-  const remove = await removeGame(gameIdInput);
-  if (remove.success === true){
-    socket.emit("removeGame", gameIdInput);
-    setOpenDialog(false);
-    setGameIdInput("");
-    console.log("cancel game emit done");
-  }
-}
-
+  
+  const [emitFlag, setEmitflag] = useState(false);
+  
+  const handleJoinGame = async () => {
+    socket.emit("wantsToJoin", gameIdInput);
+    console.log("emit done", gameIdInput);
+    setEmitflag(true);
+  };
+  
+  const cancelGame = async () => {
+    setGameIdInput("Cancelling Game! wait..");
+    const remove = await removeGame(gameIdInput);
+    if (remove.success === true) {
+      socket.emit("removeGame", gameIdInput);
+      setOpenDialog(false);
+      setGameIdInput("");
+      console.log("cancel game emit done");
+    }
+  };
+  
 
     return (
       <>
