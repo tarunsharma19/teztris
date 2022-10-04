@@ -31,9 +31,24 @@ export default function Landing() {
   const [open, setOpen] = React.useState(false);
   const [token, setToken] = React.useState(0);
   const [amount, setAmount] = React.useState(0);
+  const [openJoinGame, setopenJoinGame] = useState(false);
+
+  
+  const [openDialog, setOpenDialog] = useState(false);
+  const [uid, setuid] = useState(null);
+  const [maskedLoader, setMaskedLoader] = useState(false);
+
+
+  const [game, setGame] = useState({});
+  const [startFlag, setStartFlag] = useState(false);
+  const [obj, setObj] = useState({});
+  const [emitFlag, setEmitflag] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
+
+
   
   const {gameIdInput, setGameIdInput } = useContext(manageFunc);
   
@@ -63,6 +78,34 @@ export default function Landing() {
       alert(status);
     });
   }, []);
+
+  useEffect(() => {
+    if (emitFlag) {
+      // console.log("finding match");
+      socket.once("match found", (e) => {
+        // console.log("inside game id", e);
+        if (e != {}) {
+          setObj(e);
+        }
+      });
+    }
+  });
+  
+  useEffect(() => {
+    if (game.success) {
+      socket.emit("playerJoinsGame", {
+        gameId: gameIdInput,
+      });
+    }
+  }, [game]);
+  
+  useEffect(() => {
+    socket.once("start game", () => {
+      navigate("/app", { replace: true });
+    });
+  });
+  
+
   const handleGameIdInput = (event) => {
     setGameIdInput(event.target.value);
   };
@@ -87,20 +130,17 @@ export default function Landing() {
     betTokenDecimal: 6,
   };
   
-  const [openDialog, setOpenDialog] = useState(false);
-  const [uid, setuid] = useState(null);
-  const [maskedLoader, setMaskedLoader] = useState(false);
-  console.log(maskedLoader, openDialog);
+  // console.log(maskedLoader, openDialog);
   
   const sendConfig = async (token) => {
     handleClose();
     setMaskedLoader(true);
     setOpenDialog(true);
-    console.log(maskedLoader, openDialog);
+    // console.log(maskedLoader, openDialog);
   
     let tuid = uuidv4();
     setuid(tuid);
-    console.log(token, uid, tuid);
+    // console.log(token, uid, tuid);
     setGameIdInput(tuid);
     let create;
     let obj = {};
@@ -154,23 +194,22 @@ export default function Landing() {
       };
     } else {
       setuid(null);
-      console.log(typeof token, token, token.value);
+      // console.log(typeof token, token, token.value);
     }
   
-    console.log(create);
+    // console.log(create);
     if (create.success === true) {
-      console.log("inside success");
+      // console.log("inside success");
       setMaskedLoader(false);
   
       socket.emit("createNewGame", tuid, obj);
     }
   };
-  console.log(uid);
+  // console.log(uid);
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
   
-  const [openJoinGame, setopenJoinGame] = useState(false);
   
   const handleJoinGameClose = () => {
     setopenJoinGame(false);
@@ -180,29 +219,13 @@ export default function Landing() {
     setopenJoinGame(true);
     handleJoinGame();
   };
-  let wallet = null;
   
-  const [obj, setObj] = useState({});
   
-  useEffect(() => {
-    if (emitFlag) {
-      console.log("finding match");
-      socket.once("match found", (e) => {
-        console.log("inside game id", e);
-        if (e != {}) {
-          setObj(e);
-        }
-      });
-    }
-  });
+
   
-  console.log(obj, "obj outside");
+  // console.log(obj, "obj outside");
+  // console.log("game", game);
   
-  const [game, setGame] = useState({});
-  
-  console.log("game", game);
-  
-  const [startFlag, setStartFlag] = useState(false);
   
   const startGame = async () => {
     setStartFlag(true);
@@ -216,25 +239,10 @@ export default function Landing() {
     ).then((game) => setGame(game));
   };
   
-  useEffect(() => {
-    if (game.success) {
-      socket.emit("playerJoinsGame", {
-        gameId: gameIdInput,
-      });
-    }
-  }, [game]);
-  
-  useEffect(() => {
-    socket.once("start game", () => {
-      navigate("/app", { replace: true });
-    });
-  });
-  
-  const [emitFlag, setEmitflag] = useState(false);
   
   const handleJoinGame = async () => {
     socket.emit("wantsToJoin", gameIdInput);
-    console.log("emit done", gameIdInput);
+    // console.log("emit done", gameIdInput);
     setEmitflag(true);
   };
   
@@ -245,7 +253,7 @@ export default function Landing() {
       socket.emit("removeGame", gameIdInput);
       setOpenDialog(false);
       setGameIdInput("");
-      console.log("cancel game emit done");
+      // console.log("cancel game emit done");
     }
   };
   
