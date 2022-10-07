@@ -282,17 +282,6 @@ export default function Landing() {
                 <p style={{textAlign:"center", fontSize:"1rem"}}>
                 your game id is being generated.
                 </p>
-                <p className='gameIdText'>
-                
-               <CopyToClipboard text={gameIdInput}>
-                <>
-                {gameIdInput}
-                <span>
-                <img style={{width:"18px"}} src={"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAABtElEQVRoge2ZMW4TQRSG/wdIoYHKxIpwiOEA3IJcICnIFcIBwg0QHIAkyg3Shx6BTJ0+RWwnSFaquEkRo4+CdTJG8u7sjNe7iPmaXc28ee//Z3ammJUSicT/C9AFDoEhMCGOSZbnAOguQ/wmMI4UPY8x8MZHhwWKfynpVNKTkPGejCW9NrN+XtCDwOTvVa14SXqa1ckldAWGkjohY0syMLONvACvFQBawLHTtBYly5/nRQGPigKAtqSepFdO88MIUWUorOOzAh80K75RFO4B4EpSS5LMzLI2KtZ1x7Tm3P6iBK7YJhoIPUYbQzJQN8lA3SQDdZMM1E0yUDfJQN0kA3WTDNRNqIFfC1URUcfHwF0SYHpL8DNUUUkuigJ8DIyc93b2/BIkpzzxdYBvzqXr26ytW+HF7pRr4EWRPp8VOHHe30mSmZ1L2tKfC9gqGEvaNrNBdCZgHbhxZmbX6dsA9oE+i/k/0Ac++8x8WROfnEK3rol/AuAx8OOvGfsO7AAd7k+n5gKsAr3IzySP42IV8SZWgI/M7olFcAa0KjfgGFkH9oCvwCXhG3gEHAHPliY+kUg0i9/PcBkk1bxVFwAAAABJRU5ErkJggg=="} ></img>
-                </span>
-                </>
-              </CopyToClipboard>
-               </p>
     
               <Loader />
               
