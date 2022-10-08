@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import bgImage from '../img/landingBg.webp';
 import tezLogo from '../img/tezlogo.png'
 import tezTris from '../img/tezTris.png'
-import { Input, TextField } from '@mui/material';
+import {TextField } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -12,17 +12,13 @@ import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select  from '@mui/material/Select';
 import { createGame ,joinGame, removeGame} from '../api/operations/teztris';
 import {v4 as uuidv4} from 'uuid';
 import {useNavigate} from 'react-router-dom';
 import { manageFunc } from '../App';
 import Loader from './Loader'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import copyIcon from '../img/copy.png'
-// import { ToastContainer, toast } from 'react-toastify';
-
-// import 'react-toastify/dist/ReactToastify.css';
 
 
 const socket = require("../api/socket").socket;
@@ -32,32 +28,26 @@ export default function Landing() {
   const [token, setToken] = React.useState(0);
   const [amount, setAmount] = React.useState(0);
   const [openJoinGame, setopenJoinGame] = useState(false);
-
-  
   const [openDialog, setOpenDialog] = useState(false);
-  const [uid, setuid] = useState(null);
   const [maskedLoader, setMaskedLoader] = useState(false);
-
-
   const [game, setGame] = useState({});
   const [startFlag, setStartFlag] = useState(false);
   const [obj, setObj] = useState({});
   const [emitFlag, setEmitflag] = useState(false);
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
-
-
   
   const {gameIdInput, setGameIdInput } = useContext(manageFunc);
   
   const handleTokenChange = (event) => {
     setToken(event.target.value);
   };
+
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -105,7 +95,6 @@ export default function Landing() {
     });
   });
   
-
   const handleGameIdInput = (event) => {
     setGameIdInput(event.target.value);
   };
@@ -130,8 +119,6 @@ export default function Landing() {
     betTokenDecimal: 6,
   };
   
-  // console.log(maskedLoader, openDialog);
-  
   const sendConfig = async (token) => {
     handleClose();
     setMaskedLoader(true);
@@ -139,7 +126,7 @@ export default function Landing() {
     // console.log(maskedLoader, openDialog);
   
     let tuid = uuidv4();
-    setuid(tuid);
+    // setuid(tuid);
     // console.log(token, uid, tuid);
     setGameIdInput(tuid);
     let create;
@@ -193,7 +180,7 @@ export default function Landing() {
         betTokenName: "ctez",
       };
     } else {
-      setuid(null);
+      // setuid(null);
       // console.log(typeof token, token, token.value);
     }
   
@@ -205,7 +192,7 @@ export default function Landing() {
       socket.emit("createNewGame", tuid, obj);
     }
   };
-  // console.log(uid);
+
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
@@ -219,14 +206,7 @@ export default function Landing() {
     setopenJoinGame(true);
     handleJoinGame();
   };
-  
-  
 
-  
-  // console.log(obj, "obj outside");
-  // console.log("game", game);
-  
-  
   const startGame = async () => {
     setStartFlag(true);
     joinGame(
