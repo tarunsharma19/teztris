@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Rocket from "../img/NFT.webp";
-import KnightBg from "../img/NFT.webp";
 import pinkNft from "../img/NFT2.webp";
 import blueNft from "../img/NFT1.webp";
 import greenNft from "../img/NFT3.webp";
 import redNft from "../img/NFT.webp";
-
-import Polygon from "../img/NFT.webp";
 import Box from "@mui/material/Box";
 import { makeStyles } from "@mui/styles";
 import Typography from "@mui/material/Typography";
@@ -15,18 +11,13 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import tezTris from '../img/tezTris.png';
 import background from '../img/background.png';
-
 import tezos from '../img/tezos.svg';
-
-
 import Business from "../img/stake.webp";
 import Winner from "../img/earn.webp";
 import Gaming from "../img/play.webp";
 import Joint from "../img/Joint1.png";
-import { Link } from "react-router-dom";
 import emojiBlast from "../img/emojiBlast.png";
 import styled, { keyframes } from "styled-components";
-import tetrisFull from "../img/tetrisFull.webp";
 import scrollreveal from "scrollreveal";
 import {ParallaxProvider , Parallax } from 'react-scroll-parallax';
 
