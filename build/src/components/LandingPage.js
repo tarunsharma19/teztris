@@ -47,7 +47,6 @@ const useStyles = makeStyles({
     color: "rgb(255,255,255)",
   },
   card: {
-    // margin: "4rem 0",
     boxShadow: "inset -8px -8px 40px 5px rgba(0, 0, 0, 0.4);",
     background: " linear-gradient(180deg, #932C50 0%, #BD3F32 99.42%);",
     color: "rgb(255,255,255)",
@@ -61,8 +60,6 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "start",
-
-    // padding: "0 1rem 0 2rem",
   },
   image: {
     borderRadius: "1rem 1rem 0 0",
@@ -71,7 +68,6 @@ const useStyles = makeStyles({
     marginTop: "1.5rem",
     marginBottom: "1.5rem",
     zIndex: 2,
-    // padding: "0.5rem",
     boxShadow: "inset 0px -8px 15px 3px rgba(0, 0, 0, 0.25)",
   },
   para: {
@@ -91,89 +87,6 @@ const useStyles = makeStyles({
     right: 8,
   },
 });
-
-const Home = () => {
-  return (
-    <>
-      <div className="home-bg home">
-        <div className="top-left"></div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "50vh",
-            position: "relative",
-            bottom: "10rem",
-          }}
-        >
-          <section
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <img src={Rocket} alt="rocket" className="rimg" />
-          </section>
-          <section className="text">
-            <div className="blur-container">
-              <div className="blur-bg"></div>
-              <div className="tagline">
-                Your <span className="tagline-bold">Position</span> <br />
-                Your <span className="tagline-bold">Ownership</span>
-              </div>
-            </div>
-
-            <ul className="tag-points">
-              <li>• Stake crypto, Winners takes it all.</li>
-              <li>• Mint chess positions as NFTs from your games. </li>
-              <li>• Mint your match as an Animated GIF NFT. </li>
-              <li>• Purely Decentralised. #Web3.0</li>
-            </ul>
-            <Link to="/app">
-              <button className="enter-btn">
-                Enter Dapp
-                <span className="triangle"></span>
-              </button>
-            </Link>
-          </section>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            alignContent: "center",
-            position: "relative",
-            float: "right",
-            marginRight: "20rem",
-            bottom: "10rem",
-            left: "10rem",
-          }}
-        >
-          <div>
-            <img
-              className="mainKnight"
-              alt="chess knight"
-              src={KnightBg}
-              style={{
-                width: "20",
-                height: "38rem",
-                position: "relative",
-                bottom: "10rem",
-              }}
-            />
-            <a href="https://polygon.technology/" target="_blank">
-              <img alt="Powered by polygon" src={Polygon} className="polygon" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
 
 const floatingAnimation = keyframes`
 
@@ -388,51 +301,6 @@ const CardWrap = styled.div`
     }
   }
 `;
-
-
-const DoYouKnow = () => {
-  return (
-    <div
-      style={{ width: "100%", background: "#000" , marginBottom:"2rem"}}
-      className="dyk"
-    >
-     <CardWrap>
-     <div
-        style={{
-          
-          padding: "1.8rem 1.8rem 1.8rem 1rem",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <span className="mainText" style={{ fontSize: "5rem" }}>
-          Do You Know?
-        </span>
-        <img
-          alt="Mindblowing"
-          src={emojiBlast}
-          style={{ height: "5rem", width: "5rem", margin: "0rem 1rem" }}
-        />
-      </div>
-      <div style={{ width: "100%"}}>
-        <div
-          className="secondText"
-          style={{
-            fontSize: "2.5rem",
-            fontWeight: "400",
-            padding: "1rem 10rem",
-            textAlign: "center",
-          }}
-        >
-          Tetris is the top-selling game of all time. It had sold over 425 million copies on mobile devices alone as of 2014.
-        </div>
-      </div>
-     </CardWrap>
-    </div>
-  );
-};
 
 const HowItWorks = () => {
   const classes = useStyles();
