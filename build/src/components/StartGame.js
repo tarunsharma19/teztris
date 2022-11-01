@@ -18,7 +18,6 @@ import {v4 as uuidv4} from 'uuid';
 import {useNavigate} from 'react-router-dom';
 import { manageFunc } from '../App';
 import Loader from './Loader'
-import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 
 const socket = require("../api/socket").socket;
