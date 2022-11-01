@@ -10,7 +10,7 @@
     "@taquito/beacon-wallet": "^13.0.1",
     "@taquito/taquito": "^13.0.1",
     "nft.storage": "^3.4.0",
-    "react": "16.0.0",
+    "react": "16.9.0",
     "react-dom": "^17.0.2",
     "react-lottie": "^1.2.3",
     "react-router-dom": "^6.0.2",
