@@ -84,8 +84,8 @@ const pinataWrapper = async (player1 , player2 , amount, image) =>  {
     try {
         let data = {};
 
-            data.name = "TezTris NFT";
-            data.description = "This NFT certifies that you have won a game of TezTris! Have fun flexing it!";
+            data.name = "TezTile NFT";
+            data.description = "This NFT certifies that you have won a game of TezTile! Have fun flexing it!";
             data.artifactUri = image;
             data.displayUri = image;
             data.thumbnailUri = image;

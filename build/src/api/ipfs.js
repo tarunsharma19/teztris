@@ -8,8 +8,8 @@ export const ipfsWrapper = async (wallet, imageCID ) =>  {
 
         let data = {};
 
-            data.name = "TezTris Winner NFT";
-            data.description = "This NFT signifies a win in the game of TezTris!";
+            data.name = "TezTile Winner NFT";
+            data.description = "This NFT signifies a win in the game of TezTile!";
             data.artifactUri = imageCID;
             data.displayUri = imageCID;
             data.thumbnailUri = imageCID;
@@ -17,7 +17,7 @@ export const ipfsWrapper = async (wallet, imageCID ) =>  {
 
             data.attributes= [
                 {
-                  "name": "TezTris Winner",
+                  "name": "TezTile Winner",
                   "value": wallet
                 },
                 {
@@ -30,7 +30,7 @@ export const ipfsWrapper = async (wallet, imageCID ) =>  {
                 "tz1NaGu7EisUCyfJpB16ktNxgSqpuMo8aSEk"
               ];
               data.isBooleanAmount = false;
-              data.symbol = "TEZTRIS";
+              data.symbol = "TEZTILE";
               data.rights =  "All right reserved.";
               data.shouldPreferSymbol = true;
 

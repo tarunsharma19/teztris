@@ -1,7 +1,7 @@
 {
-    "name": "teztris-server",
+    "name": "teztile-server",
     "version": "1.0.0",
-    "description": "A server to support multiplayer sessions of TezTris",
+    "description": "A server to support multiplayer sessions of TezTile",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
