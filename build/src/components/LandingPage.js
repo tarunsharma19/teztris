@@ -186,7 +186,7 @@ const Work = () => {
             textAlign: "center",
           }}
         >
-          Tetris is the top-selling game of all time. It had sold over 425 million copies on mobile devices alone as of 2014.
+          The first jigsaw puzzles were made by a man who wanted to teach geography to young children in a new, exciting, hands-on way. He called them dissected maps, but we would recognize them today as plywood jigsaw puzzles.
         </div>
       </div>
      </CardWrap>
@@ -335,11 +335,11 @@ const HowItWorks = () => {
                 <img alt="Gaming" src={Gaming} className={classes.image} />
 
                 <Container style={{ fontSize: "1.25rem" }}>
-                  Play tetris till you win 
+                  Play Teztile till you win 
                 </Container>
                 <Typography className={classes.para } style={{lineHeight:"1.1rem"}}>
                   After staking coins for the match, user will be directed to a
-                  Tetris table where user will play his best to beat the opponent.
+                  teztile table where user will play his best to beat the opponent.
                 </Typography>
               </Container>
             </div>
@@ -449,7 +449,7 @@ const Functioning = () => {
             </span>
             <br />
             <span className="explainDet">
-              So all you have to do is, put a amount to stake and play a Tetris game, and when the game is
+              So all you have to do is, put a amount to stake and play a Teztile game, and when the game is
               finished, you can choose any position from any of your gameyour gameplay to be
               minted as an NFT and{" "}
               <b style={{ fontWeight: "700" }}>will be forever cherished</b>{" "}
