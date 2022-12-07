@@ -1,11 +1,11 @@
-# TezTris
+# TezTile
 The first video game to make it into space, is now on Tezos.
 
 ![banner](banner.png)
 
-## Live At : https://www.teztris.xyz/
+## Live At : https://www.teztile.xyz/
 
-Application is in Ghostnet right now ! To get the Ctez and USDT.e that we use drop us an email at ```contact@teztris.xyz``` or create an issue.
+Application is in Ghostnet right now ! To get the Ctez and USDT.e that we use drop us an email at ```contact@teztile.xyz``` or create an issue.
 
 
 ## Demo : https://youtu.be/QKdMILSf3mo
@@ -14,9 +14,9 @@ Application is in Ghostnet right now ! To get the Ctez and USDT.e that we use dr
 
 ## Deployed Contracts
 
-TezTris Game : KT1KY1nnwawbqyXz2g2b9tS7qCaiEidnkZWb
+TezTile Game : KT1KY1nnwawbqyXz2g2b9tS7qCaiEidnkZWb
 
-TezTris NFTs : KT1UHy8rtoz6puuxPbbwafVxkBAhhNb1yw9M
+TezTile NFTs : KT1UHy8rtoz6puuxPbbwafVxkBAhhNb1yw9M
 
 
 ## Wallets
