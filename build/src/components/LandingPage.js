@@ -300,6 +300,7 @@ const HowItWorks = () => {
     <div
       style={{ width: "100%", marginBottom:"10rem"}}
       className="dyk"
+      id="work"
     >
       <div
             className="mainText"
