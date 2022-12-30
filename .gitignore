@@ -1,2 +1,3 @@
 node_modules
 contracts/contracts
+build/yarn-error.log
