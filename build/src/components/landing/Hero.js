@@ -34,7 +34,7 @@ export default function Hero() {
 
 const Logo = styled.div `
  text-align:right;
- margin: 6rem 4rem 0 0 ;
+ margin: 4rem 4rem 0 0 ;
 
  @media (max-width: 768px) {
  margin: 40px 10px 0 0 ;
@@ -53,7 +53,7 @@ flex-direction: column;
 align-items: flex-end;
 h1 {
   font-size:52px;
-  margin: 8rem 4rem 0 0 ;
+  margin: 6rem 4rem 0 0 ;
 }
 img {
   width: 280px;
