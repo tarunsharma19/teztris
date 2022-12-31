@@ -1,0 +1,23 @@
+$font-size-body : 1.8rem;
+$font-size-title : 3.5rem;
+.info{
+    min-height: 100vh;
+    .wrapper{
+        padding: 4rem;
+    
+        h1{
+            font-size: $font-size-title ;
+            font-weight: 700;
+        }
+        p{
+            padding: 2rem 0;
+            font-size: $font-size-body;
+    
+        }
+    }
+    img{
+        padding: 2rem 0 ;
+        width: 100%;
+    }
+
+}

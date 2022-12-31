@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
-import bgImage from '../img/landingBg.webp';
-import tezLogo from '../img/tezlogo.png'
-import tezTris from '../img/tezTris.png'
-import LandingPage from './LandingPage';
+import bgImage from '../../img/landingBg.webp';
+import tezTile from '../../img/tezTile.png'
 
-export default function Landing() {
+export default function Hero() {
   const scrollToTop = () =>{
     window.scrollTo({
       top: window.innerHeight, 
@@ -19,16 +17,14 @@ export default function Landing() {
     <>
     <WrapperHome>
       <Logo>
-        <img src={tezLogo}></img>
+        <img src={tezTile}></img>
       </Logo>
       <ContentWrapper >
         <h1> The first video game to<br /> make it into space,<br />is now on tezos.</h1>
-        <img src={tezTris} alt=''></img>
         <Link to={"/start"}><button>Play now</button></Link>
       </ContentWrapper>
       <a onClick={scrollToTop} class="scroll"><span></span></a>
     </WrapperHome>
-    <LandingPage />
     </>
   )
 }
@@ -38,7 +34,7 @@ export default function Landing() {
 
 const Logo = styled.div `
  text-align:right;
- margin: 40px 60px 0 0 ;
+ margin: 6rem 4rem 0 0 ;
 
  @media (max-width: 768px) {
  margin: 40px 10px 0 0 ;
@@ -57,7 +53,7 @@ flex-direction: column;
 align-items: flex-end;
 h1 {
   font-size:52px;
-  margin: 24px 60px 0 0 ;
+  margin: 8rem 4rem 0 0 ;
 }
 img {
   width: 280px;
@@ -71,7 +67,7 @@ button {
   background-color: #0D61FF;
   color:#fff;
   border-radius:20px;
-  margin: 40px 50px 0 0 ;
+  margin: 40px 4rem 0 0 ;
 }
 button:hover {
   cursor:pointer;

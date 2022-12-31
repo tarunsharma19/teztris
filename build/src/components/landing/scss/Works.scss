@@ -1,0 +1,47 @@
+$font-size-body : 1.8rem;
+$font-size-title : 3.5rem;
+
+.section{
+    .wrapper{
+        padding: 4rem 0 4rem 4rem;
+        font-size: $font-size-body;
+        h1{
+            font-size: $font-size-title;
+        }
+        .body{
+            padding: 0;
+            display: flex;
+            .left{
+                width: 60%;
+                .item{
+                    display: flex;
+                    align-items: center;
+                    margin: 1.4rem 0;
+                    img{
+                        height: 80px;
+                        width: 80px;
+                        padding-right: 1rem;
+                    }
+                    p{
+                        margin: 0;
+                        font-size: 1.4rem;
+                        padding: 0 1rem;
+                    }
+                    }
+            }
+            .right{
+                display: flex;
+                flex-direction: row-reverse;
+                align-items: center;
+                img{
+                    object-fit: contain;
+                    width: 80%;
+                }
+            }
+        }
+    }
+    img.pattern{
+        padding: 2rem 0 ;
+        width: 100%;
+    }
+}

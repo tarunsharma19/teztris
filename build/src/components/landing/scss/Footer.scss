@@ -1,0 +1,27 @@
+
+
+.footer{
+    height: 40vh;
+    background: url('../../../img/landingBg.webp');
+    background-size: cover;
+    transform: scale(-1);
+    margin-top: -28px;
+
+    .wrapper{
+    transform: scale(-1);
+    padding: 4rem;
+        img.logo{
+            width: 300px;
+        }
+        .socials{
+            display: flex;
+            margin-top: 2rem;
+            width: 300px;
+            justify-content: space-between;
+            a{
+                cursor: pointer;
+            }
+        }
+
+    }
+}
