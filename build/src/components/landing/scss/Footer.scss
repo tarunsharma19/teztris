@@ -1,3 +1,4 @@
+$tablet: 768px;
 
 
 .footer{
@@ -23,5 +24,34 @@
             }
         }
 
+    }
+}
+
+@media (max-width: $tablet) {
+    .footer{
+        background: url('../../../img/black-footer-back.png');
+        .wrapper{
+            transform: scale(-1);
+            text-align: center;
+            padding: 4rem;
+                img.logo{
+                    width: 200px;
+                }
+                .socials{
+                    display: flex;
+                    margin: 1rem auto;
+                    width: 200px;
+                    justify-content: space-between;
+                    a{
+                        cursor: pointer;
+
+                        img{
+                            width: 32px;
+                            height: 32px;
+                        }
+                    }
+                }
+        
+            }
     }
 }

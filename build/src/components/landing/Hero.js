@@ -37,7 +37,7 @@ const Logo = styled.div `
  margin: 4rem 4rem 0 0 ;
 
  @media (max-width: 768px) {
- margin: 40px 10px 0 0 ;
+ margin: 40px 2rem 0 0 ;
 
    img{
     width:40%;
@@ -77,16 +77,18 @@ button:hover {
     font-size: 26px;
   }
   div{
-    margin: 40px 20px 0 0;
+    margin: 40px 2rem 0 0;
   }
   h1 {
-    margin: 24px 10px 0 0 ;
+    font-size: 2.5rem !important;
+    margin: 4rem 2rem 0 0 ;
+    font-weight: 500;
   }
   img {
-    margin: 20px 10px 0 0 ;
+    margin: 20px 2rem 0 0 ;
   }
   button {
-    margin: 40px 10px 0 0 ;
+    margin: 0 2rem 0 0 ;
 
   }
 }  

@@ -1,5 +1,7 @@
 $font-size-body : 1.8rem;
 $font-size-title : 3.5rem;
+$tablet: 768px;
+
 .partners{
     min-height: 100vh;
     .wrapper{
@@ -32,4 +34,41 @@ $font-size-title : 3.5rem;
         z-index: 2;
     }
 
+}
+
+@media (max-width: $tablet) {
+    .partners{
+        min-height: auto;
+        .wrapper{
+            padding: 2rem;
+        
+            h1{
+                font-size: 2.5rem ;
+                font-weight: 700;
+            }
+            .items{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around ;
+                .item{
+                    max-width: 40%;
+                    padding: 2rem 1rem 0 0;
+                    a{
+                        cursor: pointer;
+                    }
+                    img{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        img.divider{
+            position: relative;
+            padding: 2rem 0 0 0 ;
+            width: auto;
+            height: 50px;
+            z-index: 2;
+        }
+    
+    }
 }

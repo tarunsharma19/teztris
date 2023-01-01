@@ -1,5 +1,5 @@
 import React from 'react'
-import divider from '../../img/divider.png'
+import divider from '../../img/divider-black.png'
 import logo1 from '../../img/logo_1.png'
 import './scss/Partners.scss'
 

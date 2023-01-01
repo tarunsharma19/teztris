@@ -1,5 +1,6 @@
 $font-size-body : 1.8rem;
 $font-size-title : 3.5rem;
+$tablet: 768px;
 
 .section{
     .wrapper{
@@ -43,5 +44,37 @@ $font-size-title : 3.5rem;
     img.pattern{
         padding: 2rem 0 ;
         width: 100%;
+    }
+}
+
+@media (max-width: $tablet) {
+    .section{
+        .wrapper{
+            font-size: 1.5rem;
+            padding: 2rem;
+            h1{
+                font-size: 2.5rem;
+                font-weight: 800;
+            }
+            
+            .body{
+                .right{
+                    display: none;
+                }
+                .left{
+                    width: 100%;
+                    .item{
+                        p{
+                            font-size: 1rem;
+                            font-weight: 300;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    img.pattern{
+        width: auto !important;
+        height: 150px;
     }
 }
