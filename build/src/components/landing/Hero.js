@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
 import bgImage from '../../img/landingBg.webp';
+import footerBg from '../../img/black-footer-back.png';
 import tezTile from '../../img/tezTile.png'
 
 export default function Hero() {
@@ -81,7 +82,7 @@ button:hover {
   }
   h1 {
     font-size: 2.5rem !important;
-    margin: 4rem 2rem 0 0 ;
+    margin: 2rem 2rem 0 0 ;
     font-weight: 500;
   }
   img {
@@ -96,9 +97,12 @@ button:hover {
 
 const WrapperHome = styled.div`
   width: 100vw;
-  height: 100vh;
-  background: url(${bgImage}) #000;
-  background-attachment: fixed;
+  min-height: 100vh;
+  background: url(${bgImage}) #000 no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   background-size: cover;
   overflow: hidden;
 
@@ -167,6 +171,10 @@ a {
 }
 
   @media (max-width: 768px) {
+    background: url(${footerBg}) #000 no-repeat center center ;
+    /* background-attachment: fixed; */
+    background-size: cover;
+    height: 100vh;
     background-position-x: -650px;
     h1{
       font-size:38px;

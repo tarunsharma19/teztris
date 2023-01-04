@@ -9,7 +9,8 @@ function Partners() {
       <div className='wrapper'>
           <h1>Our Partners</h1>
           <div className="items">
-            <div className="item">
+            <p>coming soon...</p>
+            {/* <div className="item">
                 <a href="#" target="_blank">
                     <img src={logo1} alt="" />
                 </a>
@@ -33,7 +34,7 @@ function Partners() {
                 <a href="#" target="_blank">
                     <img src={logo1} alt="" />
                 </a>
-            </div>
+            </div> */}
           </div>
       </div>
       <img className='divider' src={divider}></img>
