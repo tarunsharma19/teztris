@@ -2,7 +2,7 @@ import React, { useContext, useState , useEffect, useCallback} from 'react'
 import styled from 'styled-components';
 import bgImage from '../img/landingBg.webp';
 import tezLogo from '../img/tezlogo.png'
-import tezTris from '../img/tezTris.png'
+import tezTris from '../img/tezTile.png'
 import {TextField } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
@@ -424,6 +424,7 @@ export default function Landing() {
     img{
      width:40%;
     }
+  }
   `;
   
 

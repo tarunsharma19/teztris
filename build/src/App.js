@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Tetris from './components/Tetris';
-import Landing from './components/Landing';
+import Landing from './components/landing/Landing';
 import StartGame from './components/StartGame';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createContext } from 'react';

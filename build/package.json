@@ -10,13 +10,14 @@
     "@taquito/beacon-wallet": "^13.0.1",
     "@taquito/taquito": "^13.0.1",
     "nft.storage": "^3.4.0",
-    "react": "16.0.0",
+    "react": "17.0.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^17.0.2",
     "react-lottie": "^1.2.3",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
-    "react-scroll-parallax": "^3.3.1",
+    "react-scroll-parallax": "^3.3.2",
+    "sass": "^1.57.1",
     "scrollreveal": "^4.0.9",
     "socket.io-client": "^4.4.0",
     "styled-components": "^4.3.2",
@@ -41,6 +42,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
