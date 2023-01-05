@@ -2,6 +2,11 @@ $font-size-body : 1.8rem;
 $font-size-title : 3.5rem;
 $tablet: 768px;
 
+
+.item img{
+    // border-radius: 30%;
+}
+
 .section{
     .wrapper{
         padding: 4rem 0 4rem 4rem;
@@ -21,7 +26,7 @@ $tablet: 768px;
                     img{
                         height: 80px;
                         width: 80px;
-                        padding-right: 1rem;
+                        margin-right: 1rem;
                     }
                     p{
                         margin: 0;

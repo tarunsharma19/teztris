@@ -10,17 +10,27 @@ $tablet: 768px;
 
     .wrapper{
     transform: scale(-1);
-    padding: 4rem;
+    display: flex;
+    padding: 5rem;
+        img.proud{
+            margin: 0 0 0 4rem;
+            width: 200px;
+            object-fit: contain ;
+        }
         img.logo{
-            width: 300px;
+            width: 200px;
         }
         .socials{
             display: flex;
             margin-top: 2rem;
-            width: 300px;
+            width: 200px;
             justify-content: space-between;
             a{
                 cursor: pointer;
+                img{
+                    width: 30px;
+                    height: 30px;
+                }
             }
         }
 
@@ -46,8 +56,8 @@ $tablet: 768px;
                         cursor: pointer;
 
                         img{
-                            width: 32px;
-                            height: 32px;
+                            width: 30px;
+                            height: 30px;
                         }
                     }
                 }
