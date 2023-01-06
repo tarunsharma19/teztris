@@ -10,11 +10,6 @@ function Partners() {
           <h1>Our Partners</h1>
           <div className="items">
             <p>coming soon...</p>
-            {/* <div className="item">
-                <a href="#" target="_blank">
-                    <img src={logo1} alt="" />
-                </a>
-            </div>
             <div className="item">
                 <a href="#" target="_blank">
                     <img src={logo1} alt="" />
@@ -34,7 +29,12 @@ function Partners() {
                 <a href="#" target="_blank">
                     <img src={logo1} alt="" />
                 </a>
-            </div> */}
+            </div>
+            <div className="item">
+                <a href="#" target="_blank">
+                    <img src={logo1} alt="" />
+                </a>
+            </div>
           </div>
       </div>
       <img className='divider' src={divider}></img>

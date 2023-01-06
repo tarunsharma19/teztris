@@ -1,5 +1,5 @@
 import React from 'react'
-import sum from '../../img/sum.png'
+import sum from '../../img/divider-black.png'
 import './scss/Info.scss'
 
 function Why() {
@@ -13,7 +13,7 @@ function Why() {
         Tezos transaction costs are low, ensuring an openness of participation you’d expect from a global decentralized community & transaction times are low, providing a faster and great user experience while doing transactions on chain.
         </p>
     </div>
-    <img  src={sum}></img>
+    <img className='divider' src={sum}></img>
   </div>
   )
 }

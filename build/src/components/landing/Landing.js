@@ -13,7 +13,7 @@ function Landing() {
     <Info />
     <Works />
     <Why />
-    <Partners />
+    {/* <Partners /> */}
     <Footer />
     </>
   )

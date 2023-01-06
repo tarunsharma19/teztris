@@ -23,6 +23,13 @@ $tablet: 768px;
         padding: 2rem 0 ;
         width: 100%;
     }
+    img.divider {
+        position: relative;
+        padding: 1rem 0 0 0 ;
+        width: 100%;
+        z-index: 2;
+    }
+
 
 }
 

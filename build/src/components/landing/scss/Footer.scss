@@ -10,17 +10,27 @@ $tablet: 768px;
 
     .wrapper{
     transform: scale(-1);
-    padding: 4rem;
+    display: flex;
+    padding: 5rem;
+        img.proud{
+            margin: 0 0 0 4rem;
+            width: 200px;
+            object-fit: contain ;
+        }
         img.logo{
-            width: 300px;
+            width: 200px;
         }
         .socials{
             display: flex;
             margin-top: 2rem;
-            width: 300px;
+            width: 200px;
             justify-content: space-between;
             a{
                 cursor: pointer;
+                img{
+                    width: 30px;
+                    height: 30px;
+                }
             }
         }
 
@@ -29,11 +39,18 @@ $tablet: 768px;
 
 @media (max-width: $tablet) {
     .footer{
+        height: 50vh;
         background: url('../../../img/black-footer-back.png');
         .wrapper{
             transform: scale(-1);
+            flex-direction: column;
             text-align: center;
             padding: 4rem;
+            img.proud{
+                margin: 0rem auto;
+                width: 200px;
+                object-fit: contain ;
+            }
                 img.logo{
                     width: 200px;
                 }
@@ -46,8 +63,8 @@ $tablet: 768px;
                         cursor: pointer;
 
                         img{
-                            width: 32px;
-                            height: 32px;
+                            width: 30px;
+                            height: 30px;
                         }
                     }
                 }
