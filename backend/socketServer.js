@@ -16,6 +16,11 @@ const registerSocketServer = (server) => {
         authSocket(socket, next);
     });
 
+    const emitPublicRooms = () => {
+        const publicRooms = serverStore.getPublicRooms();
+        io.emit('public-rooms', { publicRooms });
+    };
+
     serverStore.setSocketServerInstance(io);
 
     io.on('connection', (socket) => {
@@ -25,7 +30,16 @@ const registerSocketServer = (server) => {
             createNewGameHandler(socket, data);
         });
 
+        socket.on('disconnect', () => {
+            console.log(`${socket.id} disconnected`);
+            serverStore.removeConnectedUser(socket.id);
+        });
+
     });
+
+    setInterval(() => {
+        emitPublicRooms();
+    }, [1000 * 8]);
 
 };
 

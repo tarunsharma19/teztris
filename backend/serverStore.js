@@ -1,9 +1,13 @@
+const User = require('./models/userModel');
+
 const { v4: uuidv4 } = require('uuid');
 
 const connectedUsers = new Map();
-let activeGames = new Map();
-let activeRooms = [];
+let publicGames = [];
+let privateGames = [];
 let io = null;
+
+
 
 const setSocketServerInstance = (ioInstance) => {
   io = ioInstance;
@@ -35,14 +39,8 @@ const getActiveConnections = (userId) => {
   return activeConnections;
 };
 
-const getOnlineUsers = () => {
-  const onlineUsers = [];
-
-  connectedUsers.forEach((value, key) => {
-    onlineUsers.push({ socketId: key, userId: value.userId });
-  });
-
-  return onlineUsers;
+const getPublicRooms = () => {
+  return publicGames;
 };
 
 // rooms
@@ -115,16 +113,28 @@ const leaveActiveRoom = (roomId, participantSocketId) => {
   }
 };
 
+
+const addNewGame = (gameId, isPublic) => {
+  if (isPublic) {
+    publicGames.push(gameId);
+  } else {
+    privateGames.push(gameId);
+  }
+
+  console.log(publicGames, privateGames);
+}
+
 module.exports = {
   addNewConnectedUser,
   removeConnectedUser,
   getActiveConnections,
   setSocketServerInstance,
   getSocketServerInstance,
-  getOnlineUsers,
+  getPublicRooms,
   addNewActiveRoom,
   getActiveRooms,
   getActiveRoom,
   joinActiveRoom,
   leaveActiveRoom,
+  addNewGame
 };
