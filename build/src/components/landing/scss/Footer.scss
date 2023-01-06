@@ -39,11 +39,18 @@ $tablet: 768px;
 
 @media (max-width: $tablet) {
     .footer{
+        height: 50vh;
         background: url('../../../img/black-footer-back.png');
         .wrapper{
             transform: scale(-1);
+            flex-direction: column;
             text-align: center;
             padding: 4rem;
+            img.proud{
+                margin: 0rem auto;
+                width: 200px;
+                object-fit: contain ;
+            }
                 img.logo{
                     width: 200px;
                 }

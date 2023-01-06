@@ -21,7 +21,7 @@ export default function Hero() {
         <img src={tezTile}></img>
       </Logo>
       <ContentWrapper >
-        <h1> The first video game to<br /> make it into space,<br />is now on tezos.</h1>
+        <h1> The first video game to make it into space, <br />is now on tezos.</h1>
         <Link to={"/start"}><button>Play now</button></Link>
       </ContentWrapper>
       <a onClick={scrollToTop} class="scroll"><span></span></a>
@@ -53,6 +53,7 @@ display: flex;
 flex-direction: column;
 align-items: flex-end;
 h1 {
+  width: 40%;
   font-size:52px;
   margin: 6rem 4rem 0 0 ;
 }
@@ -81,8 +82,9 @@ button:hover {
     margin: 40px 2rem 0 0;
   }
   h1 {
+    width: 90%;
     font-size: 2.5rem !important;
-    margin: 2rem 2rem 0 0 ;
+    margin: 4rem 2rem 2rem 0 ;
     font-weight: 500;
   }
   img {
