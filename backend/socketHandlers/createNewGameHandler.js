@@ -24,7 +24,7 @@ const createNewGameHandler = async (socket, data) => {
     const isPublic = data?.isPublic || false;
     const tokenData = data.obj;
 
-    if (await Game.find({ gameId })) {
+    if (await Game.findOne({ gameId })) {
         // game already exists ...
         // TODO: yaha pe aaye kaise . 2 uuid kaise exist krti
         serverStore.addNewGame(gameId, isPublic);

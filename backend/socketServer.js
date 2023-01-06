@@ -1,6 +1,7 @@
 const authSocket = require('./socketHandlers/authSocket');
 const newConnectionHandler = require('./socketHandlers/newConnectionHandler');
 const createNewGameHandler = require('./socketHandlers/createNewGameHandler');
+const wantsToJoinHandler = require('./socketHandlers/wantsToJoinHandler');
 
 const serverStore = require('./serverStore');
 
@@ -30,6 +31,11 @@ const registerSocketServer = (server) => {
             createNewGameHandler(socket, data);
         });
 
+
+        socket.on('wantsToJoin', (data) => {
+            wantsToJoinHandler(socket, data);
+        });
+
         socket.on('disconnect', () => {
             console.log(`${socket.id} disconnected`);
             serverStore.removeConnectedUser(socket.id);
@@ -37,9 +43,9 @@ const registerSocketServer = (server) => {
 
     });
 
-    setInterval(() => {
-        emitPublicRooms();
-    }, [1000 * 8]);
+    // setInterval(() => {
+    //     emitPublicRooms();
+    // }, [1000 * 8]);
 
 };
 

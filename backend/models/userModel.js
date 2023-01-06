@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     highScore: { type: Number, default: 0 },
     won: { type: Number, default: 0 },
     lost: { type: Number, default: 0 },
-    activeGameId: { type: mongoose.Schema.Types.ObjectId },
+    activeGameId: { type: mongoose.Schema.Types.ObjectId, default: null },
 
 });
 
