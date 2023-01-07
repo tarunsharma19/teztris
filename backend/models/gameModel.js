@@ -11,7 +11,8 @@ const gameSchema = new mongoose.Schema({
         betTokenName: { type: String, required: true }
     },
     me: { type: String },
-    opponent: { type: String }
+    opponent: { type: String },
+    status: { type: String, default: 'init', enum: ['init', 'ongoing', 'complete'] }
 });
 
 module.exports = mongoose.model("Game", gameSchema);

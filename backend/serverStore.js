@@ -3,6 +3,10 @@ let publicGames = [];
 let privateGames = [];
 let io = null;
 
+const getMySocket = (wallet) => {
+  // console.log(connectedUsers);
+  return connectedUsers.get(wallet);
+}
 
 const addNewGame = (gameId, isPublic) => {
   if (isPublic) {
@@ -10,8 +14,7 @@ const addNewGame = (gameId, isPublic) => {
   } else {
     privateGames.push(gameId);
   }
-
-  console.log(publicGames, privateGames);
+  // console.log(publicGames, privateGames);
 }
 
 const gameJoined = (gameId) => {
@@ -36,7 +39,7 @@ const getSocketServerInstance = () => {
 };
 
 const addNewConnectedUser = ({ socketId, userId }) => {
-  connectedUsers.set(socketId, { userId });
+  connectedUsers.set(userId, socketId);
 };
 
 const removeConnectedUser = (socketId) => {
@@ -51,5 +54,5 @@ module.exports = {
   setSocketServerInstance,
   getSocketServerInstance,
   getPublicRooms: getPublicGames,
-  addNewGame, getAllGames, gameJoined
+  addNewGame, getAllGames, gameJoined, getMySocket
 };
