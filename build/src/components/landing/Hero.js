@@ -22,7 +22,7 @@ export default function Hero() {
       </Logo>
       <ContentWrapper >
         <h1> The first video game to make it into space, <br />is now on tezos.</h1>
-        <Link to={"/start"}><button>Play now</button></Link>
+        <Link to={"/"}><button>Coming soon..</button></Link>
       </ContentWrapper>
       <a onClick={scrollToTop} class="scroll"><span></span></a>
     </WrapperHome>
