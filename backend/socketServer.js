@@ -4,6 +4,7 @@ const createNewGameHandler = require('./socketHandlers/createNewGameHandler');
 const wantsToJoinHandler = require('./socketHandlers/wantsToJoinHandler');
 
 const serverStore = require('./serverStore');
+const playerJoinHandler = require("./socketHandlers/playerJoinHandler");
 
 const registerSocketServer = (server) => {
     const io = require('socket.io')(server, {
@@ -35,6 +36,10 @@ const registerSocketServer = (server) => {
         socket.on('wantsToJoin', (data) => {
             wantsToJoinHandler(socket, data);
         });
+
+        socket.on('player-joins', (data) => {
+            playerJoinHandler(socket, data)
+        })
 
         socket.on('disconnect', () => {
             console.log(`${socket.id} disconnected`);

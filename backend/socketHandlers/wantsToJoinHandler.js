@@ -13,7 +13,7 @@ const wantsToJoinHandler = async (socket, data) => {
 
     // 3) Return/fail if the game does not exist , or the game is not online
     if (!gameIdToBeJoined || allGames.length === 0) {
-        socket.emit("status", "This game session does not exist.");
+        socket.emit("status", "This game session does not exist");
         return;
     }
 

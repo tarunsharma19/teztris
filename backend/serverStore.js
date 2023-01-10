@@ -1,11 +1,21 @@
 const connectedUsers = new Map();
+
+/*
+connectedUsers ->
+
+walletId : {
+  sockets: [ socket ids ]
+}
+
+*/
+
 let publicGames = [];
 let privateGames = [];
 let io = null;
 
 const getMySocket = (wallet) => {
   // console.log(connectedUsers);
-  return connectedUsers.get(wallet);
+  return connectedUsers.get(wallet).sockets;
 }
 
 const addNewGame = (gameId, isPublic) => {
@@ -39,7 +49,12 @@ const getSocketServerInstance = () => {
 };
 
 const addNewConnectedUser = ({ socketId, userId }) => {
-  connectedUsers.set(userId, socketId);
+  if (connectedUsers.has(userId)) {
+    connectedUsers.get(userId).sockets.push(socketId);
+  } else {
+    connectedUsers.set(userId, { sockets: [socketId] });
+  }
+  console.log(connectedUsers);
 };
 
 const removeConnectedUser = (socketId) => {
