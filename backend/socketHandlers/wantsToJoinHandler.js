@@ -29,6 +29,8 @@ const wantsToJoinHandler = async (socket, data) => {
         return;
     }
 
+
+    // OPTIONAL: can be removed if wanted
     if (game.me === socket.wallet) {
         socket.emit("status", "You cannot join your own game");
         return;
@@ -39,15 +41,14 @@ const wantsToJoinHandler = async (socket, data) => {
 
     // 6) Update Game Opponent
     game.opponent = socket.wallet;
-    game.status = 'ongoing';
+    game.status = 'opponent-found';
     await game.save();
 
     // 7) Update server store to remove this game from active games
-    serverStore.gameJoined(gameIdToBeJoined);
+    serverStore.removeGame(gameIdToBeJoined);
 
     // 8) Emit that the match was found and the game can be started to the joinee and the host
     socket.emit("match-found", game);
-    // console.log(serverStore.getMySocket(game.me))
     serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.me)).emit("match-found", game);
 
 };

@@ -5,6 +5,7 @@ const wantsToJoinHandler = require('./socketHandlers/wantsToJoinHandler');
 
 const serverStore = require('./serverStore');
 const playerJoinHandler = require("./socketHandlers/playerJoinHandler");
+const disconnectHandler = require("./socketHandlers/disconnectHandler");
 
 const registerSocketServer = (server) => {
     const io = require('socket.io')(server, {
@@ -37,13 +38,12 @@ const registerSocketServer = (server) => {
             wantsToJoinHandler(socket, data);
         });
 
-        socket.on('player-joins', (data) => {
+        socket.on('playerJoins', (data) => {
             playerJoinHandler(socket, data)
         })
 
         socket.on('disconnect', () => {
-            console.log(`${socket.id} disconnected`);
-            serverStore.removeConnectedUser(socket.id);
+            disconnectHandler(socket);
         });
 
     });

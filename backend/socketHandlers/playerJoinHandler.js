@@ -4,41 +4,44 @@ const User = require('../models/userModel');
 
 const playerJoinHandler = async (socket, data) => {
 
-    var sock = this;
+    // 1) Transaction is completed by opponent and wants to join the game
+    const gameId = data.gameId;
 
-    var room = io.sockets.adapter.rooms.get(idData.gameId);
-    console.log(room);
-
-    if (room === undefined) {
-        this.emit("status1", "This game session does not exist.");
+    // 2) If the game does not exist or payload is empty / undefined
+    if (!gameId) {
+        socket.emit("status", "This game session does not exist.");
         return;
     }
 
-    sock.join(idData.gameId);
+    // 3) Find the game opponent wants to join
+    const game = await Game.findOne({ gameId });
 
-    console.log(room.size);
+    // 4) Check game status
+    if (game.status === 'complete') {
+        socket.emit("status", "The game was already finished");
+        return;
+    }
 
-    let opp = undefined;
+    if (game.status === 'ongoing') {
+        socket.emit("status", "The game is already being played");
+        return;
+    }
 
-    Object.keys(sockets).forEach(function (key) {
-        if (sockets[key].gameID === idData.gameId) {
-            opp = sockets[key];
-        }
-    });
+    // 5) Update game status
+    game.status = 'ongoing';
+    game.save();
 
-    //  for(var x of sockets){
-    //    if(x.gameID === idData.gameId){
-    //       opp = x;
-    //    }
-    //  }
 
-    sockets[socket.id] = { gameID: idData.gameId, me: socket.id, opponent: opp.me };
+    const me = game.me;
+    const opponent = game.opponent;
 
-    sockets[opp.me].opponent = socket.id;
+    // 6) Update server status
+    serverStore.setGameInUser(me, game.gameId);
+    serverStore.setGameInUser(opponent, game.gameId);
 
-    console.log(sockets);
-
-    io.sockets.in(idData.gameId).emit("start game");
+    // 6) Emit start game status to both the users
+    serverStore.getSocketServerInstance().to(serverStore.getMySocket(me)).emit("start-game", game);
+    serverStore.getSocketServerInstance().to(serverStore.getMySocket(opponent)).emit("start-game", game);
 }
 
 module.exports = playerJoinHandler;

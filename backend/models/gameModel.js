@@ -12,7 +12,7 @@ const gameSchema = new mongoose.Schema({
     },
     me: { type: String },
     opponent: { type: String },
-    status: { type: String, default: 'init', enum: ['init', 'ongoing', 'complete'] }
+    status: { type: String, default: 'init', enum: ['init', 'opponent-found', 'ongoing', 'complete'] }
 });
 
 module.exports = mongoose.model("Game", gameSchema);

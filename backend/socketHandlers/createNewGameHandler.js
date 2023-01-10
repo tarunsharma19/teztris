@@ -34,7 +34,7 @@ const createNewGameHandler = async (socket, data) => {
     const newGame = await Game.create({ gameId, isPublic, tokenData: tokenData, me: wallet });
 
     // 2) Assign game to the user
-    User.findOneAndUpdate({ walletId: wallet }, { activeGameId: newGame._id });
+    await User.findOneAndUpdate({ walletId: wallet }, { activeGameId: newGame._id });
 
     // 3) Send the game to the server store
     serverStore.addNewGame(gameId, isPublic);

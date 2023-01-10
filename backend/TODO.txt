@@ -1,0 +1,3 @@
+TASKS
+
+1) Do we need online / offline / ingame status for every user

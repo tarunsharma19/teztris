@@ -4,7 +4,8 @@ const connectedUsers = new Map();
 connectedUsers ->
 
 walletId : {
-  sockets: [ socket ids ]
+  sockets: [ socket ids ],
+  game: gameId (uuid)
 }
 
 */
@@ -27,9 +28,14 @@ const addNewGame = (gameId, isPublic) => {
   // console.log(publicGames, privateGames);
 }
 
-const gameJoined = (gameId) => {
-  publicGames.filter((id) => { id != gameId });
-  privateGames.filter((id) => { id != gameId });
+const removeGame = (gameId) => {
+  // console.log("publicGames", publicGames, "privateGames", privateGames)
+  publicGames = publicGames.filter((id) => { id != gameId });
+  privateGames = privateGames.filter((id) => { id != gameId });
+}
+
+const setGameInUser = (wallet, gameId) => {
+  connectedUsers.set(wallet, { ...connectedUsers.get(wallet), game: gameId });
 }
 
 const getAllGames = () => {
@@ -54,20 +60,18 @@ const addNewConnectedUser = ({ socketId, userId }) => {
   } else {
     connectedUsers.set(userId, { sockets: [socketId] });
   }
-  console.log(connectedUsers);
+  // console.log(connectedUsers);
 };
 
-const removeConnectedUser = (socketId) => {
-  if (connectedUsers.has(socketId)) {
-    connectedUsers.delete(socketId);
-  }
+const getConnectedUsers = () => {
+  return connectedUsers;
 };
 
 module.exports = {
   addNewConnectedUser,
-  removeConnectedUser,
+  getConnectedUsers,
   setSocketServerInstance,
   getSocketServerInstance,
   getPublicRooms: getPublicGames,
-  addNewGame, getAllGames, gameJoined, getMySocket
+  addNewGame, getAllGames, removeGame, getMySocket, setGameInUser
 };
