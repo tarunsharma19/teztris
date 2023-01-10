@@ -24,18 +24,19 @@ const createNewGameHandler = async (socket, data) => {
     const isPublic = data?.isPublic || false;
     const tokenData = data.obj;
 
+    // NOTE: cannot enter if condition in real life scenario. Only used for testing purposes
     if (await Game.findOne({ gameId })) {
-        // game already exists ...
-        // TODO: yaha pe aaye kaise . 2 uuid kaise exist krti
         serverStore.addNewGame(gameId, isPublic);
         return;
     }
+
+    // 1) Make a new game
     const newGame = await Game.create({ gameId, isPublic, tokenData: tokenData, me: wallet });
 
-    const user = await User.findOne({ walletId: wallet });
-    user.activeGameId = newGame._id;
-    user.save();
+    // 2) Assign game to the user
+    User.findOneAndUpdate({ walletId: wallet }, { activeGameId: newGame._id });
 
+    // 3) Send the game to the server store
     serverStore.addNewGame(gameId, isPublic);
 };
 
