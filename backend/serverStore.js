@@ -26,11 +26,9 @@ const addNewGame = (gameId, isPublic) => {
   } else {
     privateGames.push(gameId);
   }
-  // console.log(publicGames, privateGames);
 }
 
 const removeGame = (gameId) => {
-  // console.log("publicGames", publicGames, "privateGames", privateGames)
   publicGames = publicGames.filter((id) => { id != gameId });
   privateGames = privateGames.filter((id) => { id != gameId });
 }
@@ -65,7 +63,6 @@ const addNewConnectedUser = ({ socketId, userId }) => {
   } else {
     connectedUsers.set(userId, { sockets: [socketId] });
   }
-  // console.log(connectedUsers);
 };
 
 const getConnectedUsers = () => {

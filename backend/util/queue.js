@@ -17,9 +17,11 @@ class Queue {
     peek() {
         return this.items[this.front];
     }
-    get size() {
+
+    size() {
         return this.rear - this.front;
     }
+
     isEmpty() {
         return this.rear == 0;
     }

@@ -1,9 +1,12 @@
 const serverStore = require("../serverStore");
 const Game = require('../models/gameModel');
 const User = require('../models/userModel');
-const Queue = require('../queue');
+const Queue = require('../util/queue');
+const reportWinner = require('../util/reportWinner');
+const nft = require('../nft');
 
 let Q = new Queue();
+let lock = false;
 
 //TESTING PENDING
 const endHandler = async (socket, data) => {
@@ -13,8 +16,6 @@ const endHandler = async (socket, data) => {
 
     const game = await Game.findById(gameId);
     const user = await User.findById(socket.wallet);
-
-    let lock = false;
 
     // 1) enter scores into the game
     if (game.me === socket.wallet) {
@@ -35,75 +36,80 @@ const endHandler = async (socket, data) => {
 
 
 
-    if (false && game.scoreMe !== -1 && game.scoreOpponent != -1) {
+    if (game.scoreMe !== -1 && game.scoreOpponent != -1) {
         // game khatam hogyi
-        let res;
-        let metadata;
-        game.status = 'end';
-
-        if (!lock) {
-            lock = true;
-
-            if (game.scoreMe > game.scoreOpponent) {
-                metadata = await nft.nftFlow(game.me, game.opponent, game.tokenData.betToken, game.tokenData.amount);
-                console.log(metadata);
-                console.log(metadata.Ipfs);
-                res = await reportWinner(game._id, game.scoreMe, metadata.Ipfs);
-                console.log(res);
-                if (res.success) {
-                    serverStore.getSocketServerInstance().to(game.me).emit("game-over", game.scoreMe);
-                    delete scores[gameId];
-                    delete gameData[gameId];
-                }
-                else
-                    serverStore.getSocketServerInstance().emit("issue");
-            }
-            else {
-                metadata = await nft.nftFlow(address, scores[gameId].player1, gameData[gameId].betTokenName, gameData[gameId].amount);
-                console.log(metadata);
-                console.log(metadata.Ipfs);
-                res = await reportWinner(gameId, address, metadata.Ipfs);
-                console.log(res);
-                if (res.success) {
-                    io.to(gameId).emit("game over", address);
-                    delete scores[gameId];
-                    delete gameData[gameId];
-                }
-                else
-                    io.to(gameId).emit("issue");
-            }
-
-            // unlock 
-            lock = false;
-        } else {
-            // handle what to do if state is locked
-            // add to queue
-            Q.enqueue({ game: gameId, addy: address, scr: score });
-        }
+        handleEnding(game);
     }
 
     await user.save();
     await game.save();
 
-
 }
 
+const handleEnding = async (game) => {
+    let res;
+    let metadata;
+    game.status = 'complete';
+
+    if (!lock) {
+        lock = true;
+
+        if (game.scoreMe > game.scoreOpponent) {
+            updatePersonalGameStats(game.me, game.opponent);
+            metadata = await nft.nftFlow(game.me, game.opponent, game.tokenData.betToken, game.tokenData.amount);
+            console.log(metadata);
+            console.log(metadata.Ipfs);
+            res = await reportWinner(game._id, game.me, metadata.Ipfs);
+            // console.log(res);
+            if (res.success) {
+                serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.me)).emit("game-over", game);
+            } else emitErrorToAllPlayers(game);
+        }
+        else {
+            updatePersonalGameStats(game.opponent, game.me);
+            metadata = await nft.nftFlow(game.opponent, game.me, game.tokenData.betToken, game.tokenData.amount);
+            // console.log(metadata);
+            // console.log(metadata.Ipfs);
+            res = await reportWinner(game._id, game.opponent, metadata.Ipfs);
+            // console.log(res);
+            if (res.success) {
+                serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.opponent)).emit("game-over", game);
+            } else emitErrorToAllPlayers(game);
+
+        }
+
+        // unlock 
+        lock = false;
+    } else {
+        // handle what to do if state is locked
+        // add to queue
+        Q.enqueue(game);
+    }
+}
 
 const handleQueue = () => {
     if (Q.size() > 0) {
-        console.log("some object is found in queue", Q.size());
+        // console.log("some object is found in queue", Q.size());
         // run this function every second when queue is not empty
         if (!lock) {
-            console.log("handling queue");
-            // when lock is free
-            // get details
-            var ob = Q.dequeue();
             // call end (it handles lock as it is)
-            end(ob.game, ob.addy, ob.scr);
+            handleEnding(Q.dequeue());
         }
-        console.log(Q.size());
     }
 }
+
+setInterval(handleQueue, [1000]);
+
+const updatePersonalGameStats = async (winnerId, loserId) => {
+    await User.findByIdAndUpdate(winnerId, { $inc: { won: 1 } });
+    await User.findByIdAndUpdate(loserId, { $inc: { lost: 1 } });
+}
+
+const emitErrorToAllPlayers = (game) => {
+    serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.me)).emit("issue");
+    serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.opponent)).emit("issue");
+}
+
 
 // setInterval(handleQueue, [1000]);
 

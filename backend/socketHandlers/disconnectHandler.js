@@ -2,6 +2,7 @@ const serverStore = require("../serverStore");
 const Game = require('../models/gameModel');
 const User = require('../models/userModel');
 
+
 const disconnectHandler = async (socket) => {
     // 1) If he has a active game that no one has joined - remove from public and private lobbies
     const connectedUsers = serverStore.getConnectedUsers();
@@ -23,7 +24,6 @@ const disconnectHandler = async (socket) => {
             } else {
                 if (game.scoreOpponent === -1) game.scoreOpponent = 0;
             }
-
         }
 
         connectedUsers.delete(socket.wallet);
