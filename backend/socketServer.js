@@ -1,11 +1,16 @@
+// server store
+const serverStore = require('./serverStore');
+
+// middleware
 const authSocket = require('./socketHandlers/authSocket');
+
+// handlers
 const newConnectionHandler = require('./socketHandlers/newConnectionHandler');
 const createNewGameHandler = require('./socketHandlers/createNewGameHandler');
 const wantsToJoinHandler = require('./socketHandlers/wantsToJoinHandler');
-
-const serverStore = require('./serverStore');
 const playerJoinHandler = require("./socketHandlers/playerJoinHandler");
 const disconnectHandler = require("./socketHandlers/disconnectHandler");
+const endHandler = require("./socketHandlers/endHandler");
 
 const registerSocketServer = (server) => {
     const io = require('socket.io')(server, {
@@ -42,16 +47,19 @@ const registerSocketServer = (server) => {
             playerJoinHandler(socket, data)
         })
 
+        socket.on('endGame', (data) => {
+            endHandler(socket, data)
+        })
+
         socket.on('disconnect', () => {
             disconnectHandler(socket);
         });
 
     });
 
-    // setInterval(() => {
-    //     emitPublicRooms();
-    // }, [1000 * 8]);
-
+    setInterval(() => {
+        emitPublicRooms();
+    }, [1000 * 8]);
 };
 
 module.exports = {

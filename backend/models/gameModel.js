@@ -11,8 +11,10 @@ const gameSchema = new mongoose.Schema({
         betTokenType: { type: String, required: true },
         betTokenName: { type: String, required: true }
     },
-    me: { type: String },
+    me: { type: String, required: true },
     opponent: { type: String },
+    scoreMe: { type: Number, default: -1 },
+    scoreOpponent: { type: Number, default: -1 },
     status: { type: String, default: 'init', enum: ['init', 'opponent-found', 'ongoing', 'complete'] }
 });
 

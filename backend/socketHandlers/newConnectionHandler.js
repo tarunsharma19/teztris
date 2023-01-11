@@ -6,7 +6,7 @@ const newConnectionHandler = async (socket, io) => {
   const walletId = socket.wallet;
 
   // 1) Find user from db to send details to server for profile
-  let user = await User.findOne({ walletId });
+  let user = await User.findById(walletId);
   if (user) {
 
     // 2) Find details of old game if exists

@@ -13,11 +13,11 @@ walletId : {
 let publicGames = [];
 let privateGames = [];
 let io = null;
-// let Q = new Queue();
 
 const getMySocket = (wallet) => {
-  // console.log(connectedUsers);
-  return connectedUsers.get(wallet).sockets;
+  if (connectedUsers.has(wallet)) {
+    return connectedUsers.get(wallet).sockets;
+  }
 }
 
 const addNewGame = (gameId, isPublic) => {
@@ -37,6 +37,10 @@ const removeGame = (gameId) => {
 
 const setGameInUser = (wallet, gameId) => {
   connectedUsers.set(wallet, { ...connectedUsers.get(wallet), game: gameId });
+}
+
+const removeGameInUser = (wallet) => {
+  connectedUsers.set(wallet, { sockets: connectedUsers.get(wallet).sockets });
 }
 
 const getAllGames = () => {
@@ -69,10 +73,15 @@ const getConnectedUsers = () => {
 };
 
 module.exports = {
-  addNewConnectedUser,
-  getConnectedUsers,
+  addNewGame,
+  getAllGames,
+  removeGame,
+  setGameInUser,
+  removeGameInUser,
+  getMySocket,
+  getPublicRooms: getPublicGames,
   setSocketServerInstance,
   getSocketServerInstance,
-  getPublicRooms: getPublicGames,
-  addNewGame, getAllGames, removeGame, getMySocket, setGameInUser
+  addNewConnectedUser,
+  getConnectedUsers,
 };
