@@ -6,7 +6,6 @@ const verifyTokenSocket = (socket, next) => {
       throw new Error('Please provide wallet id');
     }
     socket.wallet = wallet;
-
   } catch (err) {
     const socketError = new Error("NOT_AUTHORIZED");
     return next(socketError);

@@ -14,30 +14,30 @@ const playerJoinHandler = async (socket, data) => {
     }
 
     // 3) Find the game opponent wants to join
-    const game = await Game.findOne({ gameId });
+    const game = await Game.findById(gameId);
 
     // 4) Check game status
-    if (game.status === 'complete') {
-        socket.emit("status", "The game was already finished");
-        return;
-    }
-
     if (game.status === 'ongoing') {
         socket.emit("status", "The game is already being played");
         return;
     }
 
+    if (game.status === 'complete') {
+        socket.emit("status", "The game was already finished");
+        return;
+    }
+
     // 5) Update game status
     game.status = 'ongoing';
-    game.save();
+    await game.save();
 
 
     const me = game.me;
     const opponent = game.opponent;
 
     // 6) Update server status
-    serverStore.setGameInUser(me, game.gameId);
-    serverStore.setGameInUser(opponent, game.gameId);
+    serverStore.setGameInUser(me, game._id);
+    serverStore.setGameInUser(opponent, game._id);
 
     // 6) Emit start game status to both the users
     serverStore.getSocketServerInstance().to(serverStore.getMySocket(me)).emit("start-game", game);

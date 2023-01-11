@@ -18,7 +18,7 @@ const wantsToJoinHandler = async (socket, data) => {
     }
 
     // 4) Find the game from database and check if its being already played by 2 people or it was finished in past
-    const game = await Game.findOne({ gameId: gameIdToBeJoined });
+    const game = await Game.findById(gameIdToBeJoined);
     if (game.status === 'complete') {
         socket.emit("status", "The game was already finished");
         return;
@@ -37,7 +37,7 @@ const wantsToJoinHandler = async (socket, data) => {
     }
 
     // 5) Update user as his game is active anymore
-    await User.findOneAndUpdate({ walletId: game.me }, { $unset: { activeGameId: 1 } }, { new: true });
+    await User.findByIdAndUpdate(game.me, { $unset: { activeGameId: 1 } }, { new: true });
 
     // 6) Update Game Opponent
     game.opponent = socket.wallet;

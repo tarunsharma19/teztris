@@ -18,7 +18,7 @@ const newConnectionHandler = async (socket, io) => {
 
   } else {
     // 3) If no user exists or this is a new user then sign him up and send info
-    user = await User.create({ walletId })
+    user = await User.create({ _id: walletId })
   }
 
   // 4) Send user details
