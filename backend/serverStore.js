@@ -85,6 +85,13 @@ const getConnectedUsers = () => {
   return connectedUsers;
 };
 
+const deleteGameIdfromGameMap = (gameId) => {
+  if (gamesAvailable.has(gameId)) {
+    gamesAvailable.delete(gameId);
+  }
+  // console.log(gamesAvailable)
+}
+
 module.exports = {
   addNewGame,
   getAllGames,
@@ -98,5 +105,6 @@ module.exports = {
   addNewConnectedUser,
   getConnectedUsers,
   getGameMap,
-  addOpponentToGameMap
+  addOpponentToGameMap,
+  deleteGameIdfromGameMap
 };

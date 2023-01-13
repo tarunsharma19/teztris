@@ -16,33 +16,14 @@ const disconnectHandler = async (socket) => {
             // removing unfinished game
             serverStore.removeGame(user.activeGameId);
         }
-        if (socketData.game) {
-            // declare his score 0 if not finished
-            const game = await Game.findById(socketData.game);
-            if (game.me === socket.wallet) {
-                if (game.scoreMe === -1) game.scoreMe = 0;
-                // declare opponent winner
-            } else {
-                if (game.scoreOpponent === -1) game.scoreOpponent = 0;
-            }
-            await game.save();
-        }
+        // socket.id disconnet hori vo check kro hai ki nhi game me
+        await handleGame(socket, socketData);
 
         connectedUsers.delete(socket.wallet);
 
     } else {
         // socket.id disconnet hori vo check kro hai ki nhi game me
-        if (socketData.game) {
-            // declare his score 0 if not finished
-            const game = await Game.findById(socketData.game);
-            if (game.me === socket.wallet) {
-                if (game.scoreMe === -1) game.scoreMe = 0;
-                // declare opponent winner
-            } else {
-                if (game.scoreOpponent === -1) game.scoreOpponent = 0;
-            }
-            await game.save();
-        }
+        await handleGame(socket, socketData);
 
         // 4) Else remove only current socket and leave others active
         socketData.sockets = socketData.sockets.filter((sock) => sock !== socket.id);
@@ -50,6 +31,44 @@ const disconnectHandler = async (socket) => {
     }
 
 
+}
+
+const handleGame = async (socket, socketData) => {
+    if (socketData.game) {
+        // declare his score 0 if not finished
+        const game = await Game.findById(socketData.game);
+        if (game.me === socket.wallet) {
+            if (game.scoreMe === -1) {
+                game.scoreMe = 0;
+                // declare opponent winner
+                serverStore.getGameMap(socketData.game).forEach(sock => {
+                    if (sock !== socket.wallet) {
+                        serverStore.getSocketServerInstance().to(sock).emit('match-ended', 'Opponent left the game');
+                        // delete game from ongoing games
+                        serverStore.deleteGameIdfromGameMap(socketData.game);
+                    }
+                });
+            }
+        } else {
+            if (game.scoreOpponent === -1) {
+                game.scoreOpponent = 0;
+                // declare opponent winner
+                serverStore.getGameMap(socketData.game).forEach(sock => {
+                    if (sock !== socket.wallet) {
+                        serverStore.getSocketServerInstance().to(sock).emit('match-ended', 'Opponent left the game');
+                        // delete game from ongoing games
+                        serverStore.deleteGameIdfromGameMap(socketData.game);
+                    }
+                });
+            }
+        }
+
+        if (game.scoreMe === 0 && game.scoreOpponent === 0) {
+            //update game status
+            game.status = 'complete';
+        }
+        await game.save();
+    }
 }
 
 module.exports = disconnectHandler;
