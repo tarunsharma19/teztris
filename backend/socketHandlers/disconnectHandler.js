@@ -13,6 +13,7 @@ const disconnectHandler = async (socket) => {
     // 3) If only single socket exists then disconnect him and remove his active game id from server state
     if (socketData.sockets.length === 1) {
         if (user.activeGameId !== null) {
+            // removing unfinished game
             serverStore.removeGame(user.activeGameId);
         }
         if (socketData.game) {
@@ -24,11 +25,25 @@ const disconnectHandler = async (socket) => {
             } else {
                 if (game.scoreOpponent === -1) game.scoreOpponent = 0;
             }
+            await game.save();
         }
 
         connectedUsers.delete(socket.wallet);
 
     } else {
+        // socket.id disconnet hori vo check kro hai ki nhi game me
+        if (socketData.game) {
+            // declare his score 0 if not finished
+            const game = await Game.findById(socketData.game);
+            if (game.me === socket.wallet) {
+                if (game.scoreMe === -1) game.scoreMe = 0;
+                // declare opponent winner
+            } else {
+                if (game.scoreOpponent === -1) game.scoreOpponent = 0;
+            }
+            await game.save();
+        }
+
         // 4) Else remove only current socket and leave others active
         socketData.sockets = socketData.sockets.filter((sock) => sock !== socket.id);
         connectedUsers.set(socket.wallet, socketData)

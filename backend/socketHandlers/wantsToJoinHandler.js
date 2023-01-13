@@ -19,6 +19,11 @@ const wantsToJoinHandler = async (socket, data) => {
 
     // 4) Find the game from database and check if its being already played by 2 people or it was finished in past
     const game = await Game.findById(gameIdToBeJoined);
+    if (!game) {
+        socket.emit("status", "The game does not exist");
+        return;
+    }
+
     if (game.status === 'complete') {
         socket.emit("status", "The game was already finished");
         return;
@@ -36,7 +41,7 @@ const wantsToJoinHandler = async (socket, data) => {
         return;
     }
 
-    // 5) Update user as his game is active anymore
+    // 5) Update user as his game can't be continued and will have to give a result
     await User.findByIdAndUpdate(game.me, { $unset: { activeGameId: 1 } }, { new: true });
 
     // 6) Update Game Opponent
@@ -49,8 +54,9 @@ const wantsToJoinHandler = async (socket, data) => {
 
     // 8) Emit that the match was found and the game can be started to the joinee and the host
     socket.emit("match-found", game);
-    serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.me)).emit("match-found", game);
-
+    // console.log(serverStore.getGameMap(gameIdToBeJoined));
+    serverStore.getSocketServerInstance().to(serverStore.getGameMap(gameIdToBeJoined)).emit("match-found", game);
+    serverStore.addOpponentToGameMap(gameIdToBeJoined, socket.id);
 };
 
 module.exports = wantsToJoinHandler;

@@ -15,6 +15,10 @@ const playerJoinHandler = async (socket, data) => {
 
     // 3) Find the game opponent wants to join
     const game = await Game.findById(gameId);
+    if (!game) {
+        socket.emit("status", "The game does not exist");
+        return;
+    }
 
     // 4) Check game status
     if (game.status === 'ongoing') {
@@ -40,8 +44,7 @@ const playerJoinHandler = async (socket, data) => {
     serverStore.setGameInUser(opponent, game._id);
 
     // 6) Emit start game status to both the users
-    serverStore.getSocketServerInstance().to(serverStore.getMySocket(me)).emit("start-game", game);
-    serverStore.getSocketServerInstance().to(serverStore.getMySocket(opponent)).emit("start-game", game);
+    serverStore.getSocketServerInstance().to(serverStore.getGameMap(gameId)).emit("start-game", game);
 }
 
 module.exports = playerJoinHandler;

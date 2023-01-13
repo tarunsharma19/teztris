@@ -1,4 +1,5 @@
 const connectedUsers = new Map();
+const gamesAvailable = new Map();
 
 /*
 connectedUsers ->
@@ -20,12 +21,14 @@ const getMySocket = (wallet) => {
   }
 }
 
-const addNewGame = (gameId, isPublic) => {
+const addNewGame = (gameId, isPublic, gameCreatorId) => {
   if (isPublic) {
     publicGames.push(gameId);
   } else {
     privateGames.push(gameId);
   }
+
+  gamesAvailable.set(gameId, [gameCreatorId]);
 }
 
 const removeGame = (gameId) => {
@@ -43,6 +46,19 @@ const removeGameInUser = (wallet) => {
 
 const getAllGames = () => {
   return [...publicGames, ...privateGames];
+}
+
+const getGameMap = (gameId) => {
+  if (gamesAvailable.has(gameId)) {
+    return gamesAvailable.get(gameId);
+  }
+  return [];
+}
+
+const addOpponentToGameMap = (gameId, opponentSocketId) => {
+  if (gamesAvailable.has(gameId)) {
+    gamesAvailable.set(gameId, [...gamesAvailable.get(gameId), opponentSocketId]);
+  }
 }
 
 const getPublicGames = () => {
@@ -81,4 +97,6 @@ module.exports = {
   getSocketServerInstance,
   addNewConnectedUser,
   getConnectedUsers,
+  getGameMap,
+  addOpponentToGameMap
 };

@@ -38,7 +38,6 @@ const registerSocketServer = (server) => {
             createNewGameHandler(socket, data);
         });
 
-
         socket.on('wantsToJoin', (data) => {
             wantsToJoinHandler(socket, data);
         });
