@@ -56,10 +56,10 @@ const handleEnding = async (game) => {
 
         if (game.scoreMe > game.scoreOpponent) {
             updatePersonalGameStats(game.me, game.opponent);
-            metadata = await nft.nftFlow(game.me, game.opponent, game.tokenData.betToken, game.tokenData.amount);
-            console.log(metadata);
-            console.log(metadata.Ipfs);
-            res = await reportWinner(game._id, game.me, metadata.Ipfs);
+            // metadata = await nft.nftFlow(game.me, game.opponent, game.tokenData.betToken, game.tokenData.amount);
+            // console.log(metadata);
+            // console.log(metadata.Ipfs);
+            res = await reportWinner(game._id, game.me, "metadata.Ipfs");
             // console.log(res);
             if (res.success) {
                 serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.me)).emit("game-over", game);
