@@ -12,16 +12,24 @@ Application is in Ghostnet right now ! To get the Ctez and USDT.e that we use dr
 
 
 
-## Deployed Contracts
+## Deployed Contracts V1
 
 TezTile Game : KT1KY1nnwawbqyXz2g2b9tS7qCaiEidnkZWb
 
 TezTile NFTs : KT1UHy8rtoz6puuxPbbwafVxkBAhhNb1yw9M
 
+## Deployed Contracts V2
+
+TezTile Game : KT1FjNorFCBAxvWFK4k15nyiFiGBb4T12Gpx
+
+TezTile NFTs : KT1TVGLKpsT8i7tBQJXQTx7oBnuD9tUXrvjf
+
 
 ## Wallets
 
 admin : tz1NhKzAZkzB1SExnt1ECtfvuGE6n5VSLctL
+SOS : tz1NaGu7EisUCyfJpB16ktNxgSqpuMo8aSEk
+Treasury : tz1WwdxyWajE28JnN5FWn2XRR4XcXiBEAC1J
 
 
 ## To Run in your local machine 
