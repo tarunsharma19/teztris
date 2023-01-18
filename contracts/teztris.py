@@ -1,12 +1,12 @@
 import smartpy as sp 
 
 # For IDE , with the contracts in previous directory uploaded 
-# FA2 = sp.io.import_stored_contract("modifiedNFT")
-# FA12 = sp.io.import_stored_contract("FA12")
+FA2 = sp.io.import_stored_contract("modifiedNFT")
+FA12 = sp.io.import_stored_contract("FA12")
 
 # For Running in CLI
-FA2 = sp.io.import_script_from_url("file:modifiedNFT.py")
-FA12 = sp.io.import_script_from_url("file:FA12.py")
+# FA2 = sp.io.import_script_from_url("file:modifiedNFT.py")
+# FA12 = sp.io.import_script_from_url("file:FA12.py")
 
 class coin(FA12.FA12):
     pass
@@ -104,9 +104,12 @@ class TezTris(ContractLibrary):
         metadata = sp.TMap(sp.TString, sp.TBytes),
         token_id = sp.TNat,
     )
-    def __init__(self , _admin):
+    def __init__(self , _admin , _sos , _treasury):
         self.init(
             admin = _admin,
+            sos = _sos,
+            treasury = _treasury,
+            fee = sp.nat(20),
             rewardNFTAddress = sp.none,
             tokenId = sp.nat(0),
 
@@ -146,6 +149,21 @@ class TezTris(ContractLibrary):
         self.checkAdmin()
         self.data.admin = address
 
+    @sp.entry_point
+    def updateSOS(self , sos):
+        sp.verify(sp.sender == self.data.sos, message = "Not SOS address")
+        self.data.sos = sos
+
+    @sp.entry_point
+    def updateTreasury(self , address):
+        sp.verify(sp.sender == self.data.treasury, message = "Not Treasury address")
+        self.data.treasury = address
+
+    @sp.entry_point
+    def updateFee(self , newFee):
+        sp.verify(sp.sender == self.data.treasury, message = "Not Treasury address")
+        self.data.fee = newFee  
+
 
     @sp.entry_point
     def createGame(self , params):
@@ -162,7 +180,7 @@ class TezTris(ContractLibrary):
         sp.else:
             sp.if params.betTokenType == sp.nat(1):
                 #handle fa1.2
-                ContractLibrary.TransferToken(sp.sender, sp.self_address, params.betAmount, params.betToken , sp.nat(0) , False)
+                ContractLibrary.TransferToken(sp.sender, sp.self_address, params.betAmount, params.betToken , params.betTokenId , False)
                 amt.value = params.betAmount
 
             sp.else:
@@ -213,7 +231,7 @@ class TezTris(ContractLibrary):
         sp.else:
             sp.if params.betTokenType == sp.nat(1):
                 #handle fa1.2
-                ContractLibrary.TransferToken(sp.sender, sp.self_address, params.betAmount, params.betToken , sp.nat(0) , False)
+                ContractLibrary.TransferToken(sp.sender, sp.self_address, params.betAmount, params.betToken , params.betTokenId , False)
                 amt.value = params.betAmount
 
             sp.else:
@@ -241,18 +259,24 @@ class TezTris(ContractLibrary):
 
         amt = self.data.game[params.gameID].p1amt + self.data.game[params.gameID].p2amt
 
+        treasuryShare = amt // self.data.fee
+        userShare = sp.as_nat(amt - treasuryShare)
+        
+
         sp.if self.data.game[params.gameID].betTokenType == sp.nat(0):
             #handle tez
-            sp.send(params.winner , sp.utils.nat_to_mutez(amt))
+            sp.send(params.winner , sp.utils.nat_to_mutez(userShare))
+            sp.send(self.data.treasury , sp.utils.nat_to_mutez(treasuryShare))
         sp.else:
             sp.if self.data.game[params.gameID].betTokenType == sp.nat(1):
                 #handle fa1.2
-                ContractLibrary.TransferToken(sp.self_address, params.winner , amt , self.data.game[params.gameID].betToken , sp.nat(0) , False)
-
+                ContractLibrary.TransferToken(sp.self_address, params.winner , userShare , self.data.game[params.gameID].betToken , self.data.game[params.gameID].betTokenId , False)
+                ContractLibrary.TransferToken(sp.self_address, self.data.treasury , treasuryShare , self.data.game[params.gameID].betToken , self.data.game[params.gameID].betTokenId , False)
+        
             sp.else:
                 #handle fa2
-                ContractLibrary.TransferToken(sp.self_address, params.winner , amt , self.data.game[params.gameID].betToken , self.data.game[params.gameID].betTokenId , True)
-
+                ContractLibrary.TransferToken(sp.self_address, params.winner , userShare , self.data.game[params.gameID].betToken , self.data.game[params.gameID].betTokenId , True)
+                ContractLibrary.TransferToken(sp.self_address, self.data.treasury , treasuryShare , self.data.game[params.gameID].betToken , self.data.game[params.gameID].betTokenId , True)
 
         #mintNFT
         mintData = sp.record(
@@ -297,7 +321,7 @@ class TezTris(ContractLibrary):
         sp.else:
             sp.if self.data.game[params.gameID].betTokenType == sp.nat(1):
                 #handle fa1.2
-                ContractLibrary.TransferToken(sp.self_address, self.data.game[params.gameID].player1 , amt , self.data.game[params.gameID].betToken , sp.nat(0) , False)
+                ContractLibrary.TransferToken(sp.self_address, self.data.game[params.gameID].player1 , amt , self.data.game[params.gameID].betToken , self.data.game[params.gameID].betTokenId , False)
 
             sp.else:
                 #handle fa2
@@ -305,6 +329,44 @@ class TezTris(ContractLibrary):
 
         
         del self.data.game[params.gameID]
+
+    @sp.entry_point
+    def SOS(self , gameID):
+        # Only to be executed in dire circumstances when game is BLOCKED DUE TO SERVER ISSUES
+        # Addy to be stored safely by owners , moves staked token only to stakers 
+        #  can be called regardless of game state
+        sp.verify(sp.sender == self.data.sos , "ONLY_CALLABLE_BY_SOS")
+        sp.verify(self.data.game.contains(gameID) , message = "GAME_DOESNT_EXIST")
+        sp.verify(self.data.game[gameID].p1amt > sp.nat(0), "NO_P1_STAKE_FOUND")
+        sp.verify(self.data.game[gameID].p2amt > sp.nat(0) , "NO_P2_STAKE_FOUND")
+
+        # Sanity checks passed now just send the amount to owners
+        #returning stake
+        amt = self.data.game[gameID].p1amt
+        amt2 = self.data.game[gameID].p2amt
+
+        sp.if self.data.game[gameID].betTokenType == sp.nat(0):
+            #handle tez
+            sp.send(self.data.game[gameID].player1 , sp.utils.nat_to_mutez(amt))
+            sp.send(self.data.game[gameID].player2.open_some() , sp.utils.nat_to_mutez(amt2))
+        
+        sp.else:
+            sp.if self.data.game[gameID].betTokenType == sp.nat(1):
+                #handle fa1.2
+                ContractLibrary.TransferToken(sp.self_address, self.data.game[gameID].player1 , amt , self.data.game[gameID].betToken , self.data.game[gameID].betTokenId , False)
+                ContractLibrary.TransferToken(sp.self_address, self.data.game[gameID].player2.open_some() , amt2 , self.data.game[gameID].betToken , self.data.game[gameID].betTokenId , False)
+
+            sp.else:
+                #handle fa2
+                ContractLibrary.TransferToken(sp.self_address, self.data.game[gameID].player1 , amt , self.data.game[gameID].betToken , self.data.game[gameID].betTokenId , True)
+                ContractLibrary.TransferToken(sp.self_address, self.data.game[gameID].player2.open_some() , amt2 , self.data.game[gameID].betToken , self.data.game[gameID].betTokenId , True)
+        
+        del self.data.game[gameID]
+
+        
+        
+        
+        
 
 
 
@@ -323,6 +385,8 @@ def test():
     alice = sp.test_account("alice")
     bob = sp.test_account("bob")
     admin = sp.test_account("admin")
+    sos = sp.test_account("sos")
+    treasury = sp.test_account("treasury")
 
 
     coin = FA12.FA12(
@@ -346,7 +410,7 @@ def test():
     scenario+= coin
 
 
-    c = TezTris(admin.address)
+    c = TezTris(admin.address , sos.address , treasury.address)
 
     scenario += c
 
@@ -370,13 +434,19 @@ def test():
     scenario.h2("Registering FA2 contract for our crowdsale.")
     c.registerFA2(token.address).run(sender=admin)
 
+    c.SOS("FirstGame").run(sender = sos , valid = False)
+
     params = sp.record(gameID = "FirstGame" , betTokenType = sp.nat(0) , betAmount = sp.nat(1000000), betToken = sp.address("KT1AefyQpVfjupNFKBoKqrVHtHnCSZ7AKBtX") , betTokenId = sp.nat(0))
     c.createGame(params).run(sender = alice , amount = sp.tez(1))
+
+    c.SOS("FirstGame").run(sender = sos , valid = False)
 
     params2= sp.record(gameID = "FirstGame" , betTokenType = sp.nat(0) , betAmount = sp.nat(1000000), betToken = sp.address("KT1AefyQpVfjupNFKBoKqrVHtHnCSZ7AKBtX") , betTokenId = sp.nat(0))
     c.joinGame(params).run(sender = bob , amount = sp.tez(1))
 
     c.removeGame(sp.record(gameID = "FirstGame")).run(sender=alice , valid = False)
+
+    # c.SOS("FirstGame").run(sender = sos)
 
     params3 = sp.record(gameID = "FirstGame" , winner = alice.address , metadata = sp.map({"" : sp.utils.bytes_of_string("ipfs://QmSscmKnfMkYFKjrubbmrPUdkhATC4gZHktRRamCGyNN3G/2.json")}))
     c.reportWinner(params3).run(sender = admin)
@@ -402,4 +472,11 @@ def test():
     params3 = sp.record(gameID = "SecondGame" , winner = alice.address , metadata = sp.map({"" : sp.utils.bytes_of_string("ipfs://QmSscmKnfMkYFKjrubbmrPUdkhATC4gZHktRRamCGyNN3G/2.json")}))
     c.reportWinner(params3).run(sender = admin)
 
+
+    c.updateFee(50).run(sender = treasury)
+    c.updateTreasury(admin.address).run(sender = treasury)
+
+    c.updateSOS(admin.address).run(sender=sos)
+
+    
 
