@@ -1,12 +1,21 @@
 const connectedUsers = new Map();
-const gamesAvailable = new Map();
-
 /*
-connectedUsers ->
+connectedUsers -> 
 
 walletId : {
   sockets: [ socket ids ],
   game: gameId (uuid)
+}
+
+*/
+
+const gamesAvailable = new Map();
+/*
+gamesAvailable ->
+
+gameId : {
+  me: socketId,
+  opponent: socketId
 }
 
 */
@@ -21,19 +30,25 @@ const getMySocket = (wallet) => {
   }
 }
 
-const addNewGame = (gameId, isPublic, gameCreatorId) => {
+const addNewGame = (gameId, isPublic, socket) => {
+  // check multiple socket connection na ho
+  // agr hai to pehle add ho rkhi hogi game . No need to add again
+
   if (isPublic) {
     publicGames.push(gameId);
   } else {
     privateGames.push(gameId);
   }
 
-  gamesAvailable.set(gameId, [gameCreatorId]);
+  connectedUsers.set(socket.wallet, { ...connectedUsers.get(socket.wallet), game: gameId });
+  console.log(connectedUsers)
+  // Set game available map
+  gamesAvailable.set(gameId, { me: socket.id });
 }
 
 const removeGame = (gameId) => {
-  publicGames = publicGames.filter((id) => { id != gameId });
-  privateGames = privateGames.filter((id) => { id != gameId });
+  publicGames = publicGames.filter((id) => { id !== gameId });
+  privateGames = privateGames.filter((id) => { id !== gameId });
 }
 
 const setGameInUser = (wallet, gameId) => {
@@ -57,7 +72,7 @@ const getGameMap = (gameId) => {
 
 const addOpponentToGameMap = (gameId, opponentSocketId) => {
   if (gamesAvailable.has(gameId)) {
-    gamesAvailable.set(gameId, [...gamesAvailable.get(gameId), opponentSocketId]);
+    gamesAvailable.set(gameId, { ...gamesAvailable.get(gameId), opponent: opponentSocketId });
   }
 }
 

@@ -25,7 +25,7 @@ const createNewGameHandler = async (socket, data) => {
 
     // NOTE: cannot enter if condition in real life scenario. Only used for testing purposes
     if (await Game.findById(gameId)) {
-        serverStore.addNewGame(gameId, isPublic, socket.id);
+        serverStore.addNewGame(gameId, isPublic, socket.wallet);
         return;
     }
 
@@ -38,7 +38,7 @@ const createNewGameHandler = async (socket, data) => {
     await User.findByIdAndUpdate(wallet, { activeGameId: newGame._id });
 
     // 3) Send the game to the server store
-    serverStore.addNewGame(gameId, isPublic, socket.id);
+    serverStore.addNewGame(gameId, isPublic, socket);
 };
 
 module.exports = createNewGameHandler;

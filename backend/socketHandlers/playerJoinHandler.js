@@ -9,7 +9,7 @@ const playerJoinHandler = async (socket, data) => {
 
     // 2) If the game does not exist or payload is empty / undefined
     if (!gameId) {
-        socket.emit("status", "This game session does not exist.");
+        socket.emit("status", "Empty payload");
         return;
     }
 
@@ -31,20 +31,25 @@ const playerJoinHandler = async (socket, data) => {
         return;
     }
 
-    // 5) Update game status
+    // 5) Update user as his game can't be continued and will have to give a result
+    await User.findByIdAndUpdate(game.me, { $unset: { activeGameId: 1 } }, { new: true });
+
+    // 6) Update game status and Game Opponent
+    game.opponent = socket.wallet;
     game.status = 'ongoing';
     await game.save();
 
-
-    const me = game.me;
     const opponent = game.opponent;
-
-    // 6) Update server status
-    serverStore.setGameInUser(me, game._id);
+    // 7) Update server store to remove this game from active games and update opponent in game map
+    serverStore.removeGame(game._id);
+    serverStore.addOpponentToGameMap(game._id, socket.id);
     serverStore.setGameInUser(opponent, game._id);
 
-    // 6) Emit start game status to both the users
-    serverStore.getSocketServerInstance().to(serverStore.getGameMap(gameId)).emit("start-game", game);
+    // 8) Emit start game status to both the users
+    const gameSockets = serverStore.getGameMap(gameId);
+    // console.log(gameSockets);
+    serverStore.getSocketServerInstance().to(gameSockets.me).emit("start-game", game);
+    serverStore.getSocketServerInstance().to(gameSockets.opponent).emit("start-game", game);
 }
 
 module.exports = playerJoinHandler;
