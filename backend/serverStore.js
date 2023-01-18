@@ -33,6 +33,9 @@ const getMySocket = (wallet) => {
 const addNewGame = (gameId, isPublic, socket) => {
   // check multiple socket connection na ho
   // agr hai to pehle add ho rkhi hogi game . No need to add again
+  if (gamesAvailable.has(gameId)) {
+    return;
+  }
 
   if (isPublic) {
     publicGames.push(gameId);
@@ -107,6 +110,10 @@ const deleteGameIdfromGameMap = (gameId) => {
   // console.log(gamesAvailable)
 }
 
+const getGamesAvailable = () => {
+  return gamesAvailable;
+}
+
 module.exports = {
   addNewGame,
   getAllGames,
@@ -121,5 +128,6 @@ module.exports = {
   getConnectedUsers,
   getGameMap,
   addOpponentToGameMap,
-  deleteGameIdfromGameMap
+  deleteGameIdfromGameMap,
+  getGamesAvailable
 };

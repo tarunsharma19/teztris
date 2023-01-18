@@ -10,13 +10,13 @@ const newConnectionHandler = async (socket, io) => {
   if (user) {
 
     // 2) Find details of old game if exists
-    // if (user.activeGameId) {
-    //   const oldGame = await Game.findById(user.activeGameId);
-    //   if (oldGame) {
-    //     serverStore.addNewGame(oldGame._id, oldGame.isPublic, socket.wallet);
-    //     socket.emit('old-game-found', oldGame);
-    //   }
-    // }
+    if (user.activeGameId) {
+      const oldGame = await Game.findById(user.activeGameId);
+      if (oldGame) {
+        serverStore.addNewGame(oldGame._id, oldGame.isPublic, socket.wallet);
+        socket.emit('old-game-found', oldGame);
+      }
+    }
 
   } else {
     // 3) If no user exists or this is a new user then sign him up and send info

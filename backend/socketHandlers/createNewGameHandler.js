@@ -25,7 +25,7 @@ const createNewGameHandler = async (socket, data) => {
 
     // NOTE: cannot enter if condition in real life scenario. Only used for testing purposes
     if (await Game.findById(gameId)) {
-        serverStore.addNewGame(gameId, isPublic, socket.wallet);
+        serverStore.addNewGame(gameId, isPublic, socket);
         return;
     }
 
