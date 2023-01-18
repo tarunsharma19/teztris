@@ -97,7 +97,7 @@ class ContractLibrary(sp.Contract):
 
             ContractLibrary.TransferFATokens(sender, receiver, amount, tokenAddress)
 
-class TezTris(ContractLibrary):
+class TezTile(ContractLibrary):
     FA2MintParam = sp.TRecord(
         address = sp.TAddress,
         amount = sp.TNat,
@@ -364,22 +364,16 @@ class TezTris(ContractLibrary):
         del self.data.game[gameID]
 
         
-        
-        
-        
-
-
-
 
 
         
 
 
-@sp.add_test("Teztris")
+@sp.add_test("Teztile")
 def test():
     
     scenario = sp.test_scenario()
-    scenario.h1("Teztris")
+    scenario.h1("Teztile")
     scenario.table_of_contents()
 
     alice = sp.test_account("alice")
@@ -410,20 +404,20 @@ def test():
     scenario+= coin
 
 
-    c = TezTris(admin.address , sos.address , treasury.address)
+    c = TezTile(admin.address , sos.address , treasury.address)
 
     scenario += c
 
     token = NFT(
         config = FA2.FA2_config(
-            non_fungible=False,
+            non_fungible=True,
             assume_consecutive_token_ids = True
         ),
         admin = admin.address,
         crowdsale = c.address,
         metadata = sp.big_map({
             "": sp.utils.bytes_of_string("tezos-storage:content"),
-            "content": sp.utils.bytes_of_string("""{"name": "Teztris NFT Contract", "description": "NFT contract for the Teztris Games"}"""),
+            "content": sp.utils.bytes_of_string("""{"name": "Teztile NFT Contract", "description": "NFT contract for the Teztile Games"}"""),
         })
     )
     
@@ -477,6 +471,30 @@ def test():
     c.updateTreasury(admin.address).run(sender = treasury)
 
     c.updateSOS(admin.address).run(sender=sos)
+
+    #Compilation
+
+    sp.add_compilation_target("Teztileeeeeeee", TezTile(
+        sp.address("tz1NhKzAZkzB1SExnt1ECtfvuGE6n5VSLctL"), 
+        sp.address("tz1NaGu7EisUCyfJpB16ktNxgSqpuMo8aSEk") , 
+        sp.address("tz1WwdxyWajE28JnN5FWn2XRR4XcXiBEAC1J")))
+
+    #now deploy NFT token addy with crowdsale
+    crowdsale = sp.address("KT1FjNorFCBAxvWFK4k15nyiFiGBb4T12Gpx")
+
+    sp.add_compilation_target("NFT", NFT(
+        config = FA2.FA2_config(
+            non_fungible=True,
+            assume_consecutive_token_ids = True
+        ),
+        admin = sp.address("tz1NaGu7EisUCyfJpB16ktNxgSqpuMo8aSEk"),
+        crowdsale = crowdsale ,
+        metadata = sp.big_map({
+            "": sp.utils.bytes_of_string("tezos-storage:content"),
+            "content": sp.utils.bytes_of_string("""{"name": "Teztile NFT Contract", "description": "NFT contract for the Teztile Games"}"""),
+        })
+    ))
+    
 
     
 
