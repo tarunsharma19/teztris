@@ -30,7 +30,7 @@ const getMySocket = (wallet) => {
   }
 }
 
-const addNewGame = (gameId, isPublic, socket) => {
+const addNewGame = (gameId, isPublic, socket, alias) => {
   // check multiple socket connection na ho
   // agr hai to pehle add ho rkhi hogi game . No need to add again
   if (gamesAvailable.has(gameId)) {
@@ -38,9 +38,9 @@ const addNewGame = (gameId, isPublic, socket) => {
   }
 
   if (isPublic) {
-    publicGames.push(gameId);
+    publicGames.push({ gameId, alias });
   } else {
-    privateGames.push(gameId);
+    privateGames.push({ gameId, alias });
   }
 
   connectedUsers.set(socket.wallet, { ...connectedUsers.get(socket.wallet), game: gameId });
@@ -50,8 +50,8 @@ const addNewGame = (gameId, isPublic, socket) => {
 }
 
 const removeGame = (gameId) => {
-  publicGames = publicGames.filter((id) => { id !== gameId });
-  privateGames = privateGames.filter((id) => { id !== gameId });
+  publicGames = publicGames.filter((game) => { game.gameId !== gameId });
+  privateGames = privateGames.filter((game) => { game.gameId !== gameId });
 }
 
 const setGameInUser = (wallet, gameId) => {

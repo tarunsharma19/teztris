@@ -11,6 +11,7 @@ const wantsToJoinHandler = require('./socketHandlers/wantsToJoinHandler');
 const playerJoinHandler = require("./socketHandlers/playerJoinHandler");
 const disconnectHandler = require("./socketHandlers/disconnectHandler");
 const endHandler = require("./socketHandlers/endHandler");
+const scoreEmittedHandler = require("./socketHandlers/scoreEmittedHandler");
 
 const registerSocketServer = (server) => {
     const io = require('socket.io')(server, {
@@ -44,6 +45,10 @@ const registerSocketServer = (server) => {
 
         socket.on('playerJoins', (data) => {
             playerJoinHandler(socket, data)
+        })
+
+        socket.on('scoreEmitted', (data) => {
+            scoreEmittedHandler(socket, data);
         })
 
         socket.on('endGame', (data) => {

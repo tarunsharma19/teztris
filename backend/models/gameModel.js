@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const gameSchema = new mongoose.Schema({
     _id: { type: String },
+    alias: { type: String, default: '' },
     isPublic: { type: Boolean, default: false },
     tokenData: {
         amount: { type: Number, default: 0 },

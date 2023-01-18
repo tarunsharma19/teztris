@@ -8,7 +8,7 @@ const disconnectHandler = async (socket) => {
     const connectedUsers = serverStore.getConnectedUsers();
     const gamesAvailable = serverStore.getGamesAvailable();
 
-    await handleGame2(socket, connectedUsers, gamesAvailable);
+    await handleGame(socket, connectedUsers, gamesAvailable);
     const socketData = connectedUsers.get(socket.wallet);
 
     // 3) If only single socket exists then disconnect him and remove his active game id from server state
@@ -22,11 +22,9 @@ const disconnectHandler = async (socket) => {
     console.log(connectedUsers);
 }
 
+//TODO: end handle logic
 
-const handleGame2 = async (socket, connectedUsers, gamesAvailable) => {
-    // console.log("before")
-    // console.log(connectedUsers);
-    // console.log(gamesAvailable);
+const handleGame = async (socket, connectedUsers, gamesAvailable) => {
     const socketData = connectedUsers.get(socket.wallet);
     const user = await User.findById(socket.wallet);
     if (socketData.game) {
@@ -41,61 +39,20 @@ const handleGame2 = async (socket, connectedUsers, gamesAvailable) => {
                 // he was the creator of the game
                 gamesAvailable.get(socketData.game).me = null;
                 game.scoreMe === -1 ? game.scoreMe = 0 : game.scoreMe = game.scoreMe;
-                if (!game.winner) {
+                if (!game.winner && game.scoreOpponent > game.scoreMe) {
                     game.winner = game.opponent;
                 }
             } else {
                 // he was the opponent of the game
                 gamesAvailable.get(socketData.game).opponent = null;
                 game.scoreOpponent === -1 ? game.scoreOpponent = 0 : game.scoreOpponent = game.scoreOpponent;
-                if (!game.winner) {
+                if (!game.winner && game.scoreOpponent < game.scoreMe) {
                     game.winner = game.me;
                 }
             }
 
             await game.save();
         }
-    }
-    // console.log("after")
-    // console.log(connectedUsers);
-    // console.log(gamesAvailable);
-}
-
-const handleGame = async (socket, socketData) => {
-    if (socketData.game) {
-        // declare his score 0 if not finished
-        const game = await Game.findById(socketData.game);
-        if (game.me === socket.wallet) {
-            if (game.scoreMe === -1) {
-                game.scoreMe = 0;
-                // declare opponent winner
-                serverStore.getGameMap(socketData.game).forEach(sock => {
-                    if (sock !== socket.wallet) {
-                        serverStore.getSocketServerInstance().to(sock).emit('match-ended', 'Opponent left the game');
-                        // delete game from ongoing games
-                        serverStore.deleteGameIdfromGameMap(socketData.game);
-                    }
-                });
-            }
-        } else {
-            if (game.scoreOpponent === -1) {
-                game.scoreOpponent = 0;
-                // declare opponent winner
-                serverStore.getGameMap(socketData.game).forEach(sock => {
-                    if (sock !== socket.wallet) {
-                        serverStore.getSocketServerInstance().to(sock).emit('match-ended', 'Opponent left the game');
-                        // delete game from ongoing games
-                        serverStore.deleteGameIdfromGameMap(socketData.game);
-                    }
-                });
-            }
-        }
-
-        if (game.scoreMe === 0 && game.scoreOpponent === 0) {
-            //update game status
-            game.status = 'complete';
-        }
-        await game.save();
     }
 }
 

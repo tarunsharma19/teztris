@@ -7,6 +7,7 @@ const createNewGameHandler = async (socket, data) => {
     Sample Data
     {
         "uuid": "123e4567-e89b-12d3-a456-426614174000",
+        "alias": "test",
         "isPublic" : true,
         "obj": {
         "amount": 2,
@@ -22,10 +23,11 @@ const createNewGameHandler = async (socket, data) => {
     const wallet = socket.wallet;
     const gameId = data.uuid;
     const isPublic = data?.isPublic || false;
+    const alias = data?.alias || '';
 
     // NOTE: cannot enter if condition in real life scenario. Only used for testing purposes
     if (await Game.findById(gameId)) {
-        serverStore.addNewGame(gameId, isPublic, socket);
+        serverStore.addNewGame(gameId, isPublic, socket, alias);
         return;
     }
 
@@ -38,7 +40,7 @@ const createNewGameHandler = async (socket, data) => {
     await User.findByIdAndUpdate(wallet, { activeGameId: newGame._id });
 
     // 3) Send the game to the server store
-    serverStore.addNewGame(gameId, isPublic, socket);
+    serverStore.addNewGame(gameId, isPublic, socket, alias);
 };
 
 module.exports = createNewGameHandler;
