@@ -11,11 +11,21 @@ const gameSchema = new mongoose.Schema({
         betTokenType: { type: String, required: true },
         betTokenName: { type: String, required: true }
     },
+
+    // assign when game starts
     me: { type: String, required: true },
     opponent: { type: String },
-    scoreMe: { type: Number, default: -1 },
-    scoreOpponent: { type: Number, default: -1 },
+
+    // to know if they ended the game
+    meFinished: { type: Boolean, default: false },
+    opponentFinished: { type: Boolean, default: false },
+
+    // input scores
+    scoreMe: { type: Number, default: 0 },
+    scoreOpponent: { type: Number, default: 0 },
     status: { type: String, default: 'init', enum: ['init', 'opponent-found', 'ongoing', 'complete'] },
+
+    // winner details for this game
     winner: { type: String }, // wallet id of winner
     winnerNft: { type: String }, // nft address of winner
 });

@@ -10,7 +10,7 @@ const createNewGameHandler = require('./socketHandlers/createNewGameHandler');
 const wantsToJoinHandler = require('./socketHandlers/wantsToJoinHandler');
 const playerJoinHandler = require("./socketHandlers/playerJoinHandler");
 const disconnectHandler = require("./socketHandlers/disconnectHandler");
-const endHandler = require("./socketHandlers/endHandler");
+const { endHandler } = require("./socketHandlers/endHandler");
 const scoreEmittedHandler = require("./socketHandlers/scoreEmittedHandler");
 
 const registerSocketServer = (server) => {

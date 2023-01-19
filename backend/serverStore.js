@@ -44,7 +44,7 @@ const addNewGame = (gameId, isPublic, socket, alias) => {
   }
 
   connectedUsers.set(socket.wallet, { ...connectedUsers.get(socket.wallet), game: gameId });
-  console.log(connectedUsers)
+  // console.log(connectedUsers)
   // Set game available map
   gamesAvailable.set(gameId, { me: socket.id });
 }

@@ -14,7 +14,7 @@ exports.leaderboard = catchAsync(async (req, res, next) => {
     } else if (req.query.lost) {
         sort = { lost: +req.query.lost }
     }
-    console.log(sort);
+    // console.log(sort);
     const users = await User.find(query).sort(sort).limit(limit);
 
     res.send({

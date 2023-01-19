@@ -4,6 +4,7 @@ const User = require('../models/userModel');
 const Queue = require('../util/queue');
 const reportWinner = require('../util/reportWinner');
 const nft = require('../nft');
+const updateHighScore = require("../util/updateHighScore");
 
 let Q = new Queue();
 let lock = false;
@@ -15,33 +16,28 @@ const endHandler = async (socket, data) => {
     const score = +data.score;
 
     const game = await Game.findById(gameId);
-    const user = await User.findById(socket.wallet);
 
     // 1) enter scores into the game
+    await updateHighScore(gameId, socket.wallet, score);
+
     if (game.me === socket.wallet) {
-        if (user.highScore < score) {
-            user.highScore = score;
-        }
         game.scoreMe = score;
-        serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.opponent)).emit("opponent-ended", score);
+        game.meFinished = true;
+        serverStore.getSocketServerInstance().to(serverStore.getGamesAvailable().get(gameId).opponent).emit("opponent-ended", score);
     } else {
-        if (user.highScore < score) {
-            user.highScore = score;
-        }
         game.scoreOpponent = score;
-        serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.me)).emit("opponent-ended", score);
+        game.opponentFinished = true;
+        serverStore.getSocketServerInstance().to(serverStore.getGamesAvailable().get(gameId).me).emit("opponent-ended", score);
     }
+
     // remove active game from state for this user
     serverStore.removeGameInUser(socket.wallet);
 
-
-
-    if (game.scoreMe !== -1 && game.scoreOpponent != -1) {
+    if (game.meFinished && game.opponentFinished) {
         // game khatam hogyi
+        game.scoreMe > game.scoreOpponent ? game.winner = game.me : game.winner = game.opponent;
         handleEnding(game);
     }
-
-    await user.save();
     await game.save();
 
 }
@@ -59,9 +55,9 @@ const handleEnding = async (game) => {
             // metadata = await nft.nftFlow(game.me, game.opponent, game.tokenData.betToken, game.tokenData.amount);
             // console.log(metadata);
             // console.log(metadata.Ipfs);
-            res = await reportWinner(game._id, game.me, "metadata.Ipfs");
+            // res = await reportWinner(game._id, game.me, "metadata.Ipfs");
             // console.log(res);
-            if (res.success) {
+            if (true) {
                 serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.me)).emit("game-over", game);
             } else emitErrorToAllPlayers(game);
         }
@@ -113,4 +109,4 @@ const emitErrorToAllPlayers = (game) => {
 
 // setInterval(handleQueue, [1000]);
 
-module.exports = endHandler;
+module.exports = { endHandler, handleEnding };

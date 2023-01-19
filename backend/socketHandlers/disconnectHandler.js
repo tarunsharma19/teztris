@@ -1,6 +1,8 @@
 const serverStore = require("../serverStore");
 const Game = require('../models/gameModel');
 const User = require('../models/userModel');
+const updateHighScore = require("../util/updateHighScore");
+const { handleEnding } = require("./endHandler");
 
 
 const disconnectHandler = async (socket) => {
@@ -22,38 +24,38 @@ const disconnectHandler = async (socket) => {
     console.log(connectedUsers);
 }
 
-//TODO: end handle logic
-
 const handleGame = async (socket, connectedUsers, gamesAvailable) => {
     const socketData = connectedUsers.get(socket.wallet);
-    const user = await User.findById(socket.wallet);
-    if (socketData.game) {
-        if (user.activeGameId) {
-            // no one joined the game
+    console.log("++", gamesAvailable.get(socketData.game).opponent);
+    if (socketData.game && !(gamesAvailable.get(socketData.game).opponent)) {
+        console.log('inside if')
+        // no one joined the game
+        if (socket.id === gamesAvailable.get(socketData.game).me) {
             gamesAvailable.delete(socketData.game);
             connectedUsers.set(socket.wallet, { ...connectedUsers.get(socket.wallet), game: null });
             serverStore.removeGame(socketData.game);
-        } else {
-            const game = await Game.findById(socketData.game);
-            if (gamesAvailable.get(socketData.game).me === socket.id) {
-                // he was the creator of the game
-                gamesAvailable.get(socketData.game).me = null;
-                game.scoreMe === -1 ? game.scoreMe = 0 : game.scoreMe = game.scoreMe;
-                if (!game.winner && game.scoreOpponent > game.scoreMe) {
-                    game.winner = game.opponent;
-                }
-            } else {
-                // he was the opponent of the game
-                gamesAvailable.get(socketData.game).opponent = null;
-                game.scoreOpponent === -1 ? game.scoreOpponent = 0 : game.scoreOpponent = game.scoreOpponent;
-                if (!game.winner && game.scoreOpponent < game.scoreMe) {
-                    game.winner = game.me;
-                }
-            }
-
-            await game.save();
         }
+    } else {
+        const game = await Game.findById(socketData.game);
+        if (gamesAvailable.get(socketData.game).me === socket.id) {
+            // he was the creator of the game
+            gamesAvailable.get(socketData.game).me = null;
+            game.meFinished = true;
+        } else {
+            // he was the opponent of the game
+            gamesAvailable.get(socketData.game).opponent = null;
+            game.opponentFinished = true;
+        }
+
+        if (game.meFinished && game.opponentFinished) {
+            // game khatam hogyi
+            game.scoreMe > game.scoreOpponent ? game.winner = game.me : game.winner = game.opponent;
+            handleEnding(game);
+        }
+
+        await game.save();
     }
 }
+
 
 module.exports = disconnectHandler;
