@@ -23,7 +23,7 @@ const wantsToJoinHandler = async (socket, data) => {
     // 4) Find the game from database and check if its being already played by 2 people or it was finished in past
     const game = await Game.findById(gameIdToBeJoined);
     if (!game) {
-        socket.emit("status", "The game does not exist");
+        socket.emit("status", "The game does not exist. Internal Server Error. Please put in a request to the developers");
         return;
     }
 

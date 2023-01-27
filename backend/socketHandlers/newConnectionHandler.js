@@ -27,6 +27,9 @@ const newConnectionHandler = async (socket, io) => {
       if (serverStore.addNewGame(oldGame._id, oldGame.isPublic, socket, oldGame.alias)) {
         socket.emit('old-game-found', oldGame);
       }
+    } else {
+      socket.emit('status', 'There was an error finding your old game. Please close this tab and reconnect again');
+      return;
     }
   }
 };

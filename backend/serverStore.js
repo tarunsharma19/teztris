@@ -43,10 +43,10 @@ const addNewGame = (gameId, isPublic, socket, alias) => {
   }
 
   connectedUsers.set(socket.wallet, { ...connectedUsers.get(socket.wallet), game: gameId });
-  console.log(connectedUsers)
+  // console.log(connectedUsers)
   // Set game available map
   gamesAvailable.set(gameId, { me: socket.id });
-  console.log(gamesAvailable)
+  // console.log(gamesAvailable)
   return true;
 }
 
@@ -98,7 +98,7 @@ const addNewConnectedUser = ({ socketId, userId }) => {
   } else {
     connectedUsers.set(userId, { sockets: [socketId] });
   }
-  console.log(connectedUsers)
+  // console.log(connectedUsers)
 };
 
 const getConnectedUsers = () => {

@@ -22,6 +22,11 @@ const endHandler = async (socket, data) => {
         return;
     }
 
+    if (!score) {
+        console.log('Corrupt payload');
+        return;
+    }
+
     // 1) enter scores into the game
     await updateHighScore(gameId, socket.wallet, score);
 

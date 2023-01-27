@@ -1,7 +1,5 @@
 const serverStore = require("../serverStore");
 const Game = require('../models/gameModel');
-const User = require('../models/userModel');
-const updateHighScore = require("../util/updateHighScore");
 const { handleEnding } = require("./endHandler");
 
 
@@ -22,7 +20,7 @@ const disconnectHandler = async (socket) => {
         connectedUsers.set(socket.wallet, socketData)
     }
 
-    console.log(connectedUsers);
+    // console.log(connectedUsers);
 }
 
 const handleGame = async (socket, connectedUsers, gamesAvailable) => {

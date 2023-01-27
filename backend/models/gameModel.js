@@ -23,11 +23,11 @@ const gameSchema = new mongoose.Schema({
     // input scores
     scoreMe: { type: Number, default: 0 },
     scoreOpponent: { type: Number, default: 0 },
-    status: { type: String, default: 'init', enum: ['init', 'opponent-found', 'ongoing', 'complete'] },
+    status: { type: String, default: 'init', enum: ['init', 'opponent-found', 'ongoing', 'complete', 'refund'] },
 
     // winner details for this game
     winner: { type: String }, // wallet id of winner
     winnerNft: { type: String }, // nft address of winner
-});
+}, { timestamps: true }, { versionKey: false });
 
 module.exports = mongoose.model("Game", gameSchema);

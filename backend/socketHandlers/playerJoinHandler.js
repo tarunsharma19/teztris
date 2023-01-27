@@ -16,7 +16,7 @@ const playerJoinHandler = async (socket, data) => {
     // 3) Find the game opponent wants to join
     const game = await Game.findById(gameId);
     if (!game) {
-        socket.emit("status", "The game does not exist");
+        socket.emit("status", "The game does not exist. Internal Server Error. Please put in a request to the developers");
         return;
     }
 

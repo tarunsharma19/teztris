@@ -2,7 +2,7 @@ const serverStore = require("../serverStore");
 const User = require("../models/userModel");
 const Game = require('../models/gameModel');
 
-const createNewGameHandler = async (socket, data) => {
+const createNewGameHandler = async (socket, data, next) => {
     /* 
     Sample Data
     {
@@ -35,6 +35,11 @@ const createNewGameHandler = async (socket, data) => {
     const newGame = await Game.create({
         _id: gameId, alias, isPublic, tokenData: data.obj, me: wallet
     });
+
+    if (!newGame) {
+        socket.emit('exception', { errorMessage: 'There was an error creating the game' });
+        return;
+    }
 
     // 2) Assign game to the user
     await User.findByIdAndUpdate(wallet, { activeGameId: newGame._id });
