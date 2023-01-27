@@ -33,7 +33,7 @@ const createNewGameHandler = async (socket, data) => {
 
     // 1) Make a new game
     const newGame = await Game.create({
-        _id: gameId, isPublic, tokenData: data.obj, me: wallet
+        _id: gameId, alias, isPublic, tokenData: data.obj, me: wallet
     });
 
     // 2) Assign game to the user

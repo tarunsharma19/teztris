@@ -19,7 +19,10 @@ exports.getMe = catchAsync(async (req, res, next) => {
             }
         }, {
             '$group': {
-                '_id': '$tokenData.betToken',
+                '_id': {
+                    'betToken': '$tokenData.betToken',
+                    'betTokenId': '$tokenData.betTokenId'
+                },
                 'totalAmountWon': {
                     '$sum': '$tokenData.amount'
                 }
@@ -43,7 +46,10 @@ exports.getMe = catchAsync(async (req, res, next) => {
             }
         }, {
             '$group': {
-                '_id': '$tokenData.betToken',
+                '_id': {
+                    'betToken': '$tokenData.betToken',
+                    'betTokenId': '$tokenData.betTokenId'
+                },
                 'totalAmountLost': {
                     '$sum': '$tokenData.amount'
                 }

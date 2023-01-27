@@ -17,6 +17,11 @@ const endHandler = async (socket, data) => {
 
     const game = await Game.findById(gameId);
 
+    if (!game) {
+        console.log('The game was not there for game Id' + gameId);
+        return;
+    }
+
     // 1) enter scores into the game
     await updateHighScore(gameId, socket.wallet, score);
 
@@ -66,7 +71,7 @@ const handleEnding = async (game) => {
             metadata = await nft.nftFlow(game.opponent, game.me, game.tokenData.betToken, game.tokenData.amount);
             // console.log(metadata);
             // console.log(metadata.Ipfs);
-            res = await reportWinner(game._id, game.opponent, metadata.Ipfs);
+            res = await reportWinner(game._id, game.opponent, 'metadata.Ipfs');
             // console.log(res);
             if (res.success) {
                 serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.opponent)).emit("game-over", game);

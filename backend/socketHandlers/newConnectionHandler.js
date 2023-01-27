@@ -24,8 +24,9 @@ const newConnectionHandler = async (socket, io) => {
   if (user.activeGameId) {
     const oldGame = await Game.findById(user.activeGameId);
     if (oldGame) {
-      serverStore.addNewGame(oldGame._id, oldGame.isPublic, socket, oldGame.alias);
-      socket.emit('old-game-found', oldGame);
+      if (serverStore.addNewGame(oldGame._id, oldGame.isPublic, socket, oldGame.alias)) {
+        socket.emit('old-game-found', oldGame);
+      }
     }
   }
 };

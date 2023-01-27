@@ -1,0 +1,3 @@
+BUG : reconnection game vapis ni aari
+GAME NA MILE EDGE CASE
+BUG : reconnection pe panga aara

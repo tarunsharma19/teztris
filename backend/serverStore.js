@@ -31,10 +31,9 @@ const getMySocket = (wallet) => {
 }
 
 const addNewGame = (gameId, isPublic, socket, alias) => {
-  // check multiple socket connection na ho
-  // agr hai to pehle add ho rkhi hogi game . No need to add again
+  // 1) Check if game is already added as it could be an old game and a multiple socket connection request
   if (gamesAvailable.has(gameId)) {
-    return;
+    return false;
   }
 
   if (isPublic) {
@@ -44,9 +43,11 @@ const addNewGame = (gameId, isPublic, socket, alias) => {
   }
 
   connectedUsers.set(socket.wallet, { ...connectedUsers.get(socket.wallet), game: gameId });
-  // console.log(connectedUsers)
+  console.log(connectedUsers)
   // Set game available map
   gamesAvailable.set(gameId, { me: socket.id });
+  console.log(gamesAvailable)
+  return true;
 }
 
 const removeGame = (gameId) => {
@@ -97,6 +98,7 @@ const addNewConnectedUser = ({ socketId, userId }) => {
   } else {
     connectedUsers.set(userId, { sockets: [socketId] });
   }
+  console.log(connectedUsers)
 };
 
 const getConnectedUsers = () => {
