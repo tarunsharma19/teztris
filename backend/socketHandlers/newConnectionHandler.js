@@ -1,6 +1,7 @@
 const serverStore = require("../serverStore");
 const User = require('../models/userModel');
 const Game = require('../models/gameModel');
+const colors = require('colors');
 
 const newConnectionHandler = async (socket, io) => {
   const walletId = socket.wallet;
@@ -25,9 +26,11 @@ const newConnectionHandler = async (socket, io) => {
     const oldGame = await Game.findById(user.activeGameId);
     if (oldGame) {
       if (serverStore.addNewGame(oldGame._id, oldGame.isPublic, socket, oldGame.alias)) {
+        console.log('Game added to server store'.green);
         socket.emit('old-game-found', oldGame);
       }
     } else {
+      console.log('There was an error finding your old game. Please close this tab and reconnect again'.red.inverse);
       socket.emit('status', 'There was an error finding your old game. Please close this tab and reconnect again');
       return;
     }

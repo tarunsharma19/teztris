@@ -1,3 +1,5 @@
+const colors = require('colors');
+
 const connectedUsers = new Map();
 /*
 connectedUsers -> 
@@ -47,6 +49,14 @@ const addNewGame = (gameId, isPublic, socket, alias) => {
   // Set game available map
   gamesAvailable.set(gameId, { me: socket.id });
   // console.log(gamesAvailable)
+
+  console.log('A game is added to the server memory . These are latest memory variables. '.green);
+  console.log('Connected Users map'.yellow);
+  console.log(connectedUsers);
+  console.log('Games Available map'.yellow);
+  console.log(gamesAvailable);
+  console.log('-----------------------------------------------------------------'.yellow);
+
   return true;
 }
 
@@ -98,7 +108,10 @@ const addNewConnectedUser = ({ socketId, userId }) => {
   } else {
     connectedUsers.set(userId, { sockets: [socketId] });
   }
-  // console.log(connectedUsers)
+
+  console.log(`Updated Connected Users Map: New User Added - (socketId) ${socketId} - (wallet) ${userId}.  Latest map as follows`.cyan);
+  console.log(connectedUsers)
+  console.log('-----------------------------------------------------------------');
 };
 
 const getConnectedUsers = () => {
