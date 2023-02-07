@@ -3,10 +3,13 @@ const Game = require('../models/gameModel');
 const User = require('../models/userModel');
 
 const wantsToJoinHandler = async (socket, data) => {
+
+    console.log(`${socket.wallet} wants to join a game`.cyan.inverse);
+
     // 1) Extract game to be joined id
     const gameIdToBeJoined = data.uuid;
     if (!gameIdToBeJoined) {
-        socket.emit("status", "Empty payload");
+        socket.emit("exception", "Empty payload");
         return;
     }
 
