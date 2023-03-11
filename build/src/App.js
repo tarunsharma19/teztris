@@ -4,6 +4,7 @@ import Landing from './components/landing/Landing';
 import StartGame from './components/StartGame';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createContext } from 'react';
+import Home from './components/homepage/Home';
 
 const manageFunc = createContext(null);
 
@@ -20,6 +21,7 @@ function App() {
     <Routes>
       <Route path="/app" element={<Tetris />}/>
       <Route path="/start" element={<StartGame />}/>
+      <Route path="/home" element={<Home />}/>
       <Route path="/" element ={<Landing />}/>
     </Routes>
   </manageFunc.Provider>

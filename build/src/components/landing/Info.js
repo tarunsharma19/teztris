@@ -12,7 +12,9 @@ function Info() {
               the layer of blockchain and collect the experience in form of NFTs.
           </p>
       </div>
+      <div className="marquee">
       <img className='circles' src={circles}></img>
+      </div>
     </div>
   )
 }
