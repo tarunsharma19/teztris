@@ -5,11 +5,12 @@ const Queue = require('../util/queue');
 const reportWinner = require('../util/reportWinner');
 const nft = require('../nft');
 const updateHighScore = require("../util/updateHighScore");
+const axios = require("axios");
 
 let Q = new Queue();
 let lock = false;
 
-//TESTING PENDING
+
 const endHandler = async (socket, data) => {
 
     const gameId = data.gameId;
@@ -60,24 +61,29 @@ const handleEnding = async (game) => {
     if (!lock) {
         lock = true;
 
+        const responseFromContract = await axios.get('https://api.ghostnet.tzkt.io/v1/contracts/KT1KY1nnwawbqyXz2g2b9tS7qCaiEidnkZWb/storage');
+        const { tokenId } = responseFromContract.data;
+        game.winnerNft = `${(+tokenId) - 1}`;
+        console.log("NFT tokenId updated for the winner " + game.winnerNft);
+
         if (game.scoreMe > game.scoreOpponent) {
             updatePersonalGameStats(game.me, game.opponent);
-            // metadata = await nft.nftFlow(game.me, game.opponent, game.tokenData.betToken, game.tokenData.amount);
-            // console.log(metadata);
-            // console.log(metadata.Ipfs);
-            // res = await reportWinner(game._id, game.me, "metadata.Ipfs");
-            // console.log(res);
-            if (true) {
+            metadata = await nft.nftFlow(game.me, game.opponent, game.tokenData.betToken, game.tokenData.amount);
+            console.log(metadata);
+            console.log(metadata.Ipfs);
+            res = await reportWinner(game._id, game.me, "metadata.Ipfs");
+            console.log(res);
+            if (res.success) {
                 serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.me)).emit("game-over", game);
             } else emitErrorToAllPlayers(game);
         }
         else {
             updatePersonalGameStats(game.opponent, game.me);
             metadata = await nft.nftFlow(game.opponent, game.me, game.tokenData.betToken, game.tokenData.amount);
-            // console.log(metadata);
-            // console.log(metadata.Ipfs);
+            console.log(metadata);
+            console.log(metadata.Ipfs);
             res = await reportWinner(game._id, game.opponent, 'metadata.Ipfs');
-            // console.log(res);
+            console.log(res);
             if (res.success) {
                 serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.opponent)).emit("game-over", game);
             } else emitErrorToAllPlayers(game);
