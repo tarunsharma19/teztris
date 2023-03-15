@@ -1,3 +1,6 @@
+.center{
+    text-align: center;
+}
 .cardWrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -23,14 +26,16 @@
             }
             th {
                 display: inline-block;
-                width: 90px;
+                min-width: 90px;
                 margin-right: 10px;
+                width: 120px;
                 text-align: left;
             }
             td{
                 padding-bottom: 8px;
-                width: 90px;
+                min-width: 90px;
                 margin-right: 10px;
+                width: 120px;
                 border-bottom: solid white 1px; /* change "white" to your background color */
 
             }
@@ -43,5 +48,70 @@
                 width: 100px;
             }
         }
+    }
+    .createGame{
+        .card{
+            height: 455px;
+            input{
+                box-sizing: border-box;
+                width: 90%;
+                height: 40px;
+                border-radius: 10px;
+                padding: 10px;
+                border: none;
+                margin-bottom: 10px;
+            }
+            img{
+                width: 100%;
+                margin: 20px 0;
+            }
+            .orange-btn{
+                box-sizing: border-box;
+                background: #E67F22;
+                height: 60px;
+                width: 90%;
+                margin: 0 auto;
+                display: block;
+                color: #fff;
+                border-radius: 10px;
+                text-align: center;
+                text-decoration: none;
+                text-transform: uppercase;
+                font-family: Sans-serif;
+                font-size: 26px;
+                font-weight: 800;
+                padding: 15px 0;
+                i{
+                  display:inline-block;
+                  border-left: 1px solid rgba(255,255,255,0.35);
+                  padding: 15px;
+                  margin-left: 15px;
+                }
+              }
+           
+        }
+        .blue-btn{
+            box-sizing: border-box;
+            background: #1286EB;
+            height: 60px;
+            margin: 20px 0 0 0;
+            width: 100%;
+            display: block;
+            color: #fff;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-family: Sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            padding: 15px 0;
+            i{
+              display:inline-block;
+              border-left: 1px solid rgba(255,255,255,0.35);
+              padding: 15px;
+              margin-left: 15px;
+            }
+          }
     }
 }
