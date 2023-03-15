@@ -4,7 +4,7 @@ import Landing from './components/landing/Landing';
 import StartGame from './components/StartGame';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createContext } from 'react';
-import Home from './components/homepage/Home';
+import Home from './components/dashboard/Home';
 
 const manageFunc = createContext(null);
 
