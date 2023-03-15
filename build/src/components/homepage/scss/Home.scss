@@ -4,6 +4,11 @@
     overflow: hidden;
     background: url('../../../img/black-back.png');
     background-size: contain;
-    
+    .wrapper{
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-gap: 20px;
+    }
     
 }

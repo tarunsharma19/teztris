@@ -1,0 +1,52 @@
+.card {
+    height: 540px;
+    max-width: 440px;
+    border-radius: 20px;
+    background-color: #29292970;
+    overflow: hidden;
+
+    h1{
+        padding: 0 1rem;
+    }
+
+    .list{
+        height: 100%;
+        overflow: scroll;
+        .player{
+            display: flex;
+            .rank{
+                margin: 0 10px;
+                font-size: 32px;
+                color: #fff;
+            }
+            .rank.top{
+                color: gold
+            }
+            .playerDetails{
+                width: 60%;
+                .address{
+                    font-size: 9px;
+                }
+                .tezDomain{
+                    
+                }
+                .address.noDomain{
+                    font-size: 11px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 120px;
+                }
+            }
+            .stats{
+                .wins{
+
+                }
+                .lose{
+
+                }
+            }
+        }
+
+    }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import "./scss/Home.scss"
 import Navbar from './Navbar';
+import Leaderboard from './Leaderboard';
 
 function Home() {
   return (
@@ -8,6 +9,9 @@ function Home() {
       className="home"
     >
     <Navbar />
+    <div className="wrapper">
+      <Leaderboard />
+    </div>
     {/* <Leaderboard />
     <GameCards /> */}
     </div>
