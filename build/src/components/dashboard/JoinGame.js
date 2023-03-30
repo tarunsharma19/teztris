@@ -11,8 +11,8 @@ function JoinGame() {
                 <div className='center'>
                     <InputField placeholder={"Bet token amount"}/>
                     <input type="text" placeholder='Room name'></input>
-                    <img src={pattern}></img>
-                    <a href="#" class="orange-btn"> Create Game </a>
+                    <img className = "join" src={pattern}></img>
+                    <a href="#" className="orange-btn"> Create Game </a>
                 </div>
                 
             </div> 

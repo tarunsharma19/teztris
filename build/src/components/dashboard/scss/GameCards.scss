@@ -1,6 +1,7 @@
 .center{
     text-align: center;
 }
+
 .cardWrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -49,6 +50,7 @@
             }
         }
     }
+    
     .createGame{
         .card{
             height: 415px;
@@ -63,6 +65,9 @@
             img{
                 width: 100%;
                 margin: 20px 0;
+            }
+            img.join{
+                margin: 0 !important;
             }
             .orange-btn{
                 box-sizing: border-box;
