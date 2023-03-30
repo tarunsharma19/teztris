@@ -1,5 +1,4 @@
 import React from 'react'
-import InputField from './InputField'
 import pattern from '../../img/zigzag_small.png'
 
 
@@ -7,17 +6,16 @@ function JoinGame() {
   return (
     <div className='createGame'>
             <div className='card'>
-                <h1>Create Game</h1>
+                <h1>Join Game</h1>
                 <div className='center'>
-                    <InputField placeholder={"Bet token amount"}/>
-                    <input type="text" placeholder='Room name'></input>
-                    <img className = "join" src={pattern}></img>
-                    <a href="#" className="orange-btn"> Create Game </a>
+                    <input type="text" placeholder='paste game ID here ...'></input>
+                    <img src={pattern}></img>
+                    <a href="#" class="orange-btn"> Join Game </a>
                 </div>
                 
             </div> 
             <div className='blue-btn'>
-                Join Game
+                Create Game
             </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
-import CreateGame from './CreateGame'
-import JoinGame from './JoinGame'
+import CreateGame from './JoinGame'
+import JoinGame from './CreateGame'
 import './scss/GameCards.scss'
 
 function GameCards() {

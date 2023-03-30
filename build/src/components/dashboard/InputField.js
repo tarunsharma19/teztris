@@ -61,7 +61,7 @@ const DropdownMenuItem = styled.div`
 
 const InputField = ({ placeholder }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('USD');
+  const [selectedItem, setSelectedItem] = useState(tez);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -76,18 +76,18 @@ const InputField = ({ placeholder }) => {
     <InputWrapper>
       <Input type="text" placeholder={placeholder} />
       <DropdownWrapper onClick={toggleDropdown}>
-        <DropdownImage src={usdc} alt="Currency" />
+        <DropdownImage src={`${selectedItem}`} alt="Currency" />
         {isDropdownOpen && (
           <DropdownMenu>
-            <DropdownMenuItem onClick={() => handleMenuItemClick('USD')}>
+            <DropdownMenuItem onClick={() => handleMenuItemClick(usdc)}>
               
               <DropdownImage src={usdc} alt="USD" />
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleMenuItemClick('EUR')}>
+            <DropdownMenuItem onClick={() => handleMenuItemClick(usdt)}>
              
               <DropdownImage src={usdt} alt="EUR" />
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleMenuItemClick('GBP')}>
+            <DropdownMenuItem onClick={() => handleMenuItemClick(tez)}>
               
               <DropdownImage src={tez} alt="GBP" />
             </DropdownMenuItem>
