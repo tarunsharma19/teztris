@@ -8,7 +8,6 @@ import tez from '../../img/tez.png'
 const InputWrapper = styled.div`
   display: flex;
   align-items: center;
-  width: 300px;
   height: 80px;
   padding: 0 16px;
 `;
@@ -36,7 +35,7 @@ const DropdownWrapper = styled.div`
 `;
 
 const DropdownImage = styled.img`
-  width: 40px;
+  width: 80% !important;
   margin: 5px 0 !important;
 `;
 
@@ -59,7 +58,8 @@ const DropdownMenuItem = styled.div`
   cursor: pointer;
 `;
 
-const InputField = ({ placeholder }) => {
+const InputField = ({placeholder, setTokenIndex ,setTokenAmount, tokenAmount}) => {
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(tez);
 
@@ -67,29 +67,35 @@ const InputField = ({ placeholder }) => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleMenuItemClick = (item) => {
+  const handleMenuItemClick = (item,index) => {
+    setTokenIndex(index)
     setSelectedItem(item);
     setIsDropdownOpen(false);
   };
 
+  const handleAmountChange = (event) => {
+    setTokenAmount(event.target.value);
+  };
+
+
   return (
     <InputWrapper>
-      <Input type="text" placeholder={placeholder} />
+      <Input type="text" onChange={handleAmountChange} placeholder={placeholder} />
       <DropdownWrapper onClick={toggleDropdown}>
         <DropdownImage src={`${selectedItem}`} alt="Currency" />
         {isDropdownOpen && (
           <DropdownMenu>
-            <DropdownMenuItem onClick={() => handleMenuItemClick(usdc)}>
+            <DropdownMenuItem onClick={() => handleMenuItemClick(tez,0)}>
               
-              <DropdownImage src={usdc} alt="USD" />
+              <DropdownImage src={tez} alt="TEZ" />
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleMenuItemClick(usdt)}>
+            <DropdownMenuItem onClick={() => handleMenuItemClick(usdc,1)}>
+              
+              <DropdownImage src={usdc} alt="USDC" />
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleMenuItemClick(usdt,2)}>
              
-              <DropdownImage src={usdt} alt="EUR" />
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleMenuItemClick(tez)}>
-              
-              <DropdownImage src={tez} alt="GBP" />
+              <DropdownImage src={usdt} alt="USDT" />
             </DropdownMenuItem>
           </DropdownMenu>
         )}

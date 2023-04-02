@@ -2,7 +2,7 @@ import React from 'react'
 import pattern from '../../img/zigzag_small.png'
 
 
-function JoinGame() {
+function JoinGame({ swapFunc }) {
   return (
     <div className='createGame'>
             <div className='card'>
@@ -14,7 +14,7 @@ function JoinGame() {
                 </div>
                 
             </div> 
-            <div className='blue-btn'>
+            <div className='blue-btn' onClick={()=>swapFunc(false)}>
                 Create Game
             </div>
     </div>

@@ -14,8 +14,6 @@ function Home() {
       <Leaderboard />
       <GameCards />
     </div>
-    {/* <Leaderboard />
-    <GameCards /> */}
     </div>
   )
 }
