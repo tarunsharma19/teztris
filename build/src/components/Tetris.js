@@ -20,7 +20,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
 import Loader from './Loader'
-import Lottie from 'react-lottie';
+// import Lottie from 'react-lottie';
 import winnerLottie from '../img/winner.json';
 import looserLottie from '../img/looser.json';
 import {Button} from '@mui/material';
@@ -314,11 +314,11 @@ const handleDialogClose = () => {
                     resultString?<div>
                       <p style={{textAlign:"center",fontSize:"1.2rem"}}>Congrats you won !! </p>
                       <br />
-                    <Lottie
+                    {/* <Lottie
                     options={winnerOptions}
                     height={300}
                     width={300}
-                    />
+                    /> */}
                     <br /> 
                     <p style={{textAlign:"center",fontSize:"0.9rem"}}>You will recieve the winning amount  and a Reward NFT soon.</p>
                     <br />
@@ -329,11 +329,11 @@ const handleDialogClose = () => {
                     :<div>
                     <p style={{fontSize:"1.2rem"}}>Oops, you lost !! </p>
                       <br />
-                    <Lottie
+                    {/* <Lottie
                     options={looserOptions}
                     height={300}
                     width={300}
-                    />
+                    /> */}
                     <p>Better luck next time..</p>
                     <br />
                      <Button variant="outlined" onClick={()=>playAgain()}>Play Again</Button>

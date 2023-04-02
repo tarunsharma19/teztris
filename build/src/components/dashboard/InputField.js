@@ -55,6 +55,7 @@ const DropdownMenuItem = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 4px;
+  justify-content: center;
   cursor: pointer;
 `;
 

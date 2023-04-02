@@ -167,13 +167,13 @@
       }
   
       th {
-        border-bottom: 2px solid #000; // Make the border thicker
+        border-bottom: 2px solid #ffffff; // Make the border thicker
         font-weight: 600; // Make the heading text bolder
       }
   
-      tr:nth-child(even) {
-        background-color: rgba(128, 128, 128, 0.1);
-      }
+      // tr:nth-child(even) {
+      //   background-color: rgba(128, 128, 128, 0.1);
+      // }
   
       tr {
         border-bottom: 1px solid rgba(128, 128, 128, 0.15); // Add a border between rows for better spacing

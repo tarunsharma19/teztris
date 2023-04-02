@@ -10,7 +10,7 @@ const MatchHistory = ({matches}) => {
             <th>Opponent</th>
             <th>Date/Time</th>
             <th>Result</th>
-            <th>Win/Lose Amount</th>
+            <th>Amount</th>
           </tr>
         </thead>
         <tbody>

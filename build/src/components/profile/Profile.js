@@ -43,6 +43,24 @@ const Profile = () => {
       amount: 100
     },
     {
+      opponent: 'Player 1',
+      dateTime: '2023-03-29 15:30',
+      result: 'Win',
+      amount: 100
+    },
+    {
+      opponent: 'Player 1',
+      dateTime: '2023-03-29 15:30',
+      result: 'Win',
+      amount: 100
+    },
+    {
+      opponent: 'Player 1',
+      dateTime: '2023-03-29 15:30',
+      result: 'Win',
+      amount: 100
+    },
+    {
       opponent: 'Player 2',
       dateTime: '2023-03-28 18:45',
       result: 'Lose',
