@@ -81,7 +81,7 @@ const InputField = ({placeholder, setTokenIndex ,setTokenAmount, tokenAmount}) =
 
   return (
     <InputWrapper>
-      <Input type="text" onChange={handleAmountChange} placeholder={placeholder} />
+      <Input type="number" onChange={handleAmountChange} placeholder={placeholder} />
       <DropdownWrapper onClick={toggleDropdown}>
         <DropdownImage src={`${selectedItem}`} alt="Currency" />
         {isDropdownOpen && (
