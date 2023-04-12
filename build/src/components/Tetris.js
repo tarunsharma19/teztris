@@ -25,7 +25,7 @@ import looserLottie from "../img/looser.json";
 import { useNavigate } from "react-router-dom";
 import SoundPlay from "./SoundPlay";
 
-const socket = require("../api/socket").socket;
+// const socket = require("../api/socket").socket;
 
 const Tetris = () => {
   const [pScore, setpScore] = useState(Number.MAX_SAFE_INTEGER);

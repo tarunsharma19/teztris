@@ -19,9 +19,9 @@ import {useNavigate} from 'react-router-dom';
 import { manageFunc } from '../App';
 import Loader from './Loader'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+// import { connectSocket } from '../api/socket';
 
 
-const socket = require("../api/socket").socket;
 
 export default function Landing() {
   const [open, setOpen] = React.useState(false);
