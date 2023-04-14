@@ -24,10 +24,14 @@ import winnerLottie from "../img/winner.json";
 import looserLottie from "../img/looser.json";
 import { useNavigate } from "react-router-dom";
 import SoundPlay from "./SoundPlay";
+import { useSelector } from 'react-redux';
+
 
 // const socket = require("../api/socket").socket;
 
 const Tetris = () => {
+  const socket = useSelector((state) => state.socket.socket); // get the socket object from the store
+
   const [pScore, setpScore] = useState(Number.MAX_SAFE_INTEGER);
   const { gameOver, setGameOver, gameIdInput } = useContext(manageFunc);
   const [dropTime, setDropTime] = useState(null);
@@ -58,7 +62,11 @@ const Tetris = () => {
 
   useEffect(() => {
     if (gameOver) {
-      socket.emit("end", gameIdInput, address, score);
+      const endGameParams = {
+        "gameId": gameIdInput,
+         "score": 1000
+      }
+      socket.emit("endGame", endGameParams);
       console.log("gameover emit done");
     }
   }, [gameOver]);

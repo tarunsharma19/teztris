@@ -3,6 +3,7 @@ import styles from "./scss/Navbar.scss";
 import teztileLogo from "../../img/tezTile.png"
 import { useDispatch } from "react-redux";
 import { connectSocketThunk } from "../../api/socketSlice";
+import { CheckIfWalletConnected, DisconnectWalletAPI, FetchWalletAPI, wallet } from "../../api/operations/wallet";
 
 
 function Navbar() {
@@ -11,22 +12,21 @@ function Navbar() {
 
   const dispatch = useDispatch();
 
-  const auth = 'tz12asdfasd34'; // example auth token
-
-
-
-  function connectWallet() {
-    // Check if the wallet is already connected
+  async function connectWallet() {
     if (walletConnected) {
-      // Implement your wallet disconnection logic here
-      // For demonstration purposes, let's just set the button text to "Connect Wallet"
+      const disconnect = await DisconnectWalletAPI()
+      console.log(disconnect)
       setWalletButtonText("Connect Wallet");
       setWalletConnected(false);
     } else {
-      // Implement your wallet connection logic here
-      // For demonstration purposes, let's just set the button text to "Connected"
-      dispatch(connectSocketThunk(auth));
-      setWalletButtonText("Connected");
+      const WALLET_RESP = await CheckIfWalletConnected(wallet);
+      if (!WALLET_RESP.success) {
+        alert('Wallet connection failed');
+      }
+      const account = await FetchWalletAPI();
+      console.log(account.wallet)
+      dispatch(connectSocketThunk(account.wallet));
+      setWalletButtonText(account.wallet);
       setWalletConnected(true);
     }
   }

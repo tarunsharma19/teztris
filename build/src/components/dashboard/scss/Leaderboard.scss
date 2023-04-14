@@ -7,6 +7,7 @@
 
     h1{
         padding: 0 1rem;
+        text-align: left;
     }
 
     .list{
@@ -14,6 +15,8 @@
         overflow: scroll;
         .player{
             display: flex;
+            justify-content: space-between;
+            align-items: center;
             .rank{
                 margin: 0 10px;
                 width: 40px;
@@ -35,15 +38,19 @@
                     
                 }
                 .address.noDomain{
-                    font-size: 11px;
-                    padding-top: 18px;
+                    font-size: 14px;
                     white-space: nowrap;
                     overflow: hidden;
-                    text-overflow: ellipsis;
                     max-width: 120px;
                 }
             }
+            .score {
+                margin-right: 10px;
+                width: 120px;
+                font-size: 18px;
+            }
             .stats{
+                width: 100px;
                 .wins{
 
                 }
