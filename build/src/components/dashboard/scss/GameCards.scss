@@ -25,8 +25,15 @@
     transition: transform 300ms ease-in, opacity 300ms ease-in;
   }
   
-  
-  
+.wallet-connect-message{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    border-radius: 20px;
+    background-color: #29292970;
+}  
+
 .cardWrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -88,12 +95,26 @@
                 padding: 10px;
                 border: none;
             }
+            .match-data{
+                padding: 0 16px;
+                height: 100px;
+                margin: 20px 0;
+                p {
+                    font-weight: 700;
+                    font-size: 24px;
+                    margin: 10px 0 0 0;
+                }
+                span {
+                    font-size: 20px;
+                }
+            }
             .room-name-input{
                 margin: 0 16px;
             }
             .game-details{
                 width: 100%;
-                padding: 10px;
+                padding: 0 10px;
+                height: 100px;
                 box-sizing: border-box;
                 p{
                     font-size: 12px;

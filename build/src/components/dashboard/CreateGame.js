@@ -19,6 +19,9 @@ function CreateGame({swapFunc}) {
   const [alias , setAlisa] = useState("");
   const [createGameEmit, setCreateGameEmit] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState('');
+  const [matchFoundData, setMatchFoundData] = useState('');
+
   const navigate = useNavigate();
 
   useEffect(()=>{
@@ -50,6 +53,7 @@ function CreateGame({swapFunc}) {
   }
   ]
   const delay = ms => new Promise(res => setTimeout(res, ms));
+
   const createGameHandle = async() =>{
     if (createGameEmit){
       alert("Game already exisit")
@@ -74,16 +78,20 @@ function CreateGame({swapFunc}) {
     console.log(createGameJson)
     await delay(2000)
     // call create game function
-    // socket.emit("createNewGame", createGameJson);
+    socket.emit("createNewGame", createGameJson);
     setCreateGameEmit(true);
     setLoading(false)
   }
   // navigate("/app", { replace: true });
 
+  // listen for "matchFound" or error messages
+  
+
   const handleAlisa = (event) =>{
     setAlisa(event.target.value);
   }
   
+  console.log(matchFoundData,response,"matchdata, response")
   return (
     <div className='createGame'>
             <div className='card'>

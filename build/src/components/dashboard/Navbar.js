@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./scss/Navbar.scss";
 import teztileLogo from "../../img/tezTile.png"
 import { useDispatch } from "react-redux";
 import { connectSocketThunk } from "../../api/socketSlice";
 import { CheckIfWalletConnected, DisconnectWalletAPI, FetchWalletAPI, wallet } from "../../api/operations/wallet";
+import { manageFunc } from "../../App";
 
 
 function Navbar() {
-  const [walletButtonText, setWalletButtonText] = useState("Connect Wallet");
+  const [walletButtonText, setWalletButtonText] = useState(null);
   const [walletConnected, setWalletConnected] = useState(false);
+  const { userWallet, setUsetWallet } = useContext(manageFunc);
+
 
   const dispatch = useDispatch();
 
@@ -16,8 +19,9 @@ function Navbar() {
     if (walletConnected) {
       const disconnect = await DisconnectWalletAPI()
       console.log(disconnect)
-      setWalletButtonText("Connect Wallet");
       setWalletConnected(false);
+      setWalletButtonText(null);
+      setUsetWallet(null);
     } else {
       const WALLET_RESP = await CheckIfWalletConnected(wallet);
       if (!WALLET_RESP.success) {
@@ -27,6 +31,7 @@ function Navbar() {
       console.log(account.wallet)
       dispatch(connectSocketThunk(account.wallet));
       setWalletButtonText(account.wallet);
+      setUsetWallet(account.wallet);
       setWalletConnected(true);
     }
   }
@@ -43,7 +48,7 @@ function Navbar() {
         onClick={connectWallet}
         className={styles.button}
       >
-        {walletButtonText}
+        {walletConnected ? walletButtonText.slice(0,5)+"..."+walletButtonText.slice(-4) : "Connect Wallet"}
       </button>
     </nav>
   );
