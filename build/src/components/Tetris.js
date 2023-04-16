@@ -32,16 +32,15 @@ import { useSelector } from 'react-redux';
 const Tetris = () => {
   const socket = useSelector((state) => state.socket.socket); // get the socket object from the store
 
-  const [pScore, setpScore] = useState(Number.MAX_SAFE_INTEGER);
+  const [opponentScore, setOpponentScore] = useState(Number.MAX_SAFE_INTEGER);
   const { gameOver, setGameOver, gameIdInput } = useContext(manageFunc);
-  const [dropTime, setDropTime] = useState(null);
-
+  const [dropTime, setDropTime] = useState(null)
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
   const [score, setScore, rows, setRows, level, setLevel] =
     useGameStatus(rowsCleared);
   const navigate = useNavigate();
-
+  const [winnerDeclare, setWinnerDeclare] = useState(false)
   const [address, setAddress] = useState("");
   const getAddress = async () => {
     const wal = await FetchWalletAPI();
@@ -54,9 +53,9 @@ const Tetris = () => {
   }, [setGameOver]);
 
   useEffect(() => {
-    socket.on("p1 ended", (s) => {
-      console.log("P1 ended score", s);
-      setpScore(parseInt(s));
+    socket.on("opponent-ended", (s) => {
+      console.log("opponent-ended score", s);
+      setOpponentScore(parseInt(s));
     });
   }, []);
 
@@ -64,7 +63,7 @@ const Tetris = () => {
     if (gameOver) {
       const endGameParams = {
         "gameId": gameIdInput,
-         "score": 1000
+         "score": score
       }
       socket.emit("endGame", endGameParams);
       console.log("gameover emit done");
@@ -75,47 +74,54 @@ const Tetris = () => {
   const [gotWinner, setGotWinner] = useState(false);
 
   useEffect(() => {
-    socket.once("game over", (obj) => {
-      setWinnerId(obj);
+    socket.once("game-over", (obj) => {
       setGotWinner(true);
-      console.log("game over", obj);
+      console.log("game-over object", obj);
     });
     socket.on("issue", (status) => {
       alert(status);
     });
   });
 
-  const [resultString, setResultString] = useState(false);
-  const winnerCheck = () => {
-    if (address == winnerId) {
-      setResultString(true);
-    } else {
-      setResultString(false);
-    }
-  };
+  // const [resultString, setResultString] = useState(false);
+  // const winnerCheck = () => {
+  //   if (address == winnerId) {
+  //     setResultString(true);
+  //   } else {
+  //     setResultString(false);
+  //   }
+  // };
 
+  useEffect(()=>{
+    if(score>opponentScore){
+      setWinnerDeclare(true)
+    }
+  })
   // const playAgain = () => {
   //   navigate('/start', {replace: true});
   // }
 
-  window.onload = function () {
-    navigate("/start", { replace: true });
-  };
+  // window.onload = function () {
+  //   navigate("/start", { replace: true });
+  // };
 
-  useEffect(() => {
-    winnerCheck();
-  }, [winnerId]);
+  useEffect(()=>{
+    socket.emit('scoreEmitted',{"score":score})
+  })
+  // useEffect(() => {
+  //   winnerCheck();
+  // }, [winnerId]);
 
   //
   // GAME MACHANICS FUNCTOINS BELOW
   //
 
-  useEffect(() => {
-    if (score >= pScore) {
-      setGameOver(true);
-      setDropTime(null);
-    }
-  }, [score]);
+  // useEffect(() => {
+  //   if (score >= opponentScore) {
+  //     // setGameOver(true);
+  //     // setDropTime(null);
+  //   }
+  // }, [score]);
 
   const movePlayer = (dir) => {
     if (!checkCollision(player, stage, { x: dir, y: 0 })) {
@@ -227,7 +233,7 @@ const Tetris = () => {
       onKeyDown={(e) => move(e)}
       onKeyUp={keyUp}
     >
-      <SoundPlay />
+      {/* <SoundPlay /> */}
       <StyledTetris>
         <Stage stage={stage} />
         <aside>
@@ -246,6 +252,17 @@ const Tetris = () => {
           <StyledStartButton onClick={() => startGame()}>
             Start Game
           </StyledStartButton>
+          {
+            winnerDeclare ?
+            <>
+            <p>Congrats you've won! <br />
+            Your Opponent Ended game at socre : {opponentScore} <br />
+            You can continue to play for a new highscore, or end game.
+            Your winning Amount & an NFT are being transffered to you.
+            </p>
+            </> :
+            <></>
+          }
           {/* <Controller /> */}
         </aside>
         <>
@@ -309,7 +326,6 @@ const LeftRight = styled.button`
 `;
 const StyledStartButton = styled.button`
   box-sizing: border-box;
-
   margin: 0 0 20px 0;
   padding: 20px;
   min-height: 30px;
@@ -322,6 +338,10 @@ const StyledStartButton = styled.button`
   font-size: 1rem;
   outline: none;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: auto;
+  }
 `;
 
 const UpDown = styled.button`
