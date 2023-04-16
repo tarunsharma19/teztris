@@ -21,6 +21,8 @@ function CreateGame({swapFunc}) {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState('');
   const [matchFoundData, setMatchFoundData] = useState('');
+  const [startGameID , setStartGameID] = useState(null);
+
 
   const navigate = useNavigate();
 
@@ -85,8 +87,29 @@ function CreateGame({swapFunc}) {
   // navigate("/app", { replace: true });
 
   // listen for "matchFound" or error messages
-  
+  useEffect(()=>{
+    if(socket){
+      socket.on('old-game-found', (data)=>{
+        console.log(data,"create game")
+        setGameIdInput(data._id);
+        setCreateGameEmit(true);
+      })
+    }
+  },[])
 
+    useEffect(()=>{
+      if(socket){
+        socket.on('start-game',(data)=>{
+          setStartGameID(data._id)
+        })
+      }
+    },[])
+  
+  useEffect(()=>{
+    if((startGameID && gameIdInput) && (startGameID == gameIdInput)){
+          navigate("/app", { replace: true });
+    }
+  },[startGameID,gameIdInput])
   const handleAlisa = (event) =>{
     setAlisa(event.target.value);
   }
