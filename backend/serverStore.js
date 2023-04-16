@@ -32,18 +32,18 @@ const getMySocket = (wallet) => {
   }
 }
 
-const addNewGame = (gameId, isPublic, socket, alias) => {
+const addNewGame = (gameId, isPublic, socket, alias, tokenData) => {
   // 1) Check if game is already added as it could be an old game and a multiple socket connection request
   if (gamesAvailable.has(gameId)) {
     return false;
   }
 
   if (isPublic) {
-    publicGames.push({ gameId, alias });
+    publicGames.push({ gameId, alias, tokenData });
   } else {
-    privateGames.push({ gameId, alias });
+    privateGames.push({ gameId, alias, tokenData });
   }
-
+  console.log(publicGames);
   connectedUsers.set(socket.wallet, { ...connectedUsers.get(socket.wallet), game: gameId });
   // console.log(connectedUsers)
   // Set game available map
