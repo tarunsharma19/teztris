@@ -25,13 +25,14 @@ import looserLottie from "../img/looser.json";
 import { useNavigate } from "react-router-dom";
 import SoundPlay from "./SoundPlay";
 import { useSelector } from 'react-redux';
+import { connectSocket } from "../api/socket";
 
 
 // const socket = require("../api/socket").socket;
 
 const Tetris = () => {
   const socket = useSelector((state) => state.socket.socket); // get the socket object from the store
-
+  // const socket = connectSocket("asdf")
   const [opponentScore, setOpponentScore] = useState(Number.MAX_SAFE_INTEGER);
   const { gameOver, setGameOver, gameIdInput } = useContext(manageFunc);
   const [dropTime, setDropTime] = useState(null)
@@ -101,9 +102,9 @@ const Tetris = () => {
   //   navigate('/start', {replace: true});
   // }
 
-  // window.onload = function () {
-  //   navigate("/start", { replace: true });
-  // };
+  window.onload = function () {
+    navigate("/start", { replace: true });
+  };
 
   useEffect(()=>{
     socket.emit('scoreEmitted',{"score":score})
