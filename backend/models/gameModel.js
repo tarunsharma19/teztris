@@ -24,6 +24,7 @@ const gameSchema = new mongoose.Schema({
     scoreMe: { type: Number, default: 0 },
     scoreOpponent: { type: Number, default: 0 },
     status: { type: String, default: 'init', enum: ['init', 'opponent-found', 'ongoing', 'complete', 'refund'] },
+    refundReason: { type: String },
 
     // winner details for this game
     winner: { type: String }, // wallet id of winner
