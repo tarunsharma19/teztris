@@ -12,12 +12,12 @@ export const StyledStage = styled.div`
   display: grid;
   grid-template-rows: repeat(
     ${props => props.height},
-    calc(48vw / ${props => props.width})
+    calc(360px / ${props => props.width})
   );
   grid-template-columns: repeat(${props => props.width}, 1fr);
   grid-gap: 1px;
   border: 2px solid #333;
-  width: 48vw;
+  width: 360px;
   height: auto;
   /* max-width: 22vw; */
   background: #111;

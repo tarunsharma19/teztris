@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import {v4 as uuidv4} from 'uuid';
 import { useNavigate } from 'react-router-dom';
 import { manageFunc } from '../../App';
+import { SnackbarProvider, enqueueSnackbar } from 'notistack'
+
 
 
 
@@ -26,11 +28,11 @@ function CreateGame({swapFunc}) {
 
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    if(createGameEmit){
-      alert("createGameEmit Done")
-    }
-  },[createGameEmit])
+  // useEffect(()=>{
+  //   if(createGameEmit){
+  //     alert("createGameEmit Done")
+  //   }
+  // },[createGameEmit])
 
   const tokens = [{
     betToken: "KT1Uw1oio434UoWFuZTNKFgt5wTM9tfuf7m7",
@@ -78,9 +80,17 @@ function CreateGame({swapFunc}) {
       }
     }
     console.log(createGameJson)
+    enqueueSnackbar('Creating game, please verify from your wallet.', {anchorOrigin: {
+      vertical: 'bottom',
+      horizontal: 'right'
+    }}, { variant: 'info' })
     await delay(2000)
     // call create game function
     socket.emit("createNewGame", createGameJson);
+    enqueueSnackbar('Game created successfully.', {anchorOrigin: {
+      vertical: 'bottom',
+      horizontal: 'right'
+    }, variant: 'success' })
     setCreateGameEmit(true);
     setLoading(false)
   }

@@ -1,20 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function PublicRooms() {
-  const rooms = [
-    {
-      name: 'room one',
-      betAmount: '12 tez',
-    },
-    {
-      name: 'room two',
-      betAmount: '15 tez',
-    },
-    {
-      name: 'room three',
-      betAmount: '8 tez',
-    },
-  ];
+  const socket = useSelector((state) => state.socket.socket); 
+
+  // const rooms = [
+  //   {
+  //     name: 'room one',
+  //     betAmount: '12 tez',
+  //   },
+  //   {
+  //     name: 'room two',
+  //     betAmount: '15 tez',
+  //   },
+  //   {
+  //     name: 'room three',
+  //     betAmount: '8 tez',
+  //   },
+  // ];
+
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('public-rooms', (data) => {
+        const updatedRooms = data.publicRooms.map((room) => {
+          return {
+            "name": room.alias,
+            "betAmount": room.gameId.slice(0,3),
+          };
+        });
+        setRooms(updatedRooms);
+      });
+    }
+  }, []);
 
   return (
     <div className="card">

@@ -26,7 +26,8 @@ import { useNavigate } from "react-router-dom";
 import SoundPlay from "./SoundPlay";
 import { useSelector } from 'react-redux';
 import { connectSocket } from "../api/socket";
-
+import { enqueueSnackbar } from "notistack";
+import ResultModal from './Modal';
 
 // const socket = require("../api/socket").socket;
 
@@ -42,7 +43,12 @@ const Tetris = () => {
     useGameStatus(rowsCleared);
   const navigate = useNavigate();
   const [winnerDeclare, setWinnerDeclare] = useState(false)
+  const [winnerNoti, setWinnerNoti] = useState(false)
   const [address, setAddress] = useState("");
+  const [gameResult, setGameResult] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
   const getAddress = async () => {
     const wal = await FetchWalletAPI();
     console.log("fetched wallet", wal);
@@ -55,8 +61,12 @@ const Tetris = () => {
 
   useEffect(() => {
     socket.on("opponent-ended", (s) => {
-      console.log("opponent-ended score", s);
+      // console.log("opponent-ended score", s);
       setOpponentScore(parseInt(s));
+      enqueueSnackbar(`Opponent Ended game.`, {anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'right'
+      }, variant: 'info' })
     });
   }, []);
 
@@ -68,6 +78,7 @@ const Tetris = () => {
       }
       socket.emit("endGame", endGameParams);
       console.log("gameover emit done");
+      setIsModalOpen(true);
     }
   }, [gameOver]);
 
@@ -83,7 +94,9 @@ const Tetris = () => {
       alert(status);
     });
   });
-
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
   // const [resultString, setResultString] = useState(false);
   // const winnerCheck = () => {
   //   if (address == winnerId) {
@@ -92,18 +105,33 @@ const Tetris = () => {
   //     setResultString(false);
   //   }
   // };
-
   useEffect(()=>{
     if(score>opponentScore){
       setWinnerDeclare(true)
+      enqueueSnackbar(`Congrats, you surpassed your opponent's score.`, {anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'right'
+      }, variant: 'success' })
+      enqueueSnackbar(`You can end the game and claim your winnings.`, {anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'right'
+      }, variant: 'info' })
+      enqueueSnackbar(`You can continue the game to make a highscore.`, {anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'right'
+      }, variant: 'info' })
+      setGameResult("win")
+      setOpponentScore(Number.MAX_SAFE_INTEGER)
+      console.log("winner selected")
     }
   })
+  
   // const playAgain = () => {
   //   navigate('/start', {replace: true});
   // }
 
   window.onload = function () {
-    navigate("/start", { replace: true });
+    navigate("/home", { replace: true });
   };
 
   useEffect(()=>{
@@ -234,6 +262,7 @@ const Tetris = () => {
       onKeyDown={(e) => move(e)}
       onKeyUp={keyUp}
     >
+      <ResultModal isOpen={isModalOpen} result={gameResult} onClose={handleModalClose} />
       {/* <SoundPlay /> */}
       <StyledTetris>
         <Stage stage={stage} />
@@ -253,17 +282,7 @@ const Tetris = () => {
           <StyledStartButton onClick={() => startGame()}>
             Start Game
           </StyledStartButton>
-          {
-            winnerDeclare ?
-            <>
-            <p>Congrats you've won! <br />
-            Your Opponent Ended game at socre : {opponentScore} <br />
-            You can continue to play for a new highscore, or end game.
-            Your winning Amount & an NFT are being transffered to you.
-            </p>
-            </> :
-            <></>
-          }
+         
           {/* <Controller /> */}
         </aside>
         <>

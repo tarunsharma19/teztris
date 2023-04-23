@@ -9,6 +9,7 @@ import Home from './components/dashboard/Home';
 import Profile from './components/profile/Profile';
 import { Provider } from 'react-redux';
 import store from './api/store';
+import { SnackbarProvider } from 'notistack';
 
 const manageFunc = React.createContext(null);
 
@@ -21,6 +22,7 @@ function App() {
 
   return (
     <Provider store={store}>
+      <SnackbarProvider />
       <BrowserRouter>
         <manageFunc.Provider value={{ gameOver, setGameOver, gameIdInput, setGameIdInput ,userWallet, setUsetWallet}}>
           <Routes>
