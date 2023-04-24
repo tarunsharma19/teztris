@@ -24,9 +24,10 @@ const CloseButton = styled.button`
   right: 10px;
   background: transparent;
   border: none;
-  cursor: pointer;
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   font-size: 30px;
   color: #fff;
+  opacity: ${props => props.disabled ? 0.5 : 1};
 `;
 
 const Title = styled.h2`
@@ -43,30 +44,36 @@ const Message = styled.p`
   margin-bottom: 20px;
 `;
 
+const WarningText = styled.p`
+  font-size: 14px;
+  color: #fff;
+  margin-top: 20px;
+`;
+
 const customModalStyles = {
-    overlay: {
-      backgroundColor: 'rgba(200, 200, 200, 0.7)',
-      zIndex: 999,
-    },
-    content: {
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      border: 'none',
-      borderRadius: '20px',
-      padding: '0',
-      background: 'none',
-      width: '80%',
-      maxWidth: '500px',
-      height: 'auto',
-      margin: '0 auto',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      textAlign: 'center',
-    },
-  };
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    zIndex: 999,
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    border: 'none',
+    borderRadius: '20px',
+    padding: '0',
+    background: 'none',
+    width: '80%',
+    maxWidth: '500px',
+    height: 'auto',
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+};
 
 function ResultModal(props) {
     const navigate = useNavigate();
@@ -79,15 +86,25 @@ function ResultModal(props) {
   return (
     <Modal isOpen={props.isOpen} onRequestClose={handleModalClose}  style={customModalStyles}>
       <ModalWrapper>
-        <CloseButton onClick={handleModalClose}>
+        <CloseButton disabled={props.result === 'pending'} onClick={handleModalClose}>
           <AiOutlineCloseCircle />
         </CloseButton>
-        <Title>{props.result === 'win' ? 'Congratulations!' : 'Better luck next time!'}</Title>
-        <Message>
-          {props.result === 'win'
-            ? 'You won the game! Keep up the good work.'
-            : 'You lost the game. Try again and beat your high score!'}
-        </Message>
+        <Title>
+          {props.result === 'win' ? 'Congratulations!' :
+          props.result === 'lose' ? 'Better luck next time!' :
+          'Game in progress...'}
+        </Title>
+        {props.result === 'pending' ? (
+          <>
+            <Message>Waiting for the opponent to finish the game.</Message>
+            <WarningText>Do not close the modal or switch tabs.</WarningText>
+          </>
+        ) : (
+          <Message>
+            {props.result === 'win' ? 'You won the game! Keep up the good work.' :
+            'You lost the game. Try again and beat your high score!'}
+          </Message>
+        )}
         <img src="https://www.example.com/game-icon.png" alt="Game icon" />
       </ModalWrapper>
     </Modal>

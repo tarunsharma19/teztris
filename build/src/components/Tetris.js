@@ -47,6 +47,7 @@ const Tetris = () => {
   const [address, setAddress] = useState("");
   const [gameResult, setGameResult] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [opponentEnded, setOpponentEnded] = useState(false);
 
 
   const getAddress = async () => {
@@ -63,6 +64,7 @@ const Tetris = () => {
     socket.on("opponent-ended", (s) => {
       // console.log("opponent-ended score", s);
       setOpponentScore(parseInt(s));
+      setOpponentEnded(true);
       enqueueSnackbar(`Opponent Ended game.`, {anchorOrigin: {
         vertical: 'bottom',
         horizontal: 'right'
@@ -125,6 +127,19 @@ const Tetris = () => {
       console.log("winner selected")
     }
   })
+
+  useEffect(()=>{
+    if(gameOver){
+        if(opponentEnded){
+          if(score<opponentScore){
+            setGameResult("lose")
+          }
+        }
+        else{
+          setGameResult("pending")
+        }
+    }
+  },[gameOver,opponentEnded])
   
   // const playAgain = () => {
   //   navigate('/start', {replace: true});
