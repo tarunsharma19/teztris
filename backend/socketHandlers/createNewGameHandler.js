@@ -33,7 +33,7 @@ const createNewGameHandler = async (socket, data, next) => {
 
     // NOTE: cannot enter if condition in real life scenario. Only used for testing purposes
     if (await Game.findById(gameId)) {
-        serverStore.addNewGame(gameId, isPublic, socket, alias,);
+        console.log(`Game already exists in database - ${gameId}`.red.inverse);
         return;
     }
 

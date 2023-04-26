@@ -61,8 +61,19 @@ const addNewGame = (gameId, isPublic, socket, alias, tokenData) => {
 }
 
 const removeGame = (gameId) => {
-  publicGames = publicGames.filter((game) => { game.gameId !== gameId });
-  privateGames = privateGames.filter((game) => { game.gameId !== gameId });
+  console.log(`Trying to remove this game id - ${gameId}`.yellow);
+
+  publicGames = publicGames.filter((game) => {
+    console.log(game);
+    return game.gameId !== gameId
+  });
+  privateGames = privateGames.filter((game) => {
+    return game.gameId !== gameId
+  });
+  console.log(`Updated public games`.yellow);
+  console.log(publicGames);
+  console.log(`Updated private games`.yellow);
+  console.log(privateGames);
 }
 
 const setGameInUser = (wallet, gameId) => {
