@@ -27,7 +27,7 @@ function PublicRooms() {
         const updatedRooms = data.publicRooms.map((room) => {
           return {
             "name": room.alias,
-            "betAmount": room.gameId.slice(0,3),
+            "betAmount": room.tokenData.amount + " " + room.tokenData.betTokenName,
           };
         });
         setRooms(updatedRooms);
@@ -36,7 +36,7 @@ function PublicRooms() {
   }, []);
 
   return (
-    <div className="card">
+    <div className="roomCard">
       <h1>Public Room</h1>
       <div className="roomsTable">
         <table>
@@ -44,6 +44,7 @@ function PublicRooms() {
             <tr>
               <th>Room Name</th>
               <th>Bet Amount</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>

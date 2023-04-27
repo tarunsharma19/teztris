@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './scss/Profile.scss';
 import UserProfile from './UserProfile';
 import NFTs from './NFTs';
@@ -11,13 +11,76 @@ const Profile = () => {
   const { userWallet } = useContext(manageFunc);
 
   // Add your data for each component here
-  const[profile,setProfile] = useState([]);
-  const getProfile = async (wallet) =>{
-      const res = await axios.get(
-          `localhost:8080/api/profile?id=${wallet}`
-        );
-      const data = res.data.users; 
-      console.log("data",data)
+
+  const demoProfile = {
+      "status": 200,
+      "message": "Fetched leaderboard successfully",
+      "me": {
+          "_id": "loading..",
+          "highScore": 0,
+          "won": 0,
+          "lost": 0,
+          "createdAt": "2023-04-18T11:36:58.847Z"
+      },
+      "myGames": [
+          {
+              "tokenData": {
+                  "amount": null,
+                  "betToken": "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",
+                  "betTokenId": 0,
+                  "betTokenType": "FA1.2",
+                  "betTokenName": ""
+              },
+              "_id": "123e4567-e89b-12d3-a456-426614174000",
+              "alias": "test1",
+              "isPublic": true,
+              "me": "tz1PZmgQj6fmaucqpavsvoZEjyagmJqbumyn",
+              "meFinished": false,
+              "opponentFinished": false,
+              "scoreMe": null,
+              "scoreOpponent": null,
+              "opponent": "",
+              "status": "refund",
+              "createdAt": "",
+              "updatedAt": "2023-04-18T11:38:10.448Z",
+              "__v": 0,
+              "refundReason": "User ordered the refund"
+          }
+      ],
+      "winnings": [
+          {
+              "_id": {
+                  "betToken": "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",
+                  "betTokenId": 0
+              },
+              "totalAmountWon": 0
+          }
+      ],
+      "loosings": [
+          {
+              "_id": {
+                  "betToken": "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",
+                  "betTokenId": 0
+              },
+              "totalAmountLost": 0
+          }
+      ]
+  }
+
+  const[profile,setProfile] = useState(demoProfile);
+
+
+  const getProfile = async () =>{
+      if(userWallet){
+        console.log("inside profile")
+        const res = await axios.get(
+            // `http://localhost:8080/api/profile?id=${userWallet}`
+            `http://localhost:8080/api/profile?id=tz1PZmgQj6fmaucqpavsvoZEjyagmJqbumyn`
+          );
+        const data = res.data; 
+        console.log("data",data)
+        setProfile(data)
+      }
       // const formattedResponse = data.map(player => ({
       //     address: player._id,
       //     wins: player.won,
@@ -27,17 +90,35 @@ const Profile = () => {
       // return formattedResponse;
   }
 
-  getProfile(userWallet);
-
+  useEffect(()=>{
+    getProfile()
+  },[userWallet])
 
   const userProfileData = {
     profileImage: 'https://placehold.jp/800x800.png',
     userName: 'John Doe',
-    walletAddress: '0xAbCdEfG123456789',
-    totalWinnings: 1000,
-    wins: 10,
-    losses: 5
+    walletAddress: profile.me._id || '0xAbCdEfG123456789',
+    totalWinnings: profile.me.highScore || 0,
+    wins: profile.me.won,
+    losses: profile.me.lost
   };
+
+  function checkResult(a,b){
+    if(a>b){
+      return "won"
+    }
+    else{
+      return "lost"
+    }
+  }
+  const matchHistoryData = profile.myGames.map(data => ({
+    opponent: data.opponent,
+    dateTime: data.createdAt,
+    result: checkResult(data.scoreMe , data.scoreOpponent),
+    amount: data.tokenData.amount + " " + data.tokenData.betTokenName,
+  }))
+
+  console.log(profile.myGames)
 
   const nftGalleryData = [
     {
@@ -58,7 +139,7 @@ const Profile = () => {
     }
   ];
 
-  const matchHistoryData = [
+  const matchHistoryDataa = [
     {
       opponent: 'Player 1',
       dateTime: '2023-03-29 15:30',
@@ -100,9 +181,15 @@ const Profile = () => {
   return (
     <div className="app">
         <Navbar />
-        <UserProfile {...userProfileData} />
-        <NFTs nfts={nftGalleryData} />
-        <MatchHistory matches={matchHistoryData} />
+        {
+          profile ? 
+          <>
+          <UserProfile {...userProfileData} />
+          <NFTs nfts={nftGalleryData} />
+          <MatchHistory matches={matchHistoryData} />
+          </>:
+          <></>
+        }
     </div>
   );
 }

@@ -38,50 +38,91 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
-    .card{
-
+    .roomCard {
         height: 500px;
         max-width: 440px;
         border-radius: 20px;
         background-color: #29292970;
         overflow: hidden;
-
-        table{
-            border-collapse: collapse;
-            margin: 10px;
-            tr{
-                height: 50px;
-                display: inline-block;
+      
+        table {
+          border-collapse: collapse;
+          margin: 10px;
+      
+          tr {
+            display: table-row;
+            vertical-align: middle;
+          }
+      
+          tr.row {
+            height: auto;
+          }
+      
+          th,
+          td {
+            padding: 10px;
+            vertical-align: middle;
+          }
+      
+          th {
+            min-width: 80px;
+            text-align: left;
+            font-size: 1.15rem;
+      
+            @media (max-width: 500px) {
+              display: block;
+              width: 40%;
+              margin-bottom: 10px;
+              font-size: 0.8rem;
             }
-
-            tr.row{
-                height:40px;
+          }
+      
+          td {
+            min-width: 70px;
+            width: 35%;
+            border-bottom: solid white 1px;
+            font-size: 1.1rem;
+      
+            @media (max-width: 500px) {
+              display: block;
+              width: 100%;
+              margin-bottom: 10px;
+              font-size: 0.9rem;
             }
-            th {
-                display: inline-block;
-                min-width: 90px;
-                margin-right: 10px;
-                width: 120px;
-                text-align: left;
+          }
+      
+          td.amount {
+            text-align: center;
+      
+            @media (max-width: 500px) {
+              font-size: 1rem;
             }
-            td{
-                padding-bottom: 8px;
-                min-width: 90px;
-                margin-right: 10px;
-                width: 120px;
-                border-bottom: solid white 1px; /* change "white" to your background color */
-
+          }
+      
+          td.button {
+            border: none;
+            text-align: center;
+            width: 100px;
+      
+            @media (max-width: 500px) {
+              width: 50%;
+              display: inline-block;
             }
-            td.amount{
-                text-align: center;
+      
+            button {
+              padding: 10px;
+              font-size: 1rem;
+      
+              @media (max-width: 500px) {
+                font-size: 0.9rem;
+                padding: 5px;
+              }
             }
-            td.button{
-                border: none;
-                text-align: center;
-                width: 100px;
-            }
+          }
         }
-    }
+      }
+      
+      
     
     .createGame{
         .card{
