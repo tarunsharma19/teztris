@@ -43,7 +43,7 @@ const refundGameHandler = async (socket) => {
     // 7) Emit the refunded game details back to the user
     socket.emit('game-refunded', { game });
 
-    console.log('GAME REFUNDED'.red.inverse)
+    console.log(`GAME REFUNDED ${game._id}`.green.inverse)
 }
 
 module.exports = refundGameHandler;
