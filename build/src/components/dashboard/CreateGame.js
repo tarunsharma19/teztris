@@ -7,6 +7,7 @@ import {v4 as uuidv4} from 'uuid';
 import { useNavigate } from 'react-router-dom';
 import { manageFunc } from '../../App';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack'
+import { createGame, removeGame } from '../../api/operations/teztris';
 
 
 
@@ -84,19 +85,26 @@ function CreateGame({swapFunc}) {
       vertical: 'bottom',
       horizontal: 'right'
     }}, { variant: 'info' })
-    await delay(2000)
-    // call create game function
-    socket.emit("createNewGame", createGameJson);
-    enqueueSnackbar('Game created successfully.', {anchorOrigin: {
-      vertical: 'bottom',
-      horizontal: 'right'
-    }, variant: 'success' })
-    setCreateGameEmit(true);
-    setLoading(false)
+    const createGameApi = await createGame(tokenAmount,tokens[tokenIndex].betToken,tokens[tokenIndex].betTokenId,tokens[tokenIndex].betTokenType,tokens[tokenIndex].betTokenDecimal,tuid);
+    if (createGameApi.success === true) {
+      socket.emit("createNewGame", createGameJson);
+      enqueueSnackbar('Game created successfully.', {anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'right'
+      }, variant: 'success' })
+      setCreateGameEmit(true);
+    }
+    else{
+      alert("CreateGame Failed")
+    }
+      setLoading(false)
   }
 
   const handleRefund = async () => {
+    const removeGameApi = await removeGame(gameIdInput);
+    console.log("Game Removed")
     socket.emit("refundGame");
+
   }
 
   useEffect(()=>{

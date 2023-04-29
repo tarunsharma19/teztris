@@ -130,10 +130,10 @@ const Profile = () => {
     // console.log(data,"func call")
     const nftsWithMetadata = (data.map((nft) => {
       const metadata = nft.token.metadata;
-      console.log(metadata)
+      // console.log(metadata)
       return {
         name: metadata.name + " #" + nft.token.tokenId,
-        image: "https://ipfs.io/ipfs/"+ metadata.artifactUri.slice(7)
+        image: "https://gateway.pinata.cloud/ipfs/"+ metadata.artifactUri.slice(7)
       }
     }));
     // console.log("before return", nftsWithMetadata)
@@ -144,7 +144,7 @@ const Profile = () => {
   // getNFTsByContractAndAddress("KT1UHy8rtoz6puuxPbbwafVxkBAhhNb1yw9M", "tz1ShYLGeiEZbMNqe51hGCrUKch5BafMptzQ")
   .then(nftGalleryData => {
     // Use nftGalleryData here
-    console.log("nft gallery",nftGalleryData);
+    // console.log("nft gallery",nftGalleryData);
     setNftGalleryData(nftGalleryData);
   })
   .catch(error => {

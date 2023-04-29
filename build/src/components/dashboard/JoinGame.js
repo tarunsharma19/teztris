@@ -3,6 +3,7 @@ import pattern from '../../img/zigzag_small.png'
 import { manageFunc } from '../../App';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { joinGame } from '../../api/operations/teztris';
 
 
 
@@ -46,8 +47,11 @@ function JoinGame({ swapFunc }) {
       alert("no match data found")
       return
     }
+    const joinGameApi = await joinGame(matchData.tokenData.amount,matchData.tokenData.betToken,matchData.tokenData.betTokenId,matchData.tokenData.betTokenType,6,uuid);
+    if (joinGameApi.success === true) {
     socket.emit('playerJoins', {"gameId":uuid})
     setGameIdInput(uuid)
+    }
   }
 
   console.log(gameIdInput,"gameId")

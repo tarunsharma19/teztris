@@ -48,6 +48,7 @@ const Tetris = () => {
   const [gameResult, setGameResult] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [opponentEnded, setOpponentEnded] = useState(false);
+  const [ winNotif , setwinNotif] = useState(false);
 
 
   const getAddress = async () => {
@@ -108,7 +109,7 @@ const Tetris = () => {
   //   }
   // };
   useEffect(()=>{
-    if(score>opponentScore){
+    if((score>opponentScore) && !(winNotif)){
       setWinnerDeclare(true)
       enqueueSnackbar(`Congrats, you surpassed your opponent's score.`, {anchorOrigin: {
         vertical: 'bottom',
@@ -123,7 +124,7 @@ const Tetris = () => {
         horizontal: 'right'
       }, variant: 'info' })
       setGameResult("win")
-      setOpponentScore(Number.MAX_SAFE_INTEGER)
+      setwinNotif(true)
       console.log("winner selected")
     }
   })

@@ -34,7 +34,10 @@ function GameCards() {
         </div>
         :
         <div className='wallet-connect-message'>
-              <h2>Please connect your wallet first...</h2>
+              <h3>Don't be a square! 
+                <br /> 
+                Connect your wallet to play Teztile and see your name at the
+                 top of the leaderboard!</h3>
         </div>
       
     );
