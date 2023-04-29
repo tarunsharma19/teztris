@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 
-const URL = "http://localhost:8080";
+const URL = "https://backend.teztris.xyz/";
 
 export const connectSocket = (address) => {
   const headers = { auth: address };

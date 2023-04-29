@@ -53,7 +53,7 @@ function PublicRooms() {
                 <td>{room.name}</td>
                 <td className="amount">{room.betAmount}</td>
                 <td className="button">
-                  <button>Join</button>
+                  <button onClick={handleJoinGame} >Join</button>
                 </td>
               </tr>
             ))}
