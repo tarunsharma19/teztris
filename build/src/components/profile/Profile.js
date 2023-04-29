@@ -75,13 +75,13 @@ const Profile = () => {
 
   const getProfile = async () =>{
       if(userWallet){
-        console.log("inside profile")
+        // console.log("inside profile")
         const res = await axios.get(
             // `http://localhost:8080/api/profile?id=${userWallet}`
             `${URL}/api/profile?id=tz1PZmgQj6fmaucqpavsvoZEjyagmJqbumyn`
           );
         const data = res.data; 
-        console.log("data",data)
+        // console.log("data",data)
         setProfile(data)
       }
       // const formattedResponse = data.map(player => ({
@@ -121,23 +121,23 @@ const Profile = () => {
     amount: data.tokenData.amount + " " + data.tokenData.betTokenName,
   }))
 
-  // console.log(profile.myGames)
+  // // console.log(profile.myGames)
 
   async function getNFTsByContractAndAddress(contractAddress, walletAddress) {
     // const response = await fetch(`https://api.ghostnet.tzkt.io/v1/accounts/${walletAddress}/operations?type=nft_transfer&status=applied&token_id=${contractAddress}`);
     const response = await fetch(`https://api.ghostnet.tzkt.io/v1/tokens/balances?token.contract=${contractAddress}&account=${walletAddress}`);
     const data = await response.json();
     // const nfts = data.filter(operation => operation.initiator.address === walletAddress && operation.token.contract === contractAddress);
-    // console.log(data,"func call")
+    // // console.log(data,"func call")
     const nftsWithMetadata = (data.map((nft) => {
       const metadata = nft.token.metadata;
-      // console.log(metadata)
+      // // console.log(metadata)
       return {
         name: metadata.name + " #" + nft.token.tokenId,
         image: "https://gateway.pinata.cloud/ipfs/"+ metadata.artifactUri.slice(7)
       }
     }));
-    // console.log("before return", nftsWithMetadata)
+    // // console.log("before return", nftsWithMetadata)
     return nftsWithMetadata;
   }
 
@@ -145,7 +145,7 @@ const Profile = () => {
   // getNFTsByContractAndAddress("KT1UHy8rtoz6puuxPbbwafVxkBAhhNb1yw9M", "tz1ShYLGeiEZbMNqe51hGCrUKch5BafMptzQ")
   .then(nftGalleryData => {
     // Use nftGalleryData here
-    // console.log("nft gallery",nftGalleryData);
+    // // console.log("nft gallery",nftGalleryData);
     setNftGalleryData(nftGalleryData);
   })
   .catch(error => {

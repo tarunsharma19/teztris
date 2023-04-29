@@ -80,7 +80,7 @@ function CreateGame({swapFunc}) {
           "betTokenName": tokens[tokenIndex].betTokenName
       }
     }
-    console.log(createGameJson)
+    // console.log(createGameJson)
     enqueueSnackbar('Creating game, please verify from your wallet.', {anchorOrigin: {
       vertical: 'bottom',
       horizontal: 'right'
@@ -104,7 +104,7 @@ function CreateGame({swapFunc}) {
   const handleRefund = async () => {
     const removeGameApi = await removeGame(gameIdInput);
     if(removeGameApi.success){
-      console.log("Game Removed")
+      // console.log("Game Removed")
       socket.emit("refundGame");
     }
     else{
@@ -116,7 +116,7 @@ function CreateGame({swapFunc}) {
   useEffect(()=>{
     if(socket){
       socket.on('game-refunded', (data)=>{
-        console.log(data,"create game")
+        // console.log(data,"create game")
         setGameIdInput(null);
         setCreateGameEmit(false);
         setCreatedGame(false);
@@ -129,7 +129,7 @@ function CreateGame({swapFunc}) {
   useEffect(()=>{
     if(socket){
       socket.on('old-game-found', (data)=>{
-        console.log(data,"create game")
+        // console.log(data,"create game")
         setGameIdInput(data._id);
         setCreateGameEmit(true);
         setCreatedGame(true);
@@ -154,7 +154,7 @@ function CreateGame({swapFunc}) {
     setAlisa(event.target.value);
   }
   
-  console.log(matchFoundData,response,"matchdata, response")
+  // console.log(matchFoundData,response,"matchdata, response")
   return (
     <div className='createGame'>
             <div className='card'>

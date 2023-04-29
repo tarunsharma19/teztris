@@ -22,7 +22,7 @@ function JoinGame({ swapFunc }) {
   const handleGameIdInput = (event) =>{
     setUuid(event.target.value);
     socket.emit("wantsToJoin",{"uuid":event.target.value})
-    console.log("socket emit done")
+    // console.log("socket emit done")
   }
 
   useEffect(()=>{
@@ -61,7 +61,7 @@ function JoinGame({ swapFunc }) {
     setLoading(false)
   }
 
-  console.log(gameIdInput,"gameId")
+  // console.log(gameIdInput,"gameId")
   
   useEffect(()=>{
     if(socket){

@@ -53,7 +53,7 @@ const Tetris = () => {
 
   const getAddress = async () => {
     const wal = await FetchWalletAPI();
-    console.log("fetched wallet", wal);
+    // console.log("fetched wallet", wal);
     setAddress(wal.wallet);
   };
 
@@ -63,7 +63,7 @@ const Tetris = () => {
 
   useEffect(() => {
     socket.on("opponent-ended", (s) => {
-      // console.log("opponent-ended score", s);
+      // // console.log("opponent-ended score", s);
       setOpponentScore(parseInt(s));
       setOpponentEnded(true);
       enqueueSnackbar(`Opponent Ended game.`, {anchorOrigin: {
@@ -80,7 +80,7 @@ const Tetris = () => {
          "score": score
       }
       socket.emit("endGame", endGameParams);
-      console.log("gameover emit done");
+      // console.log("gameover emit done");
       setIsModalOpen(true);
     }
   }, [gameOver]);
@@ -91,7 +91,7 @@ const Tetris = () => {
   useEffect(() => {
     socket.once("game-over", (obj) => {
       setGotWinner(true);
-      console.log("game-over object", obj);
+      // console.log("game-over object", obj);
     });
     socket.on("issue", (status) => {
       alert(status);
@@ -125,7 +125,7 @@ const Tetris = () => {
       }, variant: 'info' })
       setGameResult("win")
       setwinNotif(true)
-      console.log("winner selected")
+      // console.log("winner selected")
     }
   })
 
@@ -223,7 +223,7 @@ const Tetris = () => {
     } else {
       // Game over!
       if (player.pos.y < 1) {
-        console.log("GAME OVER!!!");
+        // console.log("GAME OVER!!!");
         setGameOver(true);
         setDropTime(null);
       }
@@ -243,7 +243,7 @@ const Tetris = () => {
   }, dropTime);
 
   const move = ({ keyCode }) => {
-    console.log(typeof keyCode, "+++++++++++++++++++++++", keyCode);
+    // console.log(typeof keyCode, "+++++++++++++++++++++++", keyCode);
     if (!gameOver) {
       if (keyCode === 37) {
         movePlayer(-1);

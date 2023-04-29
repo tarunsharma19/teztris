@@ -20,7 +20,7 @@ function Navbar() {
   async function connectWallet() {
     if (walletConnected) {
       const disconnect = await DisconnectWalletAPI()
-      console.log(disconnect)
+      // console.log(disconnect)
       setWalletConnected(false);
       setWalletButtonText(null);
       setUsetWallet(null);
@@ -29,7 +29,7 @@ function Navbar() {
       if (!account.success) {
         alert('Wallet connection failed');
       }
-      console.log(account.wallet)
+      // console.log(account.wallet)
       dispatch(connectSocketThunk(account.wallet));
       setWalletButtonText(account.wallet);
       setUsetWallet(account.wallet);
@@ -44,7 +44,7 @@ function Navbar() {
         alert('Wallet connection failed');
       }
       const account = await FetchWalletAPI();
-      console.log(account.wallet)
+      // console.log(account.wallet)
       dispatch(connectSocketThunk(account.wallet));
       setWalletButtonText(account.wallet);
       setUsetWallet(account.wallet);

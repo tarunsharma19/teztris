@@ -6,10 +6,10 @@ export const connectSocket = (address) => {
   const headers = { auth: address };
   const socket = io(URL, { transportOptions: { polling: { extraHeaders: headers } } });
 
-  console.log(socket);
+  // console.log(socket);
 
   socket.on('connect', () => {
-    console.log('Socket connected');
+    // console.log('Socket connected');
   });
 
   return socket;
@@ -17,7 +17,7 @@ export const connectSocket = (address) => {
 
 
 
-// console.log(socket)
+// // console.log(socket)
 
 // register preliminary event listeners here:
 
