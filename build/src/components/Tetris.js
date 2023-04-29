@@ -140,6 +140,13 @@ const Tetris = () => {
         }
     }
   },[gameOver,opponentEnded])
+
+  useEffect(()=>{
+    if(gameResult==="lose"){
+      handleModalClose();
+      setIsModalOpen(true);
+    }
+  },[gameResult])
   
   // const playAgain = () => {
   //   navigate('/start', {replace: true});
@@ -172,6 +179,7 @@ const Tetris = () => {
       updatePlayerPos({ x: dir, y: 0 });
     }
   };
+
 
   const keyUp = ({ keyCode }) => {
     if (!gameOver) {

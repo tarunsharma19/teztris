@@ -6,9 +6,11 @@ import MatchHistory from './MatchHistory';
 import Navbar from '../dashboard/Navbar';
 import axios from "axios";
 import {manageFunc} from '../../App'
+import heart from '../../img/heart.png'
 
 const Profile = () => {
   const { userWallet } = useContext(manageFunc);
+  const [nftGalleryData, setNftGalleryData] = useState([]);
 
   // Add your data for each component here
 
@@ -95,8 +97,8 @@ const Profile = () => {
   },[userWallet])
 
   const userProfileData = {
-    profileImage: 'https://placehold.jp/800x800.png',
-    userName: 'John Doe',
+    profileImage: "https://c4.wallpaperflare.com/wallpaper/721/370/540/pixel-art-pixels-heart-life-wallpaper-thumb.jpg",
+    userName: 'Teztile Profile',
     walletAddress: profile.me._id || '0xAbCdEfG123456789',
     totalWinnings: profile.me.highScore || 0,
     wins: profile.me.won,
@@ -118,26 +120,54 @@ const Profile = () => {
     amount: data.tokenData.amount + " " + data.tokenData.betTokenName,
   }))
 
-  console.log(profile.myGames)
+  // console.log(profile.myGames)
 
-  const nftGalleryData = [
-    {
-      image: 'https://placehold.jp/800x800.png',
-      name: 'NFT One'
-    },
-    {
-      image: 'https://placehold.jp/800x800.png',
-      name: 'NFT Two'
-    },
-    {
-      image: 'https://placehold.jp/800x800.png',
-      name: 'NFT Three'
-    },
-    {
-      image: 'https://placehold.jp/800x800.png',
-      name: 'NFT Four'
-    }
-  ];
+  async function getNFTsByContractAndAddress(contractAddress, walletAddress) {
+    // const response = await fetch(`https://api.ghostnet.tzkt.io/v1/accounts/${walletAddress}/operations?type=nft_transfer&status=applied&token_id=${contractAddress}`);
+    const response = await fetch(`https://api.ghostnet.tzkt.io/v1/tokens/balances?token.contract=${contractAddress}&account=${walletAddress}`);
+    const data = await response.json();
+    // const nfts = data.filter(operation => operation.initiator.address === walletAddress && operation.token.contract === contractAddress);
+    // console.log(data,"func call")
+    const nftsWithMetadata = (data.map((nft) => {
+      const metadata = nft.token.metadata;
+      console.log(metadata)
+      return {
+        name: metadata.name + " #" + nft.token.tokenId,
+        image: "https://ipfs.io/ipfs/"+ metadata.artifactUri.slice(7)
+      }
+    }));
+    // console.log("before return", nftsWithMetadata)
+    return nftsWithMetadata;
+  }
+
+  getNFTsByContractAndAddress("KT1TVGLKpsT8i7tBQJXQTx7oBnuD9tUXrvjf", userWallet)
+  .then(nftGalleryData => {
+    // Use nftGalleryData here
+    // console.log("nft gallery",nftGalleryData);
+    setNftGalleryData(nftGalleryData);
+  })
+  .catch(error => {
+    // Handle errors here
+    console.error(error);
+  });
+  // const nftGalleryData = [
+  //   {
+  //     image: 'https://placehold.jp/800x800.png',
+  //     name: 'NFT One'
+  //   },
+  //   {
+  //     image: 'https://placehold.jp/800x800.png',
+  //     name: 'NFT Two'
+  //   },
+  //   {
+  //     image: 'https://placehold.jp/800x800.png',
+  //     name: 'NFT Three'
+  //   },
+  //   {
+  //     image: 'https://placehold.jp/800x800.png',
+  //     name: 'NFT Four'
+  //   }
+  // ];
 
   const matchHistoryDataa = [
     {
