@@ -6,6 +6,7 @@ import MatchHistory from './MatchHistory';
 import Navbar from '../dashboard/Navbar';
 import axios from "axios";
 import {manageFunc} from '../../App'
+import { URL } from '../../api/socket';
 import heart from '../../img/heart.png'
 
 const Profile = () => {
@@ -77,7 +78,7 @@ const Profile = () => {
         console.log("inside profile")
         const res = await axios.get(
             // `http://localhost:8080/api/profile?id=${userWallet}`
-            `http://localhost:8080/api/profile?id=tz1PZmgQj6fmaucqpavsvoZEjyagmJqbumyn`
+            `${URL}/api/profile?id=tz1PZmgQj6fmaucqpavsvoZEjyagmJqbumyn`
           );
         const data = res.data; 
         console.log("data",data)

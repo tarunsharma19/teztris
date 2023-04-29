@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { joinGame } from '../../api/operations/teztris';
+import { manageFunc } from '../../App';
+import { useNavigate } from 'react-router-dom';
 
 function PublicRooms() {
   const socket = useSelector((state) => state.socket.socket); 
+  const {gameIdInput, setGameIdInput , createdGame } = useContext(manageFunc);
+  const navigate = useNavigate();
 
   // const rooms = [
   //   {
@@ -19,7 +24,29 @@ function PublicRooms() {
   //   },
   // ];
 
+
   const [rooms, setRooms] = useState([]);
+  const [loading , setLoading] = useState(false)
+
+
+  const handleJoinGame = async (room) =>{
+    if (!room){
+      alert("no match data found")
+      return
+    }
+    if (createdGame){
+      alert("cant join a game, end your created game first!")
+      return
+    }
+    setLoading(true);
+      const joinGameApi = await joinGame(room.tokenData.amount,room.tokenData.betToken,room.tokenData.betTokenId,room.tokenData.betTokenType,6,room.roomId);
+      if (joinGameApi.success === true) {
+      socket.emit('playerJoins', {"gameId":room.roomId})
+      setGameIdInput(room.roomId)
+      navigate("/app", { replace: true });
+    }
+    setLoading(false);
+  }
 
   useEffect(() => {
     if (socket) {
@@ -27,7 +54,9 @@ function PublicRooms() {
         const updatedRooms = data.publicRooms.map((room) => {
           return {
             "name": room.alias,
+            "roomId": room.gameId,
             "betAmount": room.tokenData.amount + " " + room.tokenData.betTokenName,
+            "tokenData": room.tokenData
           };
         });
         setRooms(updatedRooms);
@@ -53,7 +82,9 @@ function PublicRooms() {
                 <td>{room.name}</td>
                 <td className="amount">{room.betAmount}</td>
                 <td className="button">
-                  <button onClick={handleJoinGame} >Join</button>
+                  <button onClick={()=>handleJoinGame(room)} >
+                    { loading?"Joining..":"Join"}
+                    </button>
                 </td>
               </tr>
             ))}

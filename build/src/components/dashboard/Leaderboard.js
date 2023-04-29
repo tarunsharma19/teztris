@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./scss/Leaderboard.scss"
 import axios from "axios";
+import { URL } from '../../api/socket';
 
 
 // const LeaderboardStats = [
@@ -48,7 +49,7 @@ function Leaderboard() {
     const [LeaderboardStats, setLeaderboard] = useState([]);
     const getLeaderboard = async () =>{
         const res = await axios.get(
-            "http://localhost:8080/api/leaderboard"
+            `${URL}/api/leaderboard`
           );
         const data = res.data.users; 
         const formattedResponse = data.map(player => ({

@@ -19,12 +19,13 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [gameIdInput, setGameIdInput] = useState('');
   const [userWallet, setUsetWallet] = useState(null);
+  const [createdGame, setCreatedGame] = useState(false);
 
   return (
     <Provider store={store}>
       <SnackbarProvider />
       <BrowserRouter>
-        <manageFunc.Provider value={{ gameOver, setGameOver, gameIdInput, setGameIdInput ,userWallet, setUsetWallet}}>
+        <manageFunc.Provider value={{ gameOver, setGameOver, gameIdInput, setGameIdInput ,userWallet, setUsetWallet , createdGame, setCreatedGame}}>
           <Routes>
             <Route path="/app" element={<Tetris />} />
             <Route path="/start" element={<StartGame />} />

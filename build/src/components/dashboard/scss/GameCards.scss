@@ -47,7 +47,10 @@
         border-radius: 20px;
         background-color: #29292970;
         overflow: hidden;
-        padding: 0;
+        
+        h1{
+          padding: 0 16px;
+        }  
       
         table {
           border-collapse: collapse;
@@ -61,7 +64,11 @@
           tr.row {
             height: auto;
           }
-      
+          button{
+            &:hover{
+              cursor: pointer;
+            }
+          }
           th,
           td {
             padding: 10px;
@@ -171,6 +178,7 @@
                 }
                 .cancel-game{
                   text-decoration: underline;
+                  color: red;
                     &:hover{
                       cursor: pointer;
                     }

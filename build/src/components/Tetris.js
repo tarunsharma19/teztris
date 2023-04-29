@@ -147,6 +147,10 @@ const Tetris = () => {
       handleModalClose();
       setIsModalOpen(true);
     }
+    if(gameResult==="win"){
+      handleModalClose();
+      setIsModalOpen(true);
+    }
   },[gameResult])
   
   // const playAgain = () => {

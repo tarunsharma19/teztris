@@ -16,7 +16,7 @@ function CreateGame({swapFunc}) {
 
   
   const socket = useSelector((state) => state.socket.socket); 
-  const {gameIdInput, setGameIdInput } = useContext(manageFunc);
+  const {gameIdInput, setGameIdInput , setCreatedGame } = useContext(manageFunc);
   const [tokenIndex , setTokenIndex] = useState(0);
   const [tokenAmount , setTokenAmount] = useState(0);
   const [alias , setAlisa] = useState("");
@@ -93,6 +93,7 @@ function CreateGame({swapFunc}) {
         horizontal: 'right'
       }, variant: 'success' })
       setCreateGameEmit(true);
+      setCreatedGame(true);
     }
     else{
       alert("CreateGame Failed")
@@ -102,8 +103,13 @@ function CreateGame({swapFunc}) {
 
   const handleRefund = async () => {
     const removeGameApi = await removeGame(gameIdInput);
-    console.log("Game Removed")
-    socket.emit("refundGame");
+    if(removeGameApi.success){
+      console.log("Game Removed")
+      socket.emit("refundGame");
+    }
+    else{
+      alert("unable to refund game")
+    }
 
   }
 
@@ -113,6 +119,7 @@ function CreateGame({swapFunc}) {
         console.log(data,"create game")
         setGameIdInput(null);
         setCreateGameEmit(false);
+        setCreatedGame(false);
       })
     }
   },[])
@@ -125,6 +132,7 @@ function CreateGame({swapFunc}) {
         console.log(data,"create game")
         setGameIdInput(data._id);
         setCreateGameEmit(true);
+        setCreatedGame(true);
       })
     }
   },[])
