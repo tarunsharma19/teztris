@@ -4,7 +4,7 @@ const NFTs = ({nfts}) => {
     <div className="nft-gallery">
       <h2>NFT Gallery</h2>
       <div className="nft-container">
-        {nfts.length>1?
+        {nfts.length>0?
           <>
             {nfts.map((nft, index) => (
             <div key={index} className="nft">

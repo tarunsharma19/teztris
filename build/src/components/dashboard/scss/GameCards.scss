@@ -44,7 +44,7 @@
         border-radius: 20px;
         background-color: #29292970;
         overflow: hidden;
-        padding: 0 16px;
+        padding: 0;
       
         table {
           border-collapse: collapse;
@@ -160,11 +160,17 @@
                 box-sizing: border-box;
                 p{
                     font-size: 12px;
-                    margin: 10px 0;
+                    margin: 10px 0 0 0;
                 }
                 span{
-                    font-size: 12px;
+                    font-size: 14px;
                     font-weight: 700;
+                }
+                .cancel-game{
+                  text-decoration: underline;
+                    &:hover{
+                      cursor: pointer;
+                    }
                 }
             }
             img{

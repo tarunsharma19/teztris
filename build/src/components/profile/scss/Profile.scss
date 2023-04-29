@@ -102,7 +102,7 @@
   
   /* Section 2 - NFT Gallery */
   .nft-gallery {
-    height: 440px;
+    max-height: 440px;
     background-color: #c5c5c52a;
     margin: 20px;
     padding: 20px;
@@ -135,6 +135,7 @@
       p {
         text-align: center;
         white-space: nowrap;
+        margin: 10px auto;
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 300px;

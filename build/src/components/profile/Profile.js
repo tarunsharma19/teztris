@@ -141,9 +141,10 @@ const Profile = () => {
   }
 
   getNFTsByContractAndAddress("KT1TVGLKpsT8i7tBQJXQTx7oBnuD9tUXrvjf", userWallet)
+  // getNFTsByContractAndAddress("KT1UHy8rtoz6puuxPbbwafVxkBAhhNb1yw9M", "tz1ShYLGeiEZbMNqe51hGCrUKch5BafMptzQ")
   .then(nftGalleryData => {
     // Use nftGalleryData here
-    // console.log("nft gallery",nftGalleryData);
+    console.log("nft gallery",nftGalleryData);
     setNftGalleryData(nftGalleryData);
   })
   .catch(error => {
@@ -169,44 +170,44 @@ const Profile = () => {
   //   }
   // ];
 
-  const matchHistoryDataa = [
-    {
-      opponent: 'Player 1',
-      dateTime: '2023-03-29 15:30',
-      result: 'Win',
-      amount: 100
-    },
-    {
-      opponent: 'Player 1',
-      dateTime: '2023-03-29 15:30',
-      result: 'Win',
-      amount: 100
-    },
-    {
-      opponent: 'Player 1',
-      dateTime: '2023-03-29 15:30',
-      result: 'Win',
-      amount: 100
-    },
-    {
-      opponent: 'Player 1',
-      dateTime: '2023-03-29 15:30',
-      result: 'Win',
-      amount: 100
-    },
-    {
-      opponent: 'Player 2',
-      dateTime: '2023-03-28 18:45',
-      result: 'Lose',
-      amount: -50
-    },
-    {
-      opponent: 'Player 3',
-      dateTime: '2023-03-27 21:15',
-      result: 'Win',
-      amount: 150
-    }
-  ];
+  // const matchHistoryDataa = [
+  //   {
+  //     opponent: 'Player 1',
+  //     dateTime: '2023-03-29 15:30',
+  //     result: 'Win',
+  //     amount: 100
+  //   },
+  //   {
+  //     opponent: 'Player 1',
+  //     dateTime: '2023-03-29 15:30',
+  //     result: 'Win',
+  //     amount: 100
+  //   },
+  //   {
+  //     opponent: 'Player 1',
+  //     dateTime: '2023-03-29 15:30',
+  //     result: 'Win',
+  //     amount: 100
+  //   },
+  //   {
+  //     opponent: 'Player 1',
+  //     dateTime: '2023-03-29 15:30',
+  //     result: 'Win',
+  //     amount: 100
+  //   },
+  //   {
+  //     opponent: 'Player 2',
+  //     dateTime: '2023-03-28 18:45',
+  //     result: 'Lose',
+  //     amount: -50
+  //   },
+  //   {
+  //     opponent: 'Player 3',
+  //     dateTime: '2023-03-27 21:15',
+  //     result: 'Win',
+  //     amount: 150
+  //   }
+  // ];
 
   return (
     <div className="app">

@@ -94,6 +94,20 @@ function CreateGame({swapFunc}) {
     setCreateGameEmit(true);
     setLoading(false)
   }
+
+  const handleRefund = async () => {
+    socket.emit("refundGame");
+  }
+
+  useEffect(()=>{
+    if(socket){
+      socket.on('game-refunded', (data)=>{
+        console.log(data,"create game")
+        setGameIdInput(null);
+        setCreateGameEmit(false);
+      })
+    }
+  },[])
   // navigate("/app", { replace: true });
 
   // listen for "matchFound" or error messages
@@ -134,15 +148,15 @@ function CreateGame({swapFunc}) {
                     <input className='room-name-input' type="text" onChange={handleAlisa} placeholder='Room name'></input>
                     { createGameEmit ? 
                         <div className='game-details'>
-                          <p>Game created,
-                            <br />waiting for opponent to join</p>
+                          <p>Game created, waiting for opponent to join</p>
                           <span>{gameIdInput}</span>
+                          <div className='cancel-game' onClick={handleRefund}>cancel game</div>
                        </div> : 
                        <img className = "join" src={pattern}></img>}
                     
                     <a href="#" onClick={()=>createGameHandle()} className="orange-btn">
                       {
-                      loading ? "Loading..." : createGameEmit? "Please Wait" : "Create Game"
+                      loading ? "Loading..." : createGameEmit? "Waiting..." : "Create Game"
                       }
                     </a>
                 </div>
