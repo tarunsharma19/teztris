@@ -6,6 +6,14 @@ const pinata = require("./pinata");
 var fs = require('fs');
 var PDFImage = require("pdf-image2").PDFImage;
 
+const pdfToImg = require("pdf-to-img");
+pdfToImg.setOptions({
+  type: "png",       // Output image type
+  size: "800x800", // Output image size
+  quality: 100,      // Output image quality
+});
+
+
 
 const nftFlow = async (player1, player2, amount, token) => {
 
@@ -17,9 +25,30 @@ const nftFlow = async (player1, player2, amount, token) => {
     // get file
     // let img = fs.createReadStream('./trial.pdf');
 
-    var pdfImage = new PDFImage("./trial.pdf");
-    const img = await pdfImage.convertPage(0);
-    console.log(img);
+    // var pdfImage = new PDFImage("./trial.pdf");
+
+    // const img = await pdfImage.convertPage(0);
+    // console.log(img);
+
+    pdfToImg.convert("./trial.pdf", (err, info) => {
+      if (err) {
+        console.error(err);
+      } else {
+        if (info.length > 0) {
+          // Save the first page of the PDF as a PNG image
+          const firstPageImage = info[0];
+          fs.writeFile('./trial-0.png', firstPageImage.buffer, (writeErr) => {
+            if (writeErr) {
+              console.error(writeErr);
+            } else {
+              console.log(`PDF page saved as ${outputImagePath}`);
+            }
+          });
+        } else {
+          console.log("No pages found in the PDF.");
+        }
+      }
+    });
 
 
     // Only error is upload file to ipfs
@@ -55,12 +84,17 @@ const generatePDF = async (player1, player2, amount, token) => {
 
     // Load a PDFDocument from the existing PDF bytes
     const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
+    console.log("pdfDoc", pdfDoc);
 
     const Poppins = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+    console.log("Poppins", Poppins);
 
     // Get the first page of the document
     const pages = pdfDoc.getPages();
+    console.log("pages", pages);
+
     const firstPage = pages[0];
+    console.log("firstPage", firstPage);
 
     // Draw a string of text diagonally across the first page
 
@@ -102,11 +136,13 @@ const generatePDF = async (player1, player2, amount, token) => {
 
     // Serialize the PDFDocument to bytes (a Uint8Array)
     const pdfBytes = await pdfDoc.save();
+    console.log("pdfBytes", pdfBytes);
 
 
     // this was for creating uri and showing in iframe
 
     const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
+    console.log("pdfDataUri", pdfDataUri);
 
     // document.getElementById("pdf").src = pdfDataUri;
 
