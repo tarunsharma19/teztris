@@ -120,7 +120,7 @@ const generatePDF = async (player1, player2, amount, token) => {
       color: PDFLib.rgb(1, 1, 1),
     });
 
-    firstPage.drawText(token + " " + amount, {
+    firstPage.drawText(token + " " + amount*2, {
       x: 350,
       y: 337,
       size: 15,
