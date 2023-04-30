@@ -10,6 +10,7 @@ import Profile from './components/profile/Profile';
 import { Provider } from 'react-redux';
 import store from './api/store';
 import { SnackbarProvider } from 'notistack';
+import TetrisDemo from './components/TetrisDemo';
 
 const manageFunc = React.createContext(null);
 
@@ -28,6 +29,7 @@ function App() {
         <manageFunc.Provider value={{ gameOver, setGameOver, gameIdInput, setGameIdInput ,userWallet, setUsetWallet , createdGame, setCreatedGame}}>
           <Routes>
             <Route path="/app" element={<Tetris />} />
+            <Route path="/demo" element={<TetrisDemo />} />
             <Route path="/start" element={<StartGame />} />
             <Route path="/home" element={<Home />} />
             <Route path="/profile" element={<Profile />} />

@@ -5,10 +5,11 @@ import JoinGame from './CreateGame'
 import './scss/GameCards.scss'
 import PublicRooms from './PublicRooms';
 import { manageFunc } from '../../App';
-
+import { useNavigate } from 'react-router-dom';
 function GameCards() {
     const [createJoinSwap, setCreateJoinSwap] = useState(false);
     const { userWallet } = useContext(manageFunc);
+    const navigate = useNavigate();
 
   
     return (
@@ -38,6 +39,8 @@ function GameCards() {
                 <br /> 
                 Connect your wallet to play Teztile and see your name at the
                  top of the leaderboard!</h3>
+              <br />
+              <button onClick={()=>navigate('/demo',{replace:true})}> Try Demo</button>
         </div>
       
     );

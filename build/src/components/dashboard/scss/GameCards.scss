@@ -35,6 +35,11 @@
     text-align: center;
     border-radius: 20px;
     background-color: #29292970;
+    button{
+      &:hover{
+        cursor: pointer;
+      }
+    }
 }  
 
 .cardWrapper {
