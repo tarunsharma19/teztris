@@ -155,6 +155,14 @@ const Tetris = () => {
   })
 
   useEffect(()=>{
+    if((score>=opponentScore) && !(winNotif) ){
+      setWinnerDeclare(true)
+      console.log("you're winner, first UE")
+      setGameResult("win")
+    }
+  })
+
+  useEffect(()=>{
     if(gameOver){
         if(winNotif){
           setGameResult("win")
