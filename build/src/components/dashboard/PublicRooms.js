@@ -43,7 +43,8 @@ function PublicRooms() {
       if (joinGameApi.success === true) {
       socket.emit('playerJoins', {"gameId":room.roomId})
       setGameIdInput(room.roomId)
-      navigate("/app", { replace: true });
+      console.log(gameIdInput)
+      navigate("/app",{replace:true});
     }
     setLoading(false);
   }

@@ -62,7 +62,7 @@ const Tetris = () => {
   }, [setGameOver]);
 
   useEffect(() => {
-    socket.on("opponent-ended", (s) => {
+    socket.once("opponent-ended", (s) => {
       // // console.log("opponent-ended score", s);
       setOpponentScore(parseInt(s));
       setOpponentEnded(true);
@@ -79,8 +79,8 @@ const Tetris = () => {
         "gameId": gameIdInput,
          "score": score
       }
-      socket.emit("endGame", endGameParams);
-      // console.log("gameover emit done");
+      socket.emit("endGame", endGameParams );
+      console.log("gameover emit done", endGameParams , typeof(endGameParams.score));
       setIsModalOpen(true);
     }
   }, [gameOver]);
@@ -109,8 +109,9 @@ const Tetris = () => {
   //   }
   // };
   useEffect(()=>{
-    if((score>opponentScore) && !(winNotif)){
+    if((score>=opponentScore) && !(winNotif) && !(gameOver)){
       setWinnerDeclare(true)
+      console.log("you're winner, first UE")
       enqueueSnackbar(`Congrats, you surpassed your opponent's score.`, {anchorOrigin: {
         vertical: 'bottom',
         horizontal: 'right'
@@ -125,14 +126,17 @@ const Tetris = () => {
       }, variant: 'info' })
       setGameResult("win")
       setwinNotif(true)
-      // console.log("winner selected")
     }
   })
 
   useEffect(()=>{
     if(gameOver){
+        if(winNotif){
+          setGameResult("win")
+          return
+        }
         if(opponentEnded){
-          if(score<opponentScore){
+          if(score<=opponentScore){
             setGameResult("lose")
           }
         }
@@ -147,11 +151,11 @@ const Tetris = () => {
       handleModalClose();
       setIsModalOpen(true);
     }
-    if(gameResult==="win"){
+    if((gameResult==="win") && gameOver){
       handleModalClose();
       setIsModalOpen(true);
     }
-  },[gameResult])
+  },[gameResult,gameOver])
   
   // const playAgain = () => {
   //   navigate('/start', {replace: true});

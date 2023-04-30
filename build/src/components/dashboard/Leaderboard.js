@@ -49,7 +49,7 @@ function Leaderboard() {
     const [LeaderboardStats, setLeaderboard] = useState([]);
     const getLeaderboard = async () =>{
         const res = await axios.get(
-            `${URL}/api/leaderboard`
+            `${URL}/api/leaderboard?highscore=-1&limit=10`
           );
         const data = res.data.users; 
         const formattedResponse = data.map(player => ({
