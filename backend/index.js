@@ -271,11 +271,17 @@ const reportWinner = async (
 
     const teztrisInstance = await Tezos.contract.at("KT1FjNorFCBAxvWFK4k15nyiFiGBb4T12Gpx");
 
-    console.log("reportWinner" , metadata);
+    console.log("check logs here");
+
+    const metadataString = `ipfs://`+metadata;
+    console.log(metadataString);
+
+    console.log(char2Bytes.char2Bytes(metadata));
+
 
     let batch = Tezos.wallet
       .batch()
-      .withContractCall(teztrisInstance.methods.reportWinner(gameID, { "": char2Bytes.char2Bytes("ipfs://" + metadata) }, winner));
+      .withContractCall(teztrisInstance.methods.reportWinner(gameID, { "": char2Bytes.char2Bytes(metadataString) }, winner));
 
     const batchOperation = await batch.send();
 
