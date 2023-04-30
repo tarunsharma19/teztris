@@ -79,7 +79,7 @@ const handleEnding = async (game) => {
             metadata = await nft.nftFlow(game.me, game.opponent, game.tokenData.betToken, game.tokenData.amount);
             console.log(metadata);
             console.log(metadata.Ipfs);
-            res = await reportWinner(game._id, game.me, "metadata.Ipfs");
+            res = await reportWinner(game._id, game.me, metadata.Ipfs);
             console.log(res);
             if (res.success) {
                 serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.me)).emit("game-over", game);
@@ -90,7 +90,7 @@ const handleEnding = async (game) => {
             metadata = await nft.nftFlow(game.opponent, game.me, game.tokenData.betToken, game.tokenData.amount);
             console.log(metadata);
             console.log(metadata.Ipfs);
-            res = await reportWinner(game._id, game.opponent, 'metadata.Ipfs');
+            res = await reportWinner(game._id, game.opponent, metadata.Ipfs);
             console.log(res);
             if (res.success) {
                 serverStore.getSocketServerInstance().to(serverStore.getMySocket(game.opponent)).emit("game-over", game);
