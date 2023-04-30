@@ -15,6 +15,7 @@ const endHandler = async (socket, data) => {
 
     const gameId = data.gameId;
     const score = +data.score;
+    // console.log(score)
 
     const game = await Game.findById(gameId);
 
@@ -23,7 +24,7 @@ const endHandler = async (socket, data) => {
         return;
     }
 
-    if (!score) {
+    if (score < 0) {
         console.log('Corrupt payload');
         return;
     }
@@ -46,7 +47,14 @@ const endHandler = async (socket, data) => {
 
     if (game.meFinished && game.opponentFinished) {
         // game khatam hogyi
-        game.scoreMe > game.scoreOpponent ? game.winner = game.me : game.winner = game.opponent;
+        if (game.scoreMe > game.scoreOpponent) { game.winner = game.me }
+        else { game.winner = game.opponent; }
+
+        // late wale ko winner after tie
+        if (game.scoreMe === game.scoreOpponent) {
+            game.winner = socket.wallet;
+        }
+
         handleEnding(game);
     }
     await game.save();
