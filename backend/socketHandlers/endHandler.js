@@ -61,7 +61,7 @@ const handleEnding = async (game) => {
     if (!lock) {
         lock = true;
 
-        const responseFromContract = await axios.get('https://api.ghostnet.tzkt.io/v1/contracts/KT1KY1nnwawbqyXz2g2b9tS7qCaiEidnkZWb/storage');
+        const responseFromContract = await axios.get('https://api.ghostnet.tzkt.io/v1/contracts/KT1FjNorFCBAxvWFK4k15nyiFiGBb4T12Gpx/storage');
         const { tokenId } = responseFromContract.data;
         game.winnerNft = `${(+tokenId) - 1}`;
         console.log("NFT tokenId updated for the winner " + game.winnerNft);

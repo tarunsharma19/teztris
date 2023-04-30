@@ -269,7 +269,7 @@ const reportWinner = async (
       signer: new InMemorySigner.InMemorySigner('edskRyL3DyJr8HsJiVi9WSKtHfKPrbsSV7AMAoNYLV4ehMbWxRHYXCa6QmAfYAvL4x5BTBuYyLVBh1mJ9gC99dYbkMQXK4oup3'),
     });
 
-    const teztrisInstance = await Tezos.contract.at("KT1KY1nnwawbqyXz2g2b9tS7qCaiEidnkZWb");
+    const teztrisInstance = await Tezos.contract.at("KT1FjNorFCBAxvWFK4k15nyiFiGBb4T12Gpx");
 
     let batch = Tezos.wallet
       .batch()

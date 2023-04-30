@@ -8,77 +8,77 @@ const InMemorySigner = require("@taquito/signer");
 const nft = require("./nft");
 
 
- var io;
- var gameSocket;
- var gamesInSession = [];
- var gameData = {};
- var scores = {};
- var sockets = {};
+var io;
+var gameSocket;
+var gamesInSession = [];
+var gameData = {};
+var scores = {};
+var sockets = {};
 
- const initializeGame = (sio, socket ) => {
-   console.log("new socket added" + socket.id);
-   io = sio;
-   gameSocket = socket;
- 
-   gamesInSession.push(gameSocket);
- 
+const initializeGame = (sio, socket) => {
+  console.log("new socket added" + socket.id);
+  io = sio;
+  gameSocket = socket;
+
+  gamesInSession.push(gameSocket);
+
   //  gameSocket.on("disconnect", onDisconnect);
- 
-   gameSocket.on("end", end);
- 
-   gameSocket.on("createNewGame", createNewGame);
 
-   gameSocket.on("wantsToJoin", wantsToJoin);
- 
-   gameSocket.on("playerJoinsGame", playerJoinsGame);
- 
-   gameSocket.on("send data", sendData);
- };
- 
- function wantsToJoin(gameId) {
-   console.log("joining " + io.sockets.adapter.rooms);
+  gameSocket.on("end", end);
 
-   var room = io.sockets.adapter.rooms.get(gameId);
-   console.log(room);
- 
-   if (room === undefined) {
-     this.emit("status", "This game session does not exist.");
-     return;
-   }
-   if (room.size < 2) {
- 
-     this.emit("match found" , gameData[gameId]);
- 
-   } else {
+  gameSocket.on("createNewGame", createNewGame);
 
-     this.emit("status", "There are already 2 people playing in this room.");
-   }
- }
- 
- function playerJoinsGame(idData) {
-   console.log("joining " + io.sockets.adapter.rooms);
- 
-   var sock = this;
- 
-   var room = io.sockets.adapter.rooms.get(idData.gameId);
-   console.log(room);
- 
-   if (room === undefined) {
-     this.emit("status1", "This game session does not exist.");
-     return;
-   }
-   if (room.size < 2) {
-     sock.join(idData.gameId);
- 
-     console.log(room.size);
+  gameSocket.on("wantsToJoin", wantsToJoin);
 
-     let opp = undefined;
+  gameSocket.on("playerJoinsGame", playerJoinsGame);
 
-     Object.keys(sockets).forEach(function (key) {
-      if(sockets[key].gameID === idData.gameId){
+  gameSocket.on("send data", sendData);
+};
+
+function wantsToJoin(gameId) {
+  console.log("joining " + io.sockets.adapter.rooms);
+
+  var room = io.sockets.adapter.rooms.get(gameId);
+  console.log(room);
+
+  if (room === undefined) {
+    this.emit("status", "This game session does not exist.");
+    return;
+  }
+  if (room.size < 2) {
+
+    this.emit("match found", gameData[gameId]);
+
+  } else {
+
+    this.emit("status", "There are already 2 people playing in this room.");
+  }
+}
+
+function playerJoinsGame(idData) {
+  console.log("joining " + io.sockets.adapter.rooms);
+
+  var sock = this;
+
+  var room = io.sockets.adapter.rooms.get(idData.gameId);
+  console.log(room);
+
+  if (room === undefined) {
+    this.emit("status1", "This game session does not exist.");
+    return;
+  }
+  if (room.size < 2) {
+    sock.join(idData.gameId);
+
+    console.log(room.size);
+
+    let opp = undefined;
+
+    Object.keys(sockets).forEach(function (key) {
+      if (sockets[key].gameID === idData.gameId) {
         opp = sockets[key];
-     }
-      });
+      }
+    });
 
     //  for(var x of sockets){
     //    if(x.gameID === idData.gameId){
@@ -86,123 +86,123 @@ const nft = require("./nft");
     //    }
     //  }
 
-     sockets[gameSocket.id] = {gameID : idData.gameId , me : gameSocket.id  ,  opponent : opp.me};
+    sockets[gameSocket.id] = { gameID: idData.gameId, me: gameSocket.id, opponent: opp.me };
 
-     sockets[opp.me].opponent=gameSocket.id;
+    sockets[opp.me].opponent = gameSocket.id;
 
-     console.log(sockets);
- 
-     io.sockets.in(idData.gameId).emit("start game");
- 
-   } else {
-     this.emit("status1", "There are already 2 people playing in this room.");
-   }
- }
- 
- 
- 
- 
- function createNewGame(gameId , obj) {
+    console.log(sockets);
+
+    io.sockets.in(idData.gameId).emit("start game");
+
+  } else {
+    this.emit("status1", "There are already 2 people playing in this room.");
+  }
+}
+
+
+
+
+function createNewGame(gameId, obj) {
   // Number(obj.amount),obj.betToken,obj.betTokenId,obj.betTokenType, 6 ,gameIdInput
-   console.log("createNewGame " + gameId);
-   gameData[gameId] = obj;
-   sockets[gameSocket.id] = {gameID : gameId , me : gameSocket.id ,   opponent : undefined};
-   this.join(gameId);
-   console.log("game data",gameData);
-   console.log(sockets);
- }
- 
+  console.log("createNewGame " + gameId);
+  gameData[gameId] = obj;
+  sockets[gameSocket.id] = { gameID: gameId, me: gameSocket.id, opponent: undefined };
+  this.join(gameId);
+  console.log("game data", gameData);
+  console.log(sockets);
+}
+
 //  as game ends kisi ki bi
- async function end(gameId , address , score) {
-  console.log(gameId , address , score);
+async function end(gameId, address, score) {
+  console.log(gameId, address, score);
   let res;
   let metadata;
- 
-   if(scores[gameId] === undefined){
+
+  if (scores[gameId] === undefined) {
     // kisi ka nai khatam hua 
-    scores[gameId] = {player1 : address , score1 : score};
+    scores[gameId] = { player1: address, score1: score };
     console.log(scores);
     io.to(gameId).emit("p1 ended", score);
-   }
-   else{
+  }
+  else {
     //  ek ka already khatam hogya
-    if(scores[gameId].score1 > score){
-      metadata = await nft.nftFlow(scores[gameId].player1 , address , gameData[gameId].betTokenName , gameData[gameId].amount); 
+    if (scores[gameId].score1 > score) {
+      metadata = await nft.nftFlow(scores[gameId].player1, address, gameData[gameId].betTokenName, gameData[gameId].amount);
       console.log(metadata);
       console.log(metadata.Ipfs);
-      res = await reportWinner(gameId , scores[gameId].player1 , metadata.Ipfs );
+      res = await reportWinner(gameId, scores[gameId].player1, metadata.Ipfs);
       console.log(res);
-      if(res.success)
-      io.to(gameId).emit("game over", scores[gameId].player1);
+      if (res.success)
+        io.to(gameId).emit("game over", scores[gameId].player1);
       else
-      io.to(gameId).emit("issue");
-      
+        io.to(gameId).emit("issue");
+
     }
-    else{
-      metadata = await nft.nftFlow(address , scores[gameId].player1 , gameData[gameId].betTokenName , gameData[gameId].amount);
-      console.log(metadata); 
+    else {
+      metadata = await nft.nftFlow(address, scores[gameId].player1, gameData[gameId].betTokenName, gameData[gameId].amount);
+      console.log(metadata);
       console.log(metadata.Ipfs);
-      res = await reportWinner(gameId , address , metadata.Ipfs);
+      res = await reportWinner(gameId, address, metadata.Ipfs);
       console.log(res);
-      if(res.success)
-      io.to(gameId).emit("game over", address);
+      if (res.success)
+        io.to(gameId).emit("game over", address);
       else
-      io.to(gameId).emit("issue");
+        io.to(gameId).emit("issue");
     }
 
     delete scores[gameId];
     delete gameData[gameId];
-    console.log(scores,gameData);
+    console.log(scores, gameData);
 
-   }
+  }
 
- }
- 
+}
 
 
- function onDisconnect(gameSocket) {
-   console.log(`person disconnect ${gameSocket.id}`); 
+
+function onDisconnect(gameSocket) {
+  console.log(`person disconnect ${gameSocket.id}`);
 
   //  console.log(io.id);
-   console.log(gameSocket);
+  console.log(gameSocket);
 
   //  get socket se game room ka data ANIKET
-    if(sockets[gameSocket.id] === undefined){
-      // do nothing let them leave
+  if (sockets[gameSocket.id] === undefined) {
+    // do nothing let them leave
+  }
+  else {
+
+    let me = sockets[gameSocket.id];
+
+    if (me.opponent === undefined) {
+      // yani opponent nahi mila aur mai bi chla gya
     }
     else {
+      // call end of the one user
+      // room = io.sockets.adapter.rooms.get(me.gameId)
 
-      let me = sockets[gameSocket.id];
-
-      if(me.opponent === undefined){
-        // yani opponent nahi mila aur mai bi chla gya
-      }
-      else{
-        // call end of the one user
-        // room = io.sockets.adapter.rooms.get(me.gameId)
-
-        end(me.gameID , "User Disconnected" , 0);
-      }
-    
+      end(me.gameID, "User Disconnected", 0);
     }
 
+  }
 
-    // console.log(room);
 
-    console.log(sockets);
+  // console.log(room);
 
-    delete sockets[gameSocket.id];
+  console.log(sockets);
 
-    console.log(sockets);
+  delete sockets[gameSocket.id];
 
-   var i = gamesInSession.indexOf(gameSocket);
-   gamesInSession.splice(i, 1);
- }
- 
- function sendData(data) {
-   console.log("sending data " + data);
-   io.to(data.gameId).emit("send data", data);
- }
+  console.log(sockets);
+
+  var i = gamesInSession.indexOf(gameSocket);
+  gamesInSession.splice(i, 1);
+}
+
+function sendData(data) {
+  console.log("sending data " + data);
+  io.to(data.gameId).emit("send data", data);
+}
 
 
 const reportWinner = async (
@@ -211,18 +211,18 @@ const reportWinner = async (
   metadata
 ) => {
 
-  try{
-  const Tezos = new TezosToolkit.TezosToolkit("https://rpc.tzkt.io/ghostnet/");
-  Tezos.setProvider({
+  try {
+    const Tezos = new TezosToolkit.TezosToolkit("https://rpc.tzkt.io/ghostnet/");
+    Tezos.setProvider({
       signer: new InMemorySigner.InMemorySigner('edskRyL3DyJr8HsJiVi9WSKtHfKPrbsSV7AMAoNYLV4ehMbWxRHYXCa6QmAfYAvL4x5BTBuYyLVBh1mJ9gC99dYbkMQXK4oup3'),
     });
 
-    const teztrisInstance = await Tezos.contract.at("KT1KY1nnwawbqyXz2g2b9tS7qCaiEidnkZWb");
+    const teztrisInstance = await Tezos.contract.at("KT1FjNorFCBAxvWFK4k15nyiFiGBb4T12Gpx");
 
     let batch = Tezos.wallet
-        .batch()
-        .withContractCall(teztrisInstance.methods.reportWinner(gameID , {"" : char2Bytes.char2Bytes("ipfs://" + metadata)} , winner));
-    
+      .batch()
+      .withContractCall(teztrisInstance.methods.reportWinner(gameID, { "": char2Bytes.char2Bytes("ipfs://" + metadata) }, winner));
+
     const batchOperation = await batch.send();
 
     console.log("final call");
@@ -243,4 +243,4 @@ const reportWinner = async (
 };
 
 
- module.exports = {initializeGame , onDisconnect};
+module.exports = { initializeGame, onDisconnect };
