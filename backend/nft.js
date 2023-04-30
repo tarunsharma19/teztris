@@ -30,7 +30,7 @@ const nftFlow = async (player1, player2, amount, token) => {
     var pdfImage = new PDFImage("./trial.pdf");
 
     const img = await pdfImage.convertPage(0);
-    console.log(img);
+    // console.log(img);
 
     // pdfToImg.convert("./trial.pdf", (err, info) => {
     //   if (err) {
@@ -82,21 +82,21 @@ const generatePDF = async (player1, player2, amount, token) => {
     var text = fs.readFileSync('./template.pdf');
     // console.log(text);
     existingPdfBytes = text;
-    console.log(existingPdfBytes);
+    // console.log(existingPdfBytes);
 
     // Load a PDFDocument from the existing PDF bytes
     const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
-    console.log("pdfDoc", pdfDoc);
+    // console.log("pdfDoc", pdfDoc);
 
     const Poppins = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
-    console.log("Poppins", Poppins);
+    // console.log("Poppins", Poppins);
 
     // Get the first page of the document
     const pages = pdfDoc.getPages();
-    console.log("pages", pages);
+    // console.log("pages", pages);
 
     const firstPage = pages[0];
-    console.log("firstPage", firstPage);
+    // console.log("firstPage", firstPage);
 
     // Draw a string of text diagonally across the first page
 
@@ -138,13 +138,13 @@ const generatePDF = async (player1, player2, amount, token) => {
 
     // Serialize the PDFDocument to bytes (a Uint8Array)
     const pdfBytes = await pdfDoc.save();
-    console.log("pdfBytes", pdfBytes);
+    // console.log("pdfBytes", pdfBytes);
 
 
     // this was for creating uri and showing in iframe
 
     const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-    console.log("pdfDataUri", pdfDataUri);
+    // console.log("pdfDataUri", pdfDataUri);
 
     // document.getElementById("pdf").src = pdfDataUri;
 
