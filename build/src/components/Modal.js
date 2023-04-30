@@ -16,6 +16,9 @@ const ModalWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 20px;
   padding: 20px;
+  .modal-image {
+    width: 50%;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -105,7 +108,10 @@ function ResultModal(props) {
             'You lost the game. Try again and beat your high score!'}
           </Message>
         )}
-        <img src="https://www.example.com/game-icon.png" alt="Game icon" />
+         {props.result === 'win' ? <img className="modal-image"  src="https://media.tenor.com/UPW1-calBtQAAAAC/spongebob-victory.gif" alt="Victory" /> :
+          props.result === 'lose' ? <img className="modal-image"  src="https://media.tenor.com/FkjyhWdmuy4AAAAC/sponge-bob-coffee.gif" alt="Lost" /> :
+          'Game in progress...'}
+        
       </ModalWrapper>
     </Modal>
   );
