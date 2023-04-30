@@ -1,7 +1,7 @@
 
 // const { PDFDocument, rgb, degrees } = PDFLib;
 
-// const PDFLib = require("pdf-lib");
+const PDFLib = require("pdf-lib");
 const pinata = require("./pinata");
 var fs = require('fs');
 // var PDFImage = require("pdf-image2").PDFImage;
