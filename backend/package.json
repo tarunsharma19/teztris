@@ -1,29 +1,36 @@
 {
-    "name": "teztris-server",
-    "version": "1.0.0",
-    "description": "A server to support multiplayer sessions of TezTris",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon node index.js"
-    },
-    "author": "pichkari & gamma",
-    "license": "ISC",
-    "dependencies": {
-        "@taquito/signer": "^13.0.1",
-        "@taquito/taquito": "^13.0.1",
-        "@taquito/utils": "^13.0.1",
-        "axios": "^0.27.2",
-        "express": "^4.17.1",
-        "form-data": "^4.0.0",
-        "node-fetch": "^2.6.7",
-        "nodemon": "^2.0.15",
-        "pdf-image": "^2.0.0",
-        "pdf-image2": "^3.0.2",
-        "pdf-lib": "^1.17.1",
-        "socket.io": "^4.4.0"
-    },
-    "engines": {
-        "node": "16.x"
-    }
+  "name": "teztris-server",
+  "version": "1.0.0",
+  "description": "A server to support multiplayer sessions of TezTris",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "pichkari & gamma",
+  "license": "ISC",
+  "dependencies": {
+    "@taquito/signer": "^13.0.1",
+    "@taquito/taquito": "^13.0.1",
+    "@taquito/utils": "^13.0.1",
+    "axios": "^0.27.2",
+    "child_process": "^1.0.2",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.17.1",
+    "form-data": "^4.0.0",
+    "mongoose": "^6.8.0",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.7",
+    "nodemon": "^2.0.15",
+    "pdf-image": "^2.0.0",
+    "pdf-image2": "^3.0.2",
+    "pdf-lib": "^1.17.1",
+    "socket.io": "^4.4.0",
+    "uuid": "^9.0.0"
+  },
+  "engines": {
+    "node": "16.x"
+  }
 }

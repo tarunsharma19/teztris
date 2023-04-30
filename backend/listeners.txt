@@ -1,0 +1,13 @@
+user-details - User Details when user is connected to the server for profile loading
+
+status : 
+1 - This game session does not exist
+2 - The game was already finished
+3 - The game is already being played
+4 - You cannot join your own game
+
+match-found - When a match is found and other user has started the transaction
+
+old-game-found - If there is an existing old unfinished game
+
+public-rooms - listen for public rooms here (time can be set in socketServer file)

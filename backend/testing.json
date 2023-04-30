@@ -1,0 +1,10 @@
+{
+  "uuid": "123e4567-e89b-12d3-a456-426614174000",
+  "obj": {
+    "amount": 2,
+    "betToken": "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",
+    "betTokenType": "FA1.2",
+    "betTokenId": 0,
+    "betTokenName": "ctez"
+  }
+}

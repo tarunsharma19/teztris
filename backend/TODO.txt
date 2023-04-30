@@ -1,0 +1,4 @@
+TASKS
+
+1) Do we need online / offline / ingame status for every user
+2) Ek bande ki game leave krte hi dusre ka result announce krna hai ?
