@@ -1,17 +1,19 @@
 
 // const { PDFDocument, rgb, degrees } = PDFLib;
 
-const PDFLib = require("pdf-lib");
+// const PDFLib = require("pdf-lib");
 const pinata = require("./pinata");
 var fs = require('fs');
 var PDFImage = require("pdf-image2").PDFImage;
 
-const pdfToImg = require("pdf-to-img");
-pdfToImg.setOptions({
-  type: "png",       // Output image type
-  size: "800x800", // Output image size
-  quality: 100,      // Output image quality
-});
+const { exec } = require("child_process"); 
+
+// const pdfToImg = require("pdf-to-img");
+// pdfToImg.setOptions({
+//   type: "png",       // Output image type
+//   size: "800x800", // Output image size
+//   quality: 100,      // Output image quality
+// });
 
 
 
@@ -25,30 +27,34 @@ const nftFlow = async (player1, player2, amount, token) => {
     // get file
     // let img = fs.createReadStream('./trial.pdf');
 
-    // var pdfImage = new PDFImage("./trial.pdf");
+    var pdfImage = new PDFImage("./trial.pdf");
 
-    // const img = await pdfImage.convertPage(0);
-    // console.log(img);
+    const img = await pdfImage.convertPage(0);
+    console.log(img);
 
-    pdfToImg.convert("./trial.pdf", (err, info) => {
-      if (err) {
-        console.error(err);
-      } else {
-        if (info.length > 0) {
-          // Save the first page of the PDF as a PNG image
-          const firstPageImage = info[0];
-          fs.writeFile('./trial-0.png', firstPageImage.buffer, (writeErr) => {
-            if (writeErr) {
-              console.error(writeErr);
-            } else {
-              console.log(`PDF page saved as ${outputImagePath}`);
-            }
-          });
-        } else {
-          console.log("No pages found in the PDF.");
-        }
-      }
-    });
+    // pdfToImg.convert("./trial.pdf", (err, info) => {
+    //   if (err) {
+    //     console.error(err);
+    //   } else {
+    //     if (info.length > 0) {
+    //       // Save the first page of the PDF as a PNG image
+    //       const firstPageImage = info[0];
+    //       fs.writeFile('./trial-0.png', firstPageImage.buffer, (writeErr) => {
+    //         if (writeErr) {
+    //           console.error(writeErr);
+    //         } else {
+    //           console.log(`PDF page saved as ${outputImagePath}`);
+    //         }
+    //       });
+    //     } else {
+    //       console.log("No pages found in the PDF.");
+    //     }
+    //   }
+    // });
+
+    // exec("convert ", (err, outs, errs) => { 
+    //   console.log(outs); 
+    // }); 
 
 
     // Only error is upload file to ipfs
