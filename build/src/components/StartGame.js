@@ -19,9 +19,9 @@ import {useNavigate} from 'react-router-dom';
 import { manageFunc } from '../App';
 import Loader from './Loader'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+// import { connectSocket } from '../api/socket';
 
 
-const socket = require("../api/socket").socket;
 
 export default function Landing() {
   const [open, setOpen] = React.useState(false);
@@ -71,9 +71,9 @@ export default function Landing() {
 
   useEffect(() => {
     if (emitFlag) {
-      // console.log("finding match");
+      // // console.log("finding match");
       socket.once("match found", (e) => {
-        // console.log("inside game id", e);
+        // // console.log("inside game id", e);
         if (e != {}) {
           setObj(e);
         }
@@ -123,11 +123,11 @@ export default function Landing() {
     handleClose();
     setMaskedLoader(true);
     setOpenDialog(true);
-    // console.log(maskedLoader, openDialog);
+    // // console.log(maskedLoader, openDialog);
   
     let tuid = uuidv4();
     // setuid(tuid);
-    // console.log(token, uid, tuid);
+    // // console.log(token, uid, tuid);
     setGameIdInput(tuid);
     let create;
     let obj = {};
@@ -181,12 +181,12 @@ export default function Landing() {
       };
     } else {
       // setuid(null);
-      // console.log(typeof token, token, token.value);
+      // // console.log(typeof token, token, token.value);
     }
   
-    // console.log(create);
+    // // console.log(create);
     if (create.success === true) {
-      // console.log("inside success");
+      // // console.log("inside success");
       setMaskedLoader(false);
   
       socket.emit("createNewGame", tuid, obj);
@@ -222,7 +222,7 @@ export default function Landing() {
   
   const handleJoinGame = async () => {
     socket.emit("wantsToJoin", gameIdInput);
-    // console.log("emit done", gameIdInput);
+    // // console.log("emit done", gameIdInput);
     setEmitflag(true);
   };
   
@@ -233,7 +233,7 @@ export default function Landing() {
       socket.emit("removeGame", gameIdInput);
       setOpenDialog(false);
       setGameIdInput("");
-      // console.log("cancel game emit done");
+      // // console.log("cancel game emit done");
     }
   };
   

@@ -30,8 +30,33 @@ $tablet: 768px;
         z-index: 2;
     }
 
+   
 
 }
+
+.marquee {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  
+    img {
+      display: block;
+      width: 200%;
+      height: auto;
+      animation: marquee 10s linear infinite;
+    }
+  }
+  
+//   @keyframes marquee {
+//     0% {
+//       transform: translateX(0);
+//     }
+  
+//     100% {
+//       transform: translateX(-50%);
+//     }
+//   }
+
 
 @media (max-width: $tablet) {
     .info{

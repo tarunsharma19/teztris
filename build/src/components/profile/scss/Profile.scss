@@ -1,0 +1,217 @@
+/* Profile Component */
+.profile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem; /* Adjust as needed */
+  }
+  
+  /* Section Styling */
+  .section {
+    background-color: rgba(128, 128, 128, 0.25);
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  /* Section 1 - UserProfile */
+.user-profile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #c5c5c52a;
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    height: auto; // Adjust the height according to the content
+  
+    .profile-image {
+      height: 160px;
+      width: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 1rem;
+    }
+  
+    .user-details {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem; // Smaller gap for better grouping
+  
+      h1,
+      p {
+        margin: 0;
+      }
+  
+      h1 {
+        font-size: 1.4rem; // Adjust font size for the username
+      }
+  
+      p {
+        font-size: 0.9rem; // Adjust font size for the user address and total winnings
+      }
+    }
+  
+    .wins-losses {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+  
+      .wins,
+      .losses {
+        display: flex;
+        align-items: baseline;
+        font-weight: 600;
+  
+        span {
+          font-size: 1.5rem; // Larger font size for numbers
+          margin-right: 0.2rem;
+        }
+      }
+  
+      .wins {
+        color: green;
+      }
+  
+      .losses {
+        color: red;
+      }
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .user-profile {
+      flex-direction: column;
+      align-items: center;
+  
+      .profile-image {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+  
+      .user-details,
+      .wins-losses {
+        align-items: center;
+      }
+    }
+  }
+  
+  /* Section 2 - NFT Gallery */
+  .nft-gallery {
+    max-height: 440px;
+    background-color: #c5c5c52a;
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+
+    .nft-container::-webkit-scrollbar{
+        display: none;
+      }
+    .nft-container {
+        
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+    }
+  
+    .nft {
+      width: 300px;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+      img {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+      }
+  
+      p {
+        text-align: center;
+        white-space: nowrap;
+        margin: 10px auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+      }
+    }
+  }
+  
+  /*/* Section 3 - Match History */
+  .match-history {
+    background-color: #c5c5c52a;
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+  
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed; // Utilize the whole width of the screen
+      font-size: 0.9rem; // Adjust font size as needed
+  
+      th,
+      td {
+        text-align: left;
+        padding: 1rem; // Increase padding for better spacing
+        word-wrap: break-word;
+      }
+  
+      th {
+        border-bottom: 2px solid #ffffff; // Make the border thicker
+        font-weight: 600; // Make the heading text bolder
+      }
+  
+      // tr:nth-child(even) {
+      //   background-color: rgba(128, 128, 128, 0.1);
+      // }
+  
+      tr {
+        border-bottom: 1px solid rgba(128, 128, 128, 0.15); // Add a border between rows for better spacing
+      }
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .match-history {
+      .table {
+        font-size: 0.8rem; // Adjust font size for smaller screens
+  
+        th,
+        td {
+          padding: 0.5rem; // Decrease padding for smaller screens
+        }
+      }
+    }
+  }
+  
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .user-profile {
+      flex-direction: column;
+      align-items: center;
+  
+      .profile-image {
+        margin-bottom: 1rem;
+      }
+  
+      .user-details,
+      .wins-losses {
+        align-items: center;
+      }
+    }
+  }
+  

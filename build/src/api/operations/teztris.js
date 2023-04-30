@@ -105,7 +105,7 @@ export const createGame = async (
         operationId: batchOperation.hash,
       };
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return {
         success: false,
         error,
@@ -216,7 +216,7 @@ export const createGame = async (
         operationId: batchOperation.opHash,
       };
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return {
         success: false,
         error,
@@ -250,7 +250,7 @@ export const createGame = async (
         operationId: batchOperation.hash,
       };
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return {
         success: false,
         error,

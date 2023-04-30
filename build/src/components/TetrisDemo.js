@@ -9,6 +9,8 @@ import { useInterval } from "../hooks/useInterval";
 import { usePlayer } from "../hooks/usePlayer";
 import { useStage } from "../hooks/useStage";
 import { useGameStatus } from "../hooks/useGameStatus";
+import useSound from 'use-sound';
+import music from '../img/music.mp3';
 
 // Components
 import Stage from "./Stage";
@@ -28,13 +30,11 @@ import { useSelector } from 'react-redux';
 import { connectSocket } from "../api/socket";
 import { enqueueSnackbar } from "notistack";
 import ResultModal from './Modal';
-import useSound from 'use-sound';
-import music from '../img/music.mp3';
 
 // const socket = require("../api/socket").socket;
 
-const Tetris = () => {
-  const socket = useSelector((state) => state.socket.socket); // get the socket object from the store
+const TetrisDemo = () => {
+  // const socket = useSelector((state) => state.socket.socket); // get the socket object from the store
   // const socket = connectSocket("asdf")
   const [opponentScore, setOpponentScore] = useState(Number.MAX_SAFE_INTEGER);
   const { gameOver, setGameOver, gameIdInput } = useContext(manageFunc);
@@ -47,11 +47,10 @@ const Tetris = () => {
   const [winnerDeclare, setWinnerDeclare] = useState(false)
   const [winnerNoti, setWinnerNoti] = useState(false)
   const [address, setAddress] = useState("");
-  const [gameResult, setGameResult] = useState(null);
+  const [gameResult, setGameResult] = useState("win");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [opponentEnded, setOpponentEnded] = useState(false);
   const [ winNotif , setwinNotif] = useState(false);
-
   const [play,ExposedData] = useSound(music,{ volume: 0.25 });
  
   const[count,setCount] = useState(1)
@@ -66,133 +65,134 @@ const Tetris = () => {
         }
       }
 
-    const WrapperPlayer = styled.div`
-    position: absolute;
-    bottom: 0;
-    background: #ffffff40;
-    width: 25px;
-    display: flex;
-    padding: 8px 5px 8px 12px;
-    float: right;
-      margin: 10px;
-    `;
-  const getAddress = async () => {
-    const wal = await FetchWalletAPI();
-    // console.log("fetched wallet", wal);
-    setAddress(wal.wallet);
-  };
+      const Wrapper = styled.div`
+      position: absolute;
+      bottom: 0;
+      background: #ffffff40;
+      width: 25px;
+      display: flex;
+      padding: 8px 5px 8px 12px;
+      float: right;
+       margin: 10px;
+      `;
 
-  useEffect(() => {
-    getAddress();
-  }, [setGameOver]);
+  // const getAddress = async () => {
+  //   const wal = await FetchWalletAPI();
+  //   // console.log("fetched wallet", wal);
+  //   setAddress(wal.wallet);
+  // };
 
-  useEffect(() => {
-    socket.once("opponent-ended", (s) => {
-      // // console.log("opponent-ended score", s);
-      setOpponentScore(parseInt(s));
-      setOpponentEnded(true);
-      enqueueSnackbar(`Opponent Ended game.`, {anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'right'
-      }, variant: 'info' })
-    });
-  }, []);
+  // useEffect(() => {
+  //   getAddress();
+  // }, [setGameOver]);
+
+  // useEffect(() => {
+  //   socket.once("opponent-ended", (s) => {
+  //     // // console.log("opponent-ended score", s);
+  //     setOpponentScore(parseInt(s));
+  //     setOpponentEnded(true);
+  //     enqueueSnackbar(`Opponent Ended game.`, {anchorOrigin: {
+  //       vertical: 'bottom',
+  //       horizontal: 'right'
+  //     }, variant: 'info' })
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (gameOver) {
-      const endGameParams = {
-        "gameId": gameIdInput,
-         "score": score
-      }
-      socket.emit("endGame", endGameParams );
-      console.log("gameover emit done", endGameParams , typeof(endGameParams.score));
+      // const endGameParams = {
+      //   "gameId": gameIdInput,
+      //    "score": score
+      // }
+      // socket.emit("endGame", endGameParams );
+      // console.log("gameover emit done", endGameParams , typeof(endGameParams.score));
       setIsModalOpen(true);
     }
   }, [gameOver]);
 
-  const [winnerId, setWinnerId] = useState("");
-  const [gotWinner, setGotWinner] = useState(false);
+  // const [winnerId, setWinnerId] = useState("");
+  // const [gotWinner, setGotWinner] = useState(false);
 
-  useEffect(() => {
-    socket.once("game-over", (obj) => {
-      setGotWinner(true);
-      // console.log("game-over object", obj);
-    });
-    socket.on("issue", (status) => {
-      alert(status);
-    });
-  });
+  // useEffect(() => {
+  //   socket.once("game-over", (obj) => {
+  //     setGotWinner(true);
+  //     // console.log("game-over object", obj);
+  //   });
+  //   socket.on("issue", (status) => {
+  //     alert(status);
+  //   });
+  // });
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-  // const [resultString, setResultString] = useState(false);
-  // const winnerCheck = () => {
-  //   if (address == winnerId) {
-  //     setResultString(true);
-  //   } else {
-  //     setResultString(false);
+  // // const [resultString, setResultString] = useState(false);
+  // // const winnerCheck = () => {
+  // //   if (address == winnerId) {
+  // //     setResultString(true);
+  // //   } else {
+  // //     setResultString(false);
+  // //   }
+  // // };
+  // useEffect(()=>{
+  //   if((score>=opponentScore) && !(winNotif) && !(gameOver)){
+  //     setWinnerDeclare(true)
+  //     console.log("you're winner, first UE")
+  //     enqueueSnackbar(`Congrats, you surpassed your opponent's score.`, {anchorOrigin: {
+  //       vertical: 'bottom',
+  //       horizontal: 'right'
+  //     }, variant: 'success' })
+  //     enqueueSnackbar(`You can end the game and claim your winnings.`, {anchorOrigin: {
+  //       vertical: 'bottom',
+  //       horizontal: 'right'
+  //     }, variant: 'info' })
+  //     enqueueSnackbar(`You can continue the game to make a highscore.`, {anchorOrigin: {
+  //       vertical: 'bottom',
+  //       horizontal: 'right'
+  //     }, variant: 'info' })
+  //     setGameResult("win")
+  //     setwinNotif(true)
   //   }
-  // };
-  useEffect(()=>{
-    if((score>=opponentScore) && !(winNotif) && !(gameOver)){
-      setWinnerDeclare(true)
-      console.log("you're winner, first UE")
-      enqueueSnackbar(`Congrats, you surpassed your opponent's score.`, {anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'right'
-      }, variant: 'success' })
-      enqueueSnackbar(`You can end the game and claim your winnings.`, {anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'right'
-      }, variant: 'info' })
-      enqueueSnackbar(`You can continue the game to make a highscore.`, {anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'right'
-      }, variant: 'info' })
-      setGameResult("win")
-      setwinNotif(true)
-    }
-  })
+  // })
 
-  useEffect(()=>{
-    if(gameOver){
-        if(winNotif){
-          setGameResult("win")
-          return
-        }
-        if(opponentEnded){
-          if(score<=opponentScore){
-            setGameResult("lose")
-          }
-        }
-        else{
-          setGameResult("pending")
-        }
-    }
-  },[gameOver,opponentEnded])
+  // useEffect(()=>{
+  //   if(gameOver){
+  //       if(winNotif){
+  //         setGameResult("win")
+  //         return
+  //       }
+  //       if(opponentEnded){
+  //         if(score<=opponentScore){
+  //           setGameResult("lose")
+  //         }
+  //       }
+  //       else{
+  //         setGameResult("pending")
+  //       }
+  //   }
+  // },[gameOver,opponentEnded])
 
-  useEffect(()=>{
-    if(gameResult==="lose"){
-      handleModalClose();
-      setIsModalOpen(true);
-    }
-    if((gameResult==="win") && gameOver){
-      handleModalClose();
-      setIsModalOpen(true);
-    }
-  },[gameResult,gameOver])
+  // useEffect(()=>{
+  //   if(gameResult==="lose"){
+  //     handleModalClose();
+  //     setIsModalOpen(true);
+  //   }
+  //   if((gameResult==="win") && gameOver){
+  //     handleModalClose();
+  //     setIsModalOpen(true);
+  //   }
+  // },[gameResult,gameOver])
   
   // const playAgain = () => {
   //   navigate('/start', {replace: true});
   // }
 
-  window.onload = function () {
-    navigate("/home", { replace: true });
-  };
+  // window.onload = function () {
+  //   navigate("/home", { replace: true });
+  // };
 
-  useEffect(()=>{
-    socket.emit('scoreEmitted',{"score":score})
-  })
+  // useEffect(()=>{
+  //   socket.emit('scoreEmitted',{"score":score})
+  // })
   // useEffect(() => {
   //   winnerCheck();
   // }, [winnerId]);
@@ -322,7 +322,7 @@ const Tetris = () => {
       onKeyUp={keyUp}
     >
       <ResultModal isOpen={isModalOpen} result={gameResult} onClose={handleModalClose} />
-      <WrapperPlayer>
+      <Wrapper>
         {
           count%2===0?<>
           <svg className="button" viewBox="0 0 60 60" onClick={handlePausePlay}>
@@ -334,7 +334,7 @@ const Tetris = () => {
             <polygon points="0,0 50,30 0,60" />
           </svg></>
         }
-        </WrapperPlayer>
+        </Wrapper>
       <StyledTetris>
         <Stage stage={stage} />
         <aside>
@@ -452,4 +452,4 @@ const ScoreCard = styled.div`
 
 `;
 
-export default Tetris;
+export default TetrisDemo;

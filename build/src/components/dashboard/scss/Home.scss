@@ -1,0 +1,14 @@
+.home {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: url('../../../img/back.webp');
+    background-size: cover;
+    .wrapper{
+        padding: 6rem 2rem;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-gap: 20px;
+    }
+    
+}
