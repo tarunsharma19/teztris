@@ -1,0 +1,68 @@
+.card {
+    height: 500px;
+    max-width: 440px;
+    border-radius: 20px;
+    background-color: #29292970;
+    overflow: hidden;
+
+    h1{
+        padding: 0 1rem;
+        text-align: left;
+    }
+
+    .list{
+        height: 400px;
+        overflow: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        .player{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .rank{
+                margin: 0 10px;
+                width: 40px;
+                font-size: 32px;
+                color: #fff;
+            }
+            .rank.top{
+                color: gold
+            }
+            .playerDetails{
+                width: 60%;
+                .address{
+                    font-size: 9px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 140px;
+                }
+                .tezDomain{
+                    
+                }
+                .address.noDomain{
+                    font-size: 14px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    max-width: 120px;
+                }
+            }
+            .score {
+                margin-right: 10px;
+                width: 120px;
+                font-size: 18px;
+            }
+            .stats{
+                width: 100px;
+                .wins{
+
+                }
+                .lose{
+
+                }
+            }
+        }
+
+    }
+}

@@ -2,7 +2,7 @@ export const connectedNetwork = "ghostnet";
 export const rpcNode = "https://rpc.tzkt.io/ghostnet";
 
 
-export const teztrisContract = 'KT1KY1nnwawbqyXz2g2b9tS7qCaiEidnkZWb';
+export const teztrisContract = 'KT1FjNorFCBAxvWFK4k15nyiFiGBb4T12Gpx';
 
 export const ctez = {
     betToken : "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",

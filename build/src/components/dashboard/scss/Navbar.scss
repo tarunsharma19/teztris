@@ -1,0 +1,48 @@
+nav {
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+  
+    img {
+      height: 2rem;
+    }
+
+    .logo-container:hover {
+      cursor: pointer;
+    }
+
+    .walletContainer {
+      display: flex;
+      align-items: center;
+      // margin-left: 20px;
+        .profileImg {
+          border-radius: 50%;
+          margin-right: 15px;
+          cursor: pointer;
+          transition: background-color 0.3s, color 0.3s;
+        
+          &:hover {
+            background-color: white;
+            color: black;
+          }
+        }
+      }
+
+    button {
+      background-color: transparent;
+      color: white;
+      border: 2px solid white;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+  
+      &:hover {
+        background-color: white;
+        color: black;
+      }
+    }
+  }
+  

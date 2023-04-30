@@ -58,7 +58,7 @@ export const ipfsWrapper = async (wallet, imageCID ) =>  {
                 };
         
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 return{
                     sucess:false,
                     Ipfs : "",
@@ -76,7 +76,7 @@ export const uploadImageToIPFS = async (image) =>  {
             image
         );
 
-        console.log(metadata);
+        // console.log(metadata);
 
         return{
             sucess : true,
@@ -84,7 +84,7 @@ export const uploadImageToIPFS = async (image) =>  {
         };
 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return{
             sucess:false,
         };

@@ -5,17 +5,17 @@ import styled from 'styled-components';
 
 
 const SoundPlay = () => {
-      console.log(music,"music")
+      // console.log(music,"music")
       // const [playingStatus,setStatus]= useState("")
-      const [play , {stop}] = useSound(music);
+      const [play , ExposedData] = useSound(music , {volume : 0.25});
       // const handle = () => {
       //   setTimeout(setStatus("Sound.status.PLAYING"),5000)
       // }
-      // console.log(playingStatus,"status")
+      // // console.log(playingStatus,"status")
       const[count,setCount] = useState(1)
       const handlePausePlay = () => {
         if(count%2===0){
-          stop()
+          ExposedData.pause()
           setCount(count+1)
         }
         else{
