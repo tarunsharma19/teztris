@@ -4,7 +4,7 @@
 const PDFLib = require("pdf-lib");
 const pinata = require("./pinata");
 var fs = require('fs');
-// var PDFImage = require("pdf-image2").PDFImage;
+var PDFImage = require("./convertor").PDFImage;
 
 const { exec } = require("child_process"); 
 
@@ -27,9 +27,9 @@ const nftFlow = async (player1, player2, amount, token) => {
     // get file
     // let img = fs.createReadStream('./trial.pdf');
 
-    // var pdfImage = new PDFImage("./trial.pdf");
+    var pdfImage = new PDFImage("./trial.pdf");
 
-    // const img = await pdfImage.convertPage(0);
+    const img = await pdfImage.convertPage(0);
     console.log(img);
 
     // pdfToImg.convert("./trial.pdf", (err, info) => {
@@ -51,10 +51,6 @@ const nftFlow = async (player1, player2, amount, token) => {
     //     }
     //   }
     // });
-
-    exec(`convert "./trial.pdf[0]" "trial-0.png`, (err, outs, errs) => { 
-      console.log(outs); 
-    }); 
 
 
     // Only error is upload file to ipfs
