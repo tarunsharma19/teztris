@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import usdt from '../../img/usdt.png'
-import usdc from '../../img/usdc.png'
+import ctez from '../../img/ctez.png'
 import tez from '../../img/tez.png'
 
 const InputWrapper = styled.div`
@@ -90,9 +90,9 @@ const InputField = ({placeholder, setTokenIndex ,setTokenAmount, tokenAmount}) =
               
               <DropdownImage src={tez} alt="TEZ" />
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleMenuItemClick(usdc,1)}>
+            <DropdownMenuItem onClick={() => handleMenuItemClick(ctez,1)}>
               
-              <DropdownImage src={usdc} alt="USDC" />
+              <DropdownImage src={ctez} alt="CTEZ" />
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleMenuItemClick(usdt,2)}>
              

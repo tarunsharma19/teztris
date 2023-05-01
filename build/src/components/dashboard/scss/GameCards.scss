@@ -40,6 +40,34 @@
         cursor: pointer;
       }
     }
+
+    .blue-btn:hover{
+      cursor: pointer;
+  }
+
+  .blue-btn{
+      box-sizing: border-box;
+      background: #1286EB;
+      height: 48px;
+      margin: 20px 0 0 0;
+      width: 50%;
+      display: block;
+      color: #fff;
+      border-radius: 10px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-family: Sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      // padding: 15px 0;
+      i{
+        display:inline-block;
+        border-left: 1px solid rgba(255,255,255,0.35);
+        padding: 15px;
+        margin-left: 15px;
+      }
+    }
 }  
 
 .cardWrapper {

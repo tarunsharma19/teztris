@@ -104,7 +104,7 @@ function ResultModal(props) {
           </>
         ) : (
           <Message>
-            {props.result === 'win' ? 'You won the game! Keep up the good work.' :
+            {props.result === 'win' ? 'You won the game! Your winnings and an NFT will be transfered to you.' :
             'You lost the game. Try again and beat your high score!'}
           </Message>
         )}

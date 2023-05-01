@@ -77,8 +77,8 @@ const Profile = () => {
       if(userWallet){
         // console.log("inside profile")
         const res = await axios.get(
-            // `http://localhost:8080/api/profile?id=${userWallet}`
-            `${URL}/api/profile?id=tz1PZmgQj6fmaucqpavsvoZEjyagmJqbumyn`
+            `${URL}/api/profile?id=${userWallet}`
+            // `${URL}/api/profile?id=tz1PZmgQj6fmaucqpavsvoZEjyagmJqbumyn`
           );
         const data = res.data; 
         // console.log("data",data)
@@ -141,17 +141,13 @@ const Profile = () => {
     return nftsWithMetadata;
   }
 
-  getNFTsByContractAndAddress("KT1TVGLKpsT8i7tBQJXQTx7oBnuD9tUXrvjf", userWallet)
-  // getNFTsByContractAndAddress("KT1UHy8rtoz6puuxPbbwafVxkBAhhNb1yw9M", "tz1ShYLGeiEZbMNqe51hGCrUKch5BafMptzQ")
-  .then(nftGalleryData => {
-    // Use nftGalleryData here
-    // // console.log("nft gallery",nftGalleryData);
-    setNftGalleryData(nftGalleryData);
-  })
-  .catch(error => {
-    // Handle errors here
-    console.error(error);
-  });
+  // getNFTsByContractAndAddress("KT1TVGLKpsT8i7tBQJXQTx7oBnuD9tUXrvjf", userWallet)
+  // .then(nftGalleryData => {
+  //   setNftGalleryData(nftGalleryData);
+  // })
+  // .catch(error => {
+  //   console.error(error);
+  // });
   // const nftGalleryData = [
   //   {
   //     image: 'https://placehold.jp/800x800.png',

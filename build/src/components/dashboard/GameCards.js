@@ -40,7 +40,7 @@ function GameCards() {
                 Connect your wallet to play Teztile and see your name at the
                  top of the leaderboard!</h3>
               <br />
-              <button onClick={()=>navigate('/demo',{replace:true})}> Try Demo</button>
+              <button className='blue-btn' onClick={()=>navigate('/demo',{replace:true})}> Try Demo</button>
         </div>
       
     );
