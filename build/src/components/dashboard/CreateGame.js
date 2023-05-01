@@ -161,7 +161,7 @@ function CreateGame({swapFunc}) {
                 <div className='center'>
                 <h1>Create Game</h1>
                     <InputField placeholder="Bet token amount" setTokenIndex={setTokenIndex} setTokenAmount={setTokenAmount} tokenAmount={tokenAmount}/>
-                    <input className='room-name-input' type="text" onChange={handleAlisa} placeholder='Room name'></input>
+                    <input className='room-name-input' type="text" onChange={handleAlisa} placeholder='Room name (for public room)'></input>
                     { createGameEmit ? 
                         <div className='game-details'>
                           <p>Game created, waiting for opponent to join</p>

@@ -78,7 +78,8 @@ function PublicRooms() {
             </tr>
           </thead>
           <tbody>
-            {rooms.map((room, index) => (
+            {rooms.map((room, index) => {
+              room.name!==""?
               <tr className="row" key={index}>
                 <td>{room.name}</td>
                 <td className="amount">{room.betAmount}</td>
@@ -87,8 +88,9 @@ function PublicRooms() {
                     { loading?"Joining..":"Join"}
                     </button>
                 </td>
-              </tr>
-            ))}
+              </tr>:
+              <></>
+            })}
           </tbody>
         </table>
       </div>
