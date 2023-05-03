@@ -11,6 +11,14 @@ export const StyledTetrisWrapper = styled.div`
   @media (max-width: 768px) {
     background-position-x: -650px;
   }
+  .instructions-btn{
+    float: right;
+    margin: 10px;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+  }
 `;
 
 export const StyledTetris = styled.div`

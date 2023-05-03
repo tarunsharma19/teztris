@@ -30,6 +30,7 @@ import { enqueueSnackbar } from "notistack";
 import ResultModal from './Modal';
 import useSound from 'use-sound';
 import music from '../img/music.mp3';
+import Instructions from './Instructions'; 
 
 // const socket = require("../api/socket").socket;
 
@@ -53,6 +54,17 @@ const Tetris = () => {
   const [ winNotif , setwinNotif] = useState(false);
 
   const [play,ExposedData] = useSound(music,{ volume: 0.25 });
+
+  const [instructionModal, setInstructionModal] = useState(false);
+
+  const handleButtonClick = () => {
+    setInstructionModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setInstructionModal(false);
+  };
+
  
   const[count,setCount] = useState(1)
       const handlePausePlay = () => {
@@ -329,6 +341,10 @@ const Tetris = () => {
       onKeyDown={(e) => move(e)}
       onKeyUp={keyUp}
     >
+      <>
+      <button onClick={handleButtonClick}>?</button>
+      {instructionModal && <Instructions onClose={handleCloseModal} />}
+    </>
       <ResultModal isOpen={isModalOpen} result={gameResult} onClose={handleModalClose} />
       <WrapperPlayer>
         {

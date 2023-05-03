@@ -3,20 +3,40 @@ import "./scss/Home.scss"
 import Navbar from './Navbar';
 import Leaderboard from './Leaderboard';
 import GameCards from './GameCards';
-import { enqueueSnackbar } from 'notistack'
+import styled from 'styled-components';
+// import { enqueueSnackbar } from 'notistack'
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Message = styled.p`
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+`;
 
 function Home() {
+  const isMobile = window.innerWidth <= 768;
   return (
     <div className="home">
       <Navbar />
-      {/* <button onClick={() => enqueueSnackbar('That was easy!', {anchorOrigin: {
-    vertical: 'bottom',
-    horizontal: 'right'
-  }})}>Show snackbar</button> */}
-      <div className="wrapper">
-        <Leaderboard />
-        <GameCards />
-      </div>
+      <Container>
+        {isMobile ? (
+          <div className="wrapper-mobile">
+            <Leaderboard />
+            <Message>Mobile responsive version is under development. Stay tuned!</Message>
+         </div>
+        ) : (
+          <div className="wrapper">
+          <Leaderboard />
+          <GameCards />
+         </div>
+        )}
+    </Container>
     </div>
   )
 }

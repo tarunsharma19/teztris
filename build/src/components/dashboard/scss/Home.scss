@@ -10,5 +10,10 @@
         grid-template-columns: 1fr 2fr;
         grid-gap: 20px;
     }
+    .wrapper-mobile{
+        display: flex;
+        flex-direction: column;
+        margin: 20px;
+    }
     
 }

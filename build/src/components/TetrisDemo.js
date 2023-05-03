@@ -30,6 +30,8 @@ import { useSelector } from 'react-redux';
 import { connectSocket } from "../api/socket";
 import { enqueueSnackbar } from "notistack";
 import ResultModal from './Modal';
+import Instructions from './Instructions'; 
+
 
 // const socket = require("../api/socket").socket;
 
@@ -52,6 +54,16 @@ const TetrisDemo = () => {
   const [opponentEnded, setOpponentEnded] = useState(false);
   const [ winNotif , setwinNotif] = useState(false);
   const [play,ExposedData] = useSound(music,{ volume: 0.25 });
+  const [instructionModal, setInstructionModal] = useState(false);
+
+  const handleButtonClick = () => {
+    setInstructionModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setInstructionModal(false);
+  };
+
  
   const[count,setCount] = useState(1)
       const handlePausePlay = () => {
@@ -321,6 +333,10 @@ const TetrisDemo = () => {
       onKeyDown={(e) => move(e)}
       onKeyUp={keyUp}
     >
+       <>
+      <button className="instructions-btn" onClick={handleButtonClick}>?</button>
+      {instructionModal && <Instructions onClose={handleCloseModal} />}
+    </>
       <ResultModal isOpen={isModalOpen} result={gameResult} onClose={handleModalClose} />
       <Wrapper>
         {
