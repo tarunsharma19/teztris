@@ -5,7 +5,7 @@ import { TezosToolkit } from '@taquito/taquito';
 
 // Beacon Wallet instance
 export const wallet = new BeaconWallet({
-    name: "TezTris",
+    name: "TezTile",
     preferredNetwork: 'ghostnet'
   });
   
