@@ -24,6 +24,12 @@ TezTile Game : KT1FjNorFCBAxvWFK4k15nyiFiGBb4T12Gpx
 
 TezTile NFTs : KT1TVGLKpsT8i7tBQJXQTx7oBnuD9tUXrvjf
 
+## Deployed Contracts Mainnet
+
+Teztile Game : KT1TkkM9g5TB2sZ86aomf1tF2kEVC5Yec6jU
+
+Teztile NFTs : KT1Vz5Epeh12sh3oXZRXCqYe2tTV5phA82AH
+
 
 ## Wallets
 
