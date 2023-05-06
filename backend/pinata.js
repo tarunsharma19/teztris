@@ -1,6 +1,7 @@
 const axios = require("axios");
 var FormData = require('form-data');
 var fs = require('fs');
+import { pinataJWT } from "./unpin";
 
 const jsonToPinata = async (json) =>  {
 
@@ -14,8 +15,7 @@ const jsonToPinata = async (json) =>  {
             url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
             headers: { 
               'Content-Type': 'application/json', 
-              pinata_api_key: 'c98008ccad0a8398468f',
-              pinata_secret_api_key: 'b925e8a94f1aa1dbb8bd85a376ac527847daa4d3bd3a37aaa2e84e83c905d19e',
+              'Authorization': `Bearer ${pinataJWT}`
             },
             data : data
           };
@@ -53,8 +53,7 @@ const sendFileToIPFS = async () => {
                 url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
                 data: formData,
                 headers: {
-                    pinata_api_key: 'c98008ccad0a8398468f',
-                    pinata_secret_api_key: 'b925e8a94f1aa1dbb8bd85a376ac527847daa4d3bd3a37aaa2e84e83c905d19e',
+                    'Authorization': `Bearer ${pinataJWT}`,
                     "Content-Type": "multipart/form-data"
                 },
             });
@@ -103,7 +102,7 @@ const pinataWrapper = async (player1 , player2 , amount, image) =>  {
               ,
               {
                 "name": "Amount",
-                "value": amount*2,
+                "value": amount,
               }
             ];
             
