@@ -1,7 +1,8 @@
 const axios = require("axios");
 var FormData = require('form-data');
 var fs = require('fs');
-import { pinataJWT } from "./unpin";
+
+const pinataJWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIzYmZhZjkyZi0yOTEzLTQ3ZGEtOTYzMS1hNDQ4YzA0YWIwOWMiLCJlbWFpbCI6InRlenRyaXNlbWFpbEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiNzkzY2U2YWFhMzVkNTQzNjAzMzAiLCJzY29wZWRLZXlTZWNyZXQiOiIxYmIwMDUyODFhN2RmZWQxZTI3MzAxNTg3OWQxNTJhYjlmZWNmYmIwZGU1ZDhmZmQ1ZmE3NzFhOTkwNDMzODJhIiwiaWF0IjoxNjgzMzk3MzMxfQ.5DSWdsgezqcKIzvG_bczdvriTUsGPWMrhL3qpGOUmpc';
 
 const jsonToPinata = async (json) =>  {
 
