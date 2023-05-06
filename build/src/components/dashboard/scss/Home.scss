@@ -4,6 +4,9 @@
     overflow: hidden;
     background: url('../../../img/back.webp');
     background-size: cover;
+    @media only screen and (max-width: 600px) {
+        height: auto;
+    }
     .wrapper{
         padding: 6rem 2rem;
         display: grid;
@@ -13,7 +16,19 @@
     .wrapper-mobile{
         display: flex;
         flex-direction: column;
-        margin: 20px;
+        margin: 50px 30px;
+
+        row-gap: 20px;
+        .cardWrapper{
+            display: flex;
+            flex-direction: column-reverse;
+            .roomCard {
+                padding: 0 0 50px 0;
+                height: auto;
+                table tr {
+                display: flex !important;
+                }}
+        }
     }
     
 }

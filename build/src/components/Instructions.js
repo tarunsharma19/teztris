@@ -24,9 +24,9 @@ const ModalContent = styled.div`
   align-items: center;
   position: relative;
 
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     width: 90%;
-    height: 80%;
+    height: auto;
   }
 `;
 
@@ -47,6 +47,9 @@ const CloseButton = styled.button`
 const ImageContainer = styled.img`
   width: 100%;
   height: 100%;
+  @media only screen and (max-width: 600px) {
+        height: auto;
+    }
   /* background-image: ${rules}; */
   background-size: cover;
   background-position: center;

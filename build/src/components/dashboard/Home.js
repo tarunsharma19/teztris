@@ -27,8 +27,10 @@ function Home() {
       <Container>
         {isMobile ? (
           <div className="wrapper-mobile">
+            <GameCards />
             <Leaderboard />
-            <Message>Mobile responsive version is under development. Stay tuned!</Message>
+
+            {/* <Message>Mobile responsive version is under development. Stay tuned!</Message> */}
          </div>
         ) : (
           <div className="wrapper">
