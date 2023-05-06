@@ -78,7 +78,7 @@ function PublicRooms() {
             </tr>
           </thead>
           <tbody>
-            {rooms.map((room, index) => {
+            {rooms.map((room, index) => (
               room.name.length>0?
               <tr className="row" key={index}>
                 <td>{room.name}</td>
@@ -90,7 +90,7 @@ function PublicRooms() {
                 </td>
               </tr>:
               <></>
-            })}
+            ))}
           </tbody>
         </table>
       </div>
