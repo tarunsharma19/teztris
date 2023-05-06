@@ -79,7 +79,7 @@ function PublicRooms() {
           </thead>
           <tbody>
             {rooms.map((room, index) => {
-              room.name!==""?
+              room.name.length>0?
               <tr className="row" key={index}>
                 <td>{room.name}</td>
                 <td className="amount">{room.betAmount}</td>
