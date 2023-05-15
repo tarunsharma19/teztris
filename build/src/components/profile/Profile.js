@@ -7,7 +7,6 @@ import Navbar from '../dashboard/Navbar';
 import axios from "axios";
 import {manageFunc} from '../../App'
 import { URL } from '../../api/socket';
-import heart from '../../img/heart.png'
 
 const Profile = () => {
   const { userWallet } = useContext(manageFunc);
@@ -71,6 +70,7 @@ const Profile = () => {
   }
 
   const[profile,setProfile] = useState(demoProfile);
+  const[matchHistory,setMatchHistory] = useState();
 
 
   const getProfile = async () =>{
@@ -84,13 +84,6 @@ const Profile = () => {
         // console.log("data",data)
         setProfile(data)
       }
-      // const formattedResponse = data.map(player => ({
-      //     address: player._id,
-      //     wins: player.won,
-      //     lose: player.lost,
-      //     highScore: player.highScore,
-      //   }))
-      // return formattedResponse;
   }
 
   useEffect(()=>{
@@ -106,20 +99,26 @@ const Profile = () => {
     losses: profile.me.lost
   };
 
-  function checkResult(a,b){
-    if(a>b){
+  function checkResult(me,opp){
+    if(me>opp){
       return "won"
     }
     else{
       return "lost"
     }
   }
-  const matchHistoryData = profile.myGames.map(data => ({
-    opponent: data.opponent,
-    dateTime: data.createdAt,
-    result: checkResult(data.scoreMe , data.scoreOpponent),
-    amount: data.tokenData.amount + " " + data.tokenData.betTokenName,
-  }))
+  const sortMatchHistory = async () =>{
+    const my_address = profile.me._id;
+    const matchHistoryData = profile.myGames.map(data => ({
+      opponent: (data.opponent === my_address) ? data.me : data.opponent,
+      dateTime: data.createdAt,
+      result: (data.opponent === my_address) ? checkResult(data.scoreOpponent , data.scoreMe) : checkResult(data.scoreMe , data.scoreOpponent),
+      amount: data.tokenData.amount + " " + data.tokenData.betTokenName,
+    }))
+    console.log("set match history done")
+    setMatchHistory(matchHistoryData);
+  }
+  
 
   // // console.log(profile.myGames)
 
@@ -127,45 +126,31 @@ const Profile = () => {
     // const response = await fetch(`https://api.ghostnet.tzkt.io/v1/accounts/${walletAddress}/operations?type=nft_transfer&status=applied&token_id=${contractAddress}`);
     const response = await fetch(`https://api.ghostnet.tzkt.io/v1/tokens/balances?token.contract=${contractAddress}&account=${walletAddress}`);
     const data = await response.json();
-    // const nfts = data.filter(operation => operation.initiator.address === walletAddress && operation.token.contract === contractAddress);
-    // // console.log(data,"func call")
     const nftsWithMetadata = (data.map((nft) => {
       const metadata = nft.token.metadata;
-      // // console.log(metadata)
       return {
         name: metadata.name + " #" + nft.token.tokenId,
         image: "https://gateway.pinata.cloud/ipfs/"+ metadata.artifactUri.slice(7)
       }
     }));
-    // // console.log("before return", nftsWithMetadata)
     return nftsWithMetadata;
   }
 
-  // getNFTsByContractAndAddress("KT1TVGLKpsT8i7tBQJXQTx7oBnuD9tUXrvjf", userWallet)
-  // .then(nftGalleryData => {
-  //   setNftGalleryData(nftGalleryData);
-  // })
-  // .catch(error => {
-  //   console.error(error);
-  // });
-  // const nftGalleryData = [
-  //   {
-  //     image: 'https://placehold.jp/800x800.png',
-  //     name: 'NFT One'
-  //   },
-  //   {
-  //     image: 'https://placehold.jp/800x800.png',
-  //     name: 'NFT Two'
-  //   },
-  //   {
-  //     image: 'https://placehold.jp/800x800.png',
-  //     name: 'NFT Three'
-  //   },
-  //   {
-  //     image: 'https://placehold.jp/800x800.png',
-  //     name: 'NFT Four'
-  //   }
-  // ];
+  useEffect(()=>{
+    getNFTsByContractAndAddress("KT1TVGLKpsT8i7tBQJXQTx7oBnuD9tUXrvjf", userWallet)
+    .then(nftGalleryData => {
+      setNftGalleryData(nftGalleryData);
+      console.log(nftGalleryData,"nft data")
+    })
+    .catch(error => {
+      console.error(error);
+    });
+    sortMatchHistory().then(
+      res =>{
+        console.log("inside res")
+      }
+    )
+  },[userWallet,profile])
 
   // const matchHistoryDataa = [
   //   {
@@ -214,7 +199,11 @@ const Profile = () => {
           <>
           <UserProfile {...userProfileData} />
           <NFTs nfts={nftGalleryData} />
-          <MatchHistory matches={matchHistoryData} />
+          {matchHistory?
+          <MatchHistory matches={matchHistory} />
+          :
+          <></>
+          }
           </>:
           <></>
         }
