@@ -1,10 +1,13 @@
 import io from "socket.io-client";
 
-export const URL = "https://backend.teztris.xyz";
+export const URL = process.env.SOCKET_URL;
+
+
 // export const URL = "http://localhost:8080";
 
 export const connectSocket = (address) => {
   const headers = { auth: address };
+  console.log("Connecting to socket URL: ", URL)
   const socket = io(URL, { transportOptions: { polling: { extraHeaders: headers } } });
 
   console.log(socket);

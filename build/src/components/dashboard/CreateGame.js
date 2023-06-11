@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { manageFunc } from '../../App';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 import { createGame, removeGame } from '../../api/operations/teztris';
+import { ctez, tez, usdt } from '../../common/constants';
 
 
 
@@ -36,24 +37,24 @@ function CreateGame({swapFunc}) {
   // },[createGameEmit])
 
   const tokens = [{
-    betToken: "KT1Uw1oio434UoWFuZTNKFgt5wTM9tfuf7m7",
-    betTokenId: 0,
-    betTokenType: "tez",
-    betTokenDecimal: 6,
+    betToken: tez.betToken ,
+    betTokenId: tez.betTokenId,
+    betTokenType: tez.betTokenType,
+    betTokenDecimal: tez.betTokenDecimal,
     betTokenName: "tez"
   },
   {
-    betToken: "KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb",
-    betTokenId: 0,
-    betTokenType: "FA1.2",
-    betTokenDecimal: 6,
+    betToken: ctez.betToken ,
+    betTokenId: ctez.betTokenId,
+    betTokenType: ctez.betTokenType,
+    betTokenDecimal: ctez.betTokenDecimal,
     betTokenName: "ctez"
   },
   {
-    betToken: "KT1Uw1oio434UoWFuZTNKFgt5wTM9tfuf7m7",
-    betTokenId: 3,
-    betTokenType: "FA2",
-    betTokenDecimal: 6,
+    betToken: usdt.betToken ,
+    betTokenId: usdt.betTokenId,
+    betTokenType: usdt.betTokenType,
+    betTokenDecimal: usdt.betTokenDecimal,
     betTokenName: "USDT"
   }
   ]

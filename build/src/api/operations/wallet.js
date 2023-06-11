@@ -21,7 +21,7 @@ export const ConnectWalletAPI = async () => {
     if (!account) {
       await wallet.requestPermissions({
         network: {
-          type: 'ghostnet',
+          type: connectedNetwork,
           rpcUrl: rpcNode,
         }
       });
