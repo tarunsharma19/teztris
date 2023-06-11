@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 
-export const URL = process.env.SOCKET_URL;
+export const URL = process.env.REACT_APP_SOCKET_URL;
 
 
 // export const URL = "http://localhost:8080";
