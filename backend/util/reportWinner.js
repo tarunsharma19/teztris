@@ -10,7 +10,7 @@ module.exports = async (
 ) => {
 
     try {
-        const Tezos = new TezosToolkit.TezosToolkit("https://rpc.tzkt.io/");
+        const Tezos = new TezosToolkit.TezosToolkit("https://rpc.tzkt.io/mainnet");
         Tezos.setProvider({
             signer: new InMemorySigner.InMemorySigner(process.env.PVT_KEY),
         });
