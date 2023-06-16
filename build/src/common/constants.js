@@ -23,7 +23,7 @@ export const usdt = {
 }
 
 export const tez = {
-    betToken : "KT1Uw1oio434UoWFuZTNKFgt5wTM9tfuf7m7",
+    betToken : "KT1XnTn74bUtxHfDtBmm2bGZAQfhPbvKWR8o",
     betTokenId: 0,
     betTokenType : "tez",
     betTokenDecimal : 6,
