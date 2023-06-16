@@ -10,6 +10,7 @@ const io = require("socket.io")(http, {
     methods: ["GET", "POST"],
   },
 });
+require('dotenv').config();
 
 
 var gameData = {};
@@ -264,12 +265,12 @@ const reportWinner = async (
 ) => {
 
   try {
-    const Tezos = new TezosToolkit.TezosToolkit("https://rpc.tzkt.io/ghostnet/");
+    const Tezos = new TezosToolkit.TezosToolkit("https://rpc.tzkt.io/");
     Tezos.setProvider({
-      signer: new InMemorySigner.InMemorySigner('edskRyL3DyJr8HsJiVi9WSKtHfKPrbsSV7AMAoNYLV4ehMbWxRHYXCa6QmAfYAvL4x5BTBuYyLVBh1mJ9gC99dYbkMQXK4oup3'),
+      signer: new InMemorySigner.InMemorySigner(process.env.PVT_KEY),
     });
 
-    const teztrisInstance = await Tezos.contract.at("KT1FjNorFCBAxvWFK4k15nyiFiGBb4T12Gpx");
+    const teztrisInstance = await Tezos.contract.at("KT1TkkM9g5TB2sZ86aomf1tF2kEVC5Yec6jU");
 
     console.log("check logs here");
 
