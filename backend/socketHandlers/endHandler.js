@@ -71,7 +71,7 @@ const handleEnding = async (game) => {
 
         const responseFromContract = await axios.get('https://api.tzkt.io/v1/contracts/KT1TkkM9g5TB2sZ86aomf1tF2kEVC5Yec6jU/storage');
         const { tokenId } = responseFromContract.data;
-        game.winnerNft = `${(+tokenId) - 1}`;
+        game.winnerNft = `${(+tokenId)}`;
         console.log("NFT tokenId updated for the winner " + game.winnerNft);
 
         if (game.scoreMe > game.scoreOpponent) {
