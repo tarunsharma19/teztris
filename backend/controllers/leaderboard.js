@@ -3,7 +3,13 @@ const Game = require('../models/gameModel');
 const User = require('../models/userModel');
 
 exports.leaderboard = catchAsync(async (req, res, next) => {
-    let query = {};
+    let query = {
+        $and: [
+            { "highScore": { $ne: 0 } },
+            { "won": { $ne: 0 } },
+            { "lost": { $ne: 0 } }
+        ]
+    };
     let limit = req.query.limit || 10;
     let sort = {};
 
@@ -14,7 +20,8 @@ exports.leaderboard = catchAsync(async (req, res, next) => {
     } else if (req.query.lost) {
         sort = { lost: +req.query.lost }
     }
-    // console.log(sort);
+    // console.log(await User.find(query));
+
     const users = await User.find(query).sort(sort).limit(limit);
 
     res.send({
