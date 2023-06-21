@@ -7,7 +7,7 @@ const UserProfile = ({profileImage, userName, walletAddress, totalWinnings, wins
   <div className="user-details">
     <h1>{userName}</h1>
     <p>{walletAddress}</p>
-    <p>Total winnings: {totalWinnings}</p>
+    <p>High Score: {totalWinnings}</p>
   </div>
   <div className="wins-losses">
     <div className="wins">
