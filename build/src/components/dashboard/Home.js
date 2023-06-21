@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "./scss/Home.scss"
 import Navbar from './Navbar';
 import Leaderboard from './Leaderboard';
@@ -21,6 +21,17 @@ const Message = styled.p`
 
 function Home() {
   const isMobile = window.innerWidth <= 768;
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      // Perform any cleanup or reset actions here, such as resetting the socket connection
+      window.location.reload(true); // Perform a hard refresh
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
   return (
     <div className="home">
       <Navbar />
