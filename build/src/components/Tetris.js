@@ -342,7 +342,7 @@ const Tetris = () => {
       onKeyUp={keyUp}
     >
       <>
-      <button onClick={handleButtonClick}>?</button>
+      <button className="instructions-btn" onClick={handleButtonClick}>?</button>
       {instructionModal && <Instructions onClose={handleCloseModal} />}
     </>
       <ResultModal isOpen={isModalOpen} result={gameResult} onClose={handleModalClose} />
