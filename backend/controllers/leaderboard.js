@@ -4,7 +4,7 @@ const User = require('../models/userModel');
 
 exports.leaderboard = catchAsync(async (req, res, next) => {
     let query = {
-        $and: [
+        $or: [
             { "highScore": { $ne: 0 } },
             { "won": { $ne: 0 } },
             { "lost": { $ne: 0 } }
