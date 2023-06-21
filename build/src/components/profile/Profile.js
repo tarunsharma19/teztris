@@ -126,31 +126,34 @@ const Profile = () => {
   async function getNFTsByContractAndAddress(contractAddress, walletAddress) {
     // const response = await fetch(`https://api.ghostnet.tzkt.io/v1/accounts/${walletAddress}/operations?type=nft_transfer&status=applied&token_id=${contractAddress}`);
     const response = await fetch(`https://api.tzkt.io/v1/tokens/balances?token.contract=${contractAddress}&account=${walletAddress}`);
+    console.log("api url", `https://api.tzkt.io/v1/tokens/balances?token.contract=${contractAddress}&account=${walletAddress}`)
     const data = await response.json();
     const nftsWithMetadata = (data.map((nft) => {
       const metadata = nft.token.metadata;
       return {
         name: metadata.name + " #" + nft.token.tokenId,
-        image: "https://gateway.pinata.cloud/ipfs/"+ metadata.artifactUri.slice(7)
+        image: "https://gateway.ipfs.io/ipfs/"+ metadata.artifactUri.slice(7)
       }
     }));
     return nftsWithMetadata;
   }
 
   useEffect(()=>{
-    getNFTsByContractAndAddress(nftContract, userWallet)
-    .then(nftGalleryData => {
-      setNftGalleryData(nftGalleryData);
-      console.log(nftGalleryData,"nft data")
-    })
-    .catch(error => {
-      console.error(error);
-    });
-    sortMatchHistory().then(
-      res =>{
-        console.log("inside res")
-      }
-    )
+    if (userWallet){
+      getNFTsByContractAndAddress(nftContract, userWallet)
+      .then(nftGalleryData => {
+        setNftGalleryData(nftGalleryData);
+        console.log(nftGalleryData,"nft data")
+      })
+      .catch(error => {
+        console.error(error);
+      });
+      sortMatchHistory().then(
+        res =>{
+          console.log("inside res")
+        }
+      )
+    }
   },[userWallet,profile])
 
   // const matchHistoryDataa = [
