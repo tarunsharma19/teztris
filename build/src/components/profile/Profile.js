@@ -125,7 +125,7 @@ const Profile = () => {
 
   async function getNFTsByContractAndAddress(contractAddress, walletAddress) {
     // const response = await fetch(`https://api.ghostnet.tzkt.io/v1/accounts/${walletAddress}/operations?type=nft_transfer&status=applied&token_id=${contractAddress}`);
-    const response = await fetch(`https://api.ghostnet.tzkt.io/v1/tokens/balances?token.contract=${contractAddress}&account=${walletAddress}`);
+    const response = await fetch(`https://api.tzkt.io/v1/tokens/balances?token.contract=${contractAddress}&account=${walletAddress}`);
     const data = await response.json();
     const nftsWithMetadata = (data.map((nft) => {
       const metadata = nft.token.metadata;
