@@ -7,6 +7,7 @@ import Navbar from '../dashboard/Navbar';
 import axios from "axios";
 import {manageFunc} from '../../App'
 import { URL } from '../../api/socket';
+import { nftContract } from '../../common/constants';
 
 const Profile = () => {
   const { userWallet } = useContext(manageFunc);
@@ -137,7 +138,7 @@ const Profile = () => {
   }
 
   useEffect(()=>{
-    getNFTsByContractAndAddress("KT1TVGLKpsT8i7tBQJXQTx7oBnuD9tUXrvjf", userWallet)
+    getNFTsByContractAndAddress(nftContract, userWallet)
     .then(nftGalleryData => {
       setNftGalleryData(nftGalleryData);
       console.log(nftGalleryData,"nft data")

@@ -3,6 +3,7 @@ export const rpcNode = "https://rpc.tzkt.io/mainnet";
 
 
 export const teztrisContract = 'KT1TkkM9g5TB2sZ86aomf1tF2kEVC5Yec6jU';
+export const nftContract = 'KT1UHy8rtoz6puuxPbbwafVxkBAhhNb1yw9M';
 
 // ghostnet
 //  KT1Q4qRd8mKS7eWUgTfJzCN8RC6h9CzzjVJb
