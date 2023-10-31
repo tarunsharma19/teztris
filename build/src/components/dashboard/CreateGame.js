@@ -64,7 +64,7 @@ function CreateGame({swapFunc}) {
       alert("Game already exisit")
       return
     }
-    if (tokenAmount==0){
+    if (tokenAmount<=0){
       alert("Amount must be greater than 0")
       return
     }
