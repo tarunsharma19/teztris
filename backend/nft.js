@@ -70,6 +70,10 @@ const nftFlow = async (player1, player2, amount, token) => {
 
   } catch (error) {
     console.log(error);
+    return{
+      success : false,
+      Ipfs: ""
+    };
   }
 };
 
